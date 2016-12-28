@@ -3,15 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yuanpin.flora</groupId>
-    <artifactId>flora</artifactId>
+    <groupId>com.yuanpin.nautybee</groupId>
+    <artifactId>nautybee</artifactId>
     <packaging>pom</packaging>
     <version>2.0-SNAPSHOT</version>
     <modules>
-        <module>flora.common</module>
-        <module>flora.dao</module>
-        <module>flora.biz</module>
-        <module>flora.web</module>
+        <module>nautybee.common</module>
+        <module>nautybee.dao</module>
+        <module>nautybee.biz</module>
+        <module>nautybee.web</module>
     </modules>
 
 
@@ -19,7 +19,7 @@
         <json-version>2.5.1</json-version>
         <springframework-version>4.1.6.RELEASE</springframework-version>
         <maven.test.skip>true</maven.test.skip>
-        <flora.shared>2.0-SNAPSHOT</flora.shared>
+        <nautybee.shared>2.0-SNAPSHOT</nautybee.shared>
         <java-version>1.7</java-version>
     </properties>
 
@@ -61,30 +61,30 @@
         <dependencies>
             <!-- 模块引用 -->
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.common</artifactId>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.dao</artifactId>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.biz</artifactId>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.biz</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.web</artifactId>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.web</artifactId>
                 <type>war</type>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.shared</artifactId>
-                <version>${flora.shared}</version>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.shared</artifactId>
+                <version>${nautybee.shared}</version>
             </dependency>
             <dependency>
                 <groupId>com.yuanpin.base</groupId>
@@ -412,8 +412,8 @@
             </dependency>
 
             <dependency>
-                <groupId>com.yuanpin.flora</groupId>
-                <artifactId>flora.api</artifactId>
+                <groupId>com.yuanpin.nautybee</groupId>
+                <artifactId>nautybee.api</artifactId>
                 <version>1.6-SNAPSHOT</version>
             </dependency>
         </dependencies>

@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration debug="false">
+	<property name="nautybee_log_pattern" value = "${nautybee_log_pattern}" />
+	<property name="LOG_CHARSET" value="${nautybee_log_charset}" />
+
+	<appender name="CACHE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/cache.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/cache.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+	<appender name="COMMON" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/common.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/common.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+    <appender name="REDIS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/redis.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/redis.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+	<appender name="DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		 <filter class="com.yuanpin.nautybee.common.filter.DbNoConneInfoFilter" />
+		<file>${nautybee_log_root}/db.log</file>
+		<append>true</append>
+		<param name="datePattern" value=".yyyy-MM-dd" />
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/db.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/error.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+	<appender name="MONITOR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/monitor.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/monitor.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+    <appender name="MQ" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/mq.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/mq.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="LIVE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/live.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/live.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>7</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+	<appender name="SCHEDULE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/schedule.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/schedule.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+    <appender name="SECURE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/secure.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/secure.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+
+	<appender name="SPRING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${nautybee_log_root}/spring.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${nautybee_log_root}/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>${nautybee_log_charset}</charset>
+			<pattern>${nautybee_log_pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="PUSH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/push.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/push.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="MOBILEMESSAGE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/mobileMessage.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/mobileMessage.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ACTIVITY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/activity.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/activity.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SEARCH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/search.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/search.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="LOAN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/loan.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/loan.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="CHECK_AMOUNT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/check_amount.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/check_amount.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="API" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/api.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/api.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="TASK" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/task.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/task.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="DEPOSIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/deposit.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/deposit.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="HUANXIN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/huanxin.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/huanxin.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="FLOW" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/flow.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/flow.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="PAY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/pay.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/pay.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="callback" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/callback.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/callback.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="express" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${nautybee_log_root}/express.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${nautybee_log_root}/express.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${nautybee_log_charset}</charset>
+            <pattern>${nautybee_log_pattern}</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="com.yuanpin.nautybee.biz.express" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="express" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.pay" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="PAY" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.biz.flow" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="FLOW" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.im.HuanXinService" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="HUANXIN" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+     <logger name="com.yuanpin.nautybee.biz.deposit" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="DEPOSIT" />
+         <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.biz.task" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="TASK" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.api" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="API" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.biz.loan.impl.CheckAmountServiceImpl" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="CHECK_AMOUNT" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    
+    <logger name="com.yuanpin.nautybee.biz.loan" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="LOAN" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.biz.callback.impl" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="callback" />
+        <appender-ref ref="ERROR" />
+    </logger>
+
+    <logger name="com.yuanpin.nautybee.common.service.PushService" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="PUSH" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.web.live" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="LIVE" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.biz.common.MessageService" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="MOBILEMESSAGE" />
+        <appender-ref ref="ERROR" />
+    </logger>
+
+    <logger name="com.yuanpin.nautybee.biz.activity" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="ACTIVITY" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.web.activity" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="ACTIVITY" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.common.filter" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SECURE" />
+        <appender-ref ref="ERROR" />
+    </logger>
+
+    <logger name="com.ibatis" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="DB" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.yuanpin.base.resource" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="CACHE" />
+        <appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.yuanpin.nautybee">
+		<level value="DEBUG" />
+	</logger>
+    <logger name="com.yuanpin.nautybee.dao" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="DB" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.yuanpin.nautybee.filter.MonitorFilter" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="MONITOR" />
+		<appender-ref ref="ERROR" />
+	</logger>
+    <logger name="com.yuanpin.common.mq" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="MQ" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.redis" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="REDIS" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.mq" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="MQ" />
+        <appender-ref ref="ERROR" />
+    </logger>
+    <logger name="com.yuanpin.nautybee.http.request.sauna" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="SEARCH" />
+        <appender-ref ref="ERROR" />
+    </logger>
+	<logger name="java.sql" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="DB" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="java.sql.ResultSet" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="DB" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="net.sf.ehcache">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.apache">
+		<level value="WARN" />
+	</logger>
+    <logger name="org.apache.commons.beanutils.converters">
+        <level value="ERROR" />
+    </logger>
+	<logger name="org.apache.velocity">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.mybatis.spring" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="SPRING" />
+		<appender-ref ref="ERROR" />
+	</logger>
+    <logger name="org.quartz" additivity="false">
+        <level value="info" />
+        <appender-ref ref="SCHEDULE" />
+        <appender-ref ref="ERROR" />
+    </logger>
+	<logger name="org.springframework" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="SPRING" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.springframework.security">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.springframework.scheduling" additivity="false">
+		<level value="info" />
+		<appender-ref ref="SCHEDULE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<root>
+		<level value="${nautybee_log_level}" />
+		<appender-ref ref="COMMON" />
+		<appender-ref ref="ERROR" />
+	</root>
+
+</configuration>

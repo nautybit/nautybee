@@ -1,0 +1,160 @@
+nautybee.run.env=${nautybee_run_env}
+nautybee.app.root=${nautybee_app_root}
+nautybee.app.context=${nautybee_app_context}
+
+quartz.run=${quartz_run}
+quartz.common.ip=${quartz_common_ip}
+
+jdbc.driverClassName=${nautybee_jdbc_driverClassName}
+jdbc.url=${nautybee_jdbc_url}
+jdbc.username=${nautybee_jdbc_username}
+jdbc.password=${nautybee_jdbc_password}
+
+nautybee.upyun.bucketName=${nautybee_upyun_bucketName}
+nautybee.upyun.userName=${nautybee_upyun_userName}
+nautybee.upyun.password=${nautybee_upyun_password}
+nautybee.upyun.timeout=${nautybee_upyun_timeout}
+nautybee.upyun.domain=${nautybee_upyun_domain}
+nautybee.upyun.https.domain=${nautybee_upyun_https_domain}
+
+nautybee.mail.stmp.host=${nautybee_mail_stmp_host}
+nautybee.mail.stmp.port=${nautybee_mail_stmp_port}
+nautybee.mail.stmp.from=${nautybee_mail_stmp_from}
+nautybee.mail.stmp.username=${nautybee_mail_stmp_username}
+nautybee.mail.stmp.password=${nautybee_mail_stmp_password}
+nautybee.mail.need.send=${nautybee_mail_need_send}
+nautybee.mail.send.to=${nautybee_mail_send_to}
+nautybee.sms.need.send=${nautybee_sms_need_send}
+nautybee.sms.send.to=${nautybee_sms_send_to}
+
+nautybee.elastic.search.order.url=${nautybee_elastic_search_order_url}
+
+nautybee.master.redis.ip=${nautybee_master_redis_ip}
+nautybee.master.redis.port=${nautybee_master_redis_port}
+nautybee.master.redis.timeout=${nautybee_master_redis_timeout}
+nautybee.master.redis.password=${nautybee_master_redis_password}
+
+nautybee.yunxin.message.username = ${nautybee_yunxin_message_username}
+nautybee.yunxin.message.password = ${nautybee_yunxin_message_password}
+nautybee.yunxin.message.chufa.url = ${nautybee_yunxin_message_chufa_url}
+
+nautybee.wechat.appid = ${nautybee_wechat_appid}
+nautybee.wechat.secret = ${nautybee_wechat_secret}
+nautybee.wechat.vote.redirect.url = ${nautybee_wechat_vote_redirect_url}
+nautybee.wechat.vote.snsapi.type = ${nautybee_wechat_vote_snsapi_type}
+nautybee.wechat.authorize.url = ${nautybee_wechat_authorize_url}
+nautybee.wechat.access.token.url = ${nautybee_wechat_access_token_url}
+
+nautybee.security.interface.switch = ${nautybee_security_interface_switch}
+nautybee.security.interface.secret.code == ${nautybee_security_interface_secret_code}
+
+nautybee.master.rocketMQ.consumer.groupName      =${nautybee_master_rocketMQ_consumer_groupName}
+nautybee.master.rocketMQ.producer.groupName      =${nautybee_master_rocketMQ_producer_groupName}
+nautybee.master.rocketMQ.default.topicName       =${nautybee_master_rocketMQ_default_topicName}
+nautybee.master.rocketMQ.bauna.default.topicName =${nautybee_master_rocketMQ_bauna_default_topicName}
+nautybee.master.rocketMQ.cauna.default.topicName =${nautybee_master_rocketMQ_cauna_default_topicName}
+nautybee.master.rocketMQ.namesrv                 =${nautybee_master_rocketMQ_namesrv}
+nautybee.master.rocketMQ.postfix                 =${nautybee_master_rocketMQ_postfix}
+nautybee.master.rocketMQ.postfixType             =${nautybee_master_rocketMQ_postfixType}
+nautybee.master.rocketMQ.switch                  =${nautybee_master_rocketMQ_switch}
+
+nautybee.cauna.server.url.base = ${nautybee.cauna.server.url.base}
+
+nautybee.keyRing.ringId = ${nautybee_keyRing_ringId}
+nautybee.keyRing.ringDirectory = ${nautybee_keyRing_ringDirectory}
+
+nautybee.server.url = ${nautybee_server_url}
+nautybee.server.contextName = ${nautybee_server_contextName}
+
+nautybee.alipay.partner = ${nautybee_alipay_partner}
+nautybee.alipay.key = ${nautybee_alipay_key}
+nautybee.alipay.private.key = ${nautybee_alipay_private_key}
+nautybee.alipay.ali.public.key = ${nautybee_alipay_ali_public_key}
+
+nautybee.alipay.notify.verify.url = ${nautybee_alipay_notify_verify_url}
+
+nautybee.alipay.pc.return.url = ${nautybee_alipay_pc_return_url}
+
+openid.session.user.id.key = ${openid_session_user_id_key}
+openid.session.user.id.type = ${openid_session_user_id_type}
+openid.session.uuid.key = ${openid_session_uuid_key}
+openid.server.url = ${openid_server_url}
+openid.server.usessl = ${openid_server_usessl}
+openid.redirect.url = ${openid_redirect_url}
+openid.gen.uuid.url = ${openid_gen_uuid_url}
+openid.comet.server.url = ${openid_comet_server_url}
+openid.comet.enabled = ${openid_comet_enabled}
+
+
+nautybee.jpush.ios.appkey = ${nautybee_jpush_ios_appkey}
+nautybee.jpush.ios.masterSecret = ${nautybee_jpush_ios_masterSecret}
+nautybee.jpush.ios.aspnProduction = ${nautybee_jpush_ios_aspnProduction}
+nautybee.jpush.android.appkey = ${nautybee_jpush_android_appkey}
+nautybee.jpush.android.masterSecret =${nautybee_jpush_android_masterSecret}
+nautybee.jpush.maxRetryTimes=${nautybee_jpush_maxRetryTimes}
+
+
+nautybee.huanxin.server.url = ${nautybee_huanxin_server_url}
+nautybee.huanxin.org.name = ${nautybee_huanxin_org_name}
+nautybee.huanxin.app.name = ${nautybee_huanxin_app_name}
+nautybee.huanxin.app.client.id = ${nautybee_huanxin_app_client_id}
+nautybee.huanxin.app.client.secret = ${nautybee_huanxin_app_client_secret}
+
+nautybee.lianlianPay.partner = ${nautybee_lianlianPay_partner}
+nautybee.lianlianPay.yintong.public.key = ${nautybee_lianlianPay_yintong_public_key}
+nautybee.lianlianPay.private.key = ${nautybee_lianlianPay_private_key}
+nautybee.lianlianPay.md5.key = ${nautybee_lianlianPay_md5_key}
+nautybee.lianlianPay.server.url = ${nautybee_lianlianPay_server_url}
+nautybee.lianlianPay.user.prefix = ${nautybee_lianlianPay_user_prefix}
+
+nautybee.yeepay.customernumber = ${nautybee_yeepay_customernumber}
+nautybee.yeepay.key = ${nautybee_yeepay_key}
+
+nautybee.sec.data.dir = ${nautybee_sec_data_dir}
+nautybee.sec.cert.alias =${nautybee_sec_cert_alias}
+nautybee.sec.cert.pwd = ${nautybee_sec_cert_pwd}
+nautybee.sec.cert.path = ${nautybee_sec_cert_path}
+
+nautybee.sec.api.pwd = ${nautybee_sec_api_pwd}
+
+nautybee.platform.order.user.id = ${nautybee_platform_order_user_id}
+nautybee.platform.notify.user.id = ${nautybee_platform_notify_user_id}
+nautybee.platform.active.user.id = ${nautybee_platform_active_user_id}
+
+nautybee.bauna.server.url.base =${nautybee_bauna_server_url_base}
+
+search.data.monitor.dataId = ${search_data_monitor_dataId}
+
+nautybee.cloopen.voice.serveIP = ${nautybee.cloopen.voice.serveIP}
+nautybee.cloopen.voice.servePort = ${nautybee.cloopen.voice.servePort}
+nautybee.cloopen.voice.accountSid = ${nautybee.cloopen.voice.accountSid}
+nautybee.cloopen.voice.accountToken = ${nautybee.cloopen.voice.accountToken}
+nautybee.cloopen.voice.appId = ${nautybee.cloopen.voice.appId}
+nautybee.cloopen.voice.displayNum = ${nautybee.cloopen.voice.displayNum}
+nautybee.cloopen.voice.playTimes = ${nautybee.cloopen.voice.playTimes}
+
+
+nautybee.credit.wechatPay.merId=${nautybee_credit_wechatPay_merId}
+nautybee.credit.wechatPay.public.merId=${nautybee_credit_wechatPay_public_merId}
+nautybee.credit.wechatPay.serverUrl=${nautybee_credit_wechatPay_serverUrl}
+nautybee.credit.wechatPay.privateKey=${nautybee_credit_wechatPay_privateKey}
+nautybee.credit.wechatPay.citic.publicKey=${nautybee_credit_wechatPay_citic_publicKey}
+
+nautybee.express100.url = ${nautybee_express100_url}
+nautybee.express100.id = ${nautybee_express100_id}
+nautybee.expressbird.url = ${nautybee_expressbird_url}
+nautybee.expressbird.id = ${nautybee_expressbird_id}
+nautybee.expressbird.key = ${nautybee_expressbird_key}
+
+nautybee.green.msg.url = ${nautybee_green_msg_url}
+nautybee.green.msg.username = ${nautybee_green_msg_username}
+nautybee.green.msg.password = ${nautybee_green_msg_password}
+
+
+cmb.pay.branchNo = ${cmb_pay_branchNo}
+cmb.pay.merchantNo = ${cmb_pay_merchantNo}
+cmb.pay.key = ${cmb_pay_key}
+cmb.pay.payUrl = ${cmb_pay_payUrl}
+cmb.pay.basePayUrl = ${cmb_pay_basePayUrl}
+cmb.pay.publicKeyUrl = ${cmb_pay_publicKeyUrl}
+cmb.pay.eBankServerUrl = ${cmb_pay_eBankServerUrl}
