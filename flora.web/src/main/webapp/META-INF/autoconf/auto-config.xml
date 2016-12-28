@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config description="">
+    <group name="default">
+        <!-- Flora环境配置 -->
+        <property name="flora.app.root" defaultValue="${user.home}/" description="应用部署根目录" required="true"/>
+        <property name="flora.run.env" defaultValue="DEV" description="运行环境： dev开发、test测试、online线上" />
+        <property name="flora.app.context" defaultValue="flora" description="应用的context name" />
+
+        <property name="quartz.run" defaultValue="false" description="quartz后台定时程序是否运行" required="true"/>
+        <property name="quartz.common.ip" defaultValue="0.0.0.0" description="运行一般定时任务的机器IP,一般指仅一台机器运行该任务" />
+
+        <!-- Flora数据库配置 -->
+        <property name="flora.jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver" description="JDBC driver class name" />
+        <property name="flora.jdbc.url" defaultValue="jdbc:mysql://121.40.116.179:3306/fauna_dev?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull" description="JDBC URL" />
+        <property name="flora.jdbc.username" defaultValue="fauna_dev" description="JDBC user name" />
+        <property name="flora.jdbc.password" defaultValue="tellMe" description="JDBC password" />
+
+        <!-- Flora日志信息配置 -->
+        <property name="flora.log.root" defaultValue="${flora.app.root}/logs" description="log文件目录" />
+        <property name="flora.log.level" defaultValue="INFO" description="log级别" />
+        <property name="flora.log.pattern" defaultValue="[%d{'MM-dd HH:mm:ss,SSS',GMT+8:00}] %-5p [%.10t][%X{IP}][%X{OP}][%X{OPAS}] %logger{36}[%L] - %m%n" description="log格式" />
+        <property name="flora.log.charset" defaultValue="UTF-8" description="log文件编码类型" />
+
+        <!-- 又拍云账号信息 -->
+        <property name="flora.upyun.bucketName" defaultValue="yuanpin" description="upyun空间名" />
+        <property name="flora.upyun.userName" defaultValue="yuanpin" description="upyun用户名" />
+        <property name="flora.upyun.password" defaultValue="yuanpin" description="upyun密码" />
+        <property name="flora.upyun.timeout" defaultValue="30" description="upyun超时时间" />
+
+        <!-- Flora邮件配置 -->
+        <property name="flora.mail.stmp.from" defaultValue="" description="系统邮件SMTP服务器参数" required="false"/>
+        <property name="flora.mail.stmp.password" defaultValue="" description="系统邮件SMTP服务器参数"  required="false"/>
+        <property name="flora.mail.stmp.host" defaultValue="smtp.mxhichina.com" description="系统邮件SMTP服务器参数" />
+        <property name="flora.mail.stmp.port" defaultValue="25" description="系统邮件SMTP服务器参数" />
+        <property name="flora.mail.stmp.username" defaultValue="" description="系统邮件SMTP服务器参数"  required="false"/>
+
+        <property name="flora.mail.need.send" defaultValue="false" description="是否需要发短信" />
+        <property name="flora.mail.send.to" defaultValue="@yuanpin.com" description="测试发邮件的人" />
+        <property name="flora.sms.need.send" defaultValue="false" description="是否需要发短信" />
+        <property name="flora.sms.send.to" defaultValue="12312341234" description="测试发短信的人" />
+
+        <!-- 暂未使用 -->
+        <property name="flora.elastic.search.order.url" defaultValue="http://127.0.0.1:8080" description="order搜索地址" />
+        <!-- Redis配置 -->
+        <property name="flora.master.redis.ip" defaultValue="#" description="Redis主服务器ID" />
+        <property name="flora.master.redis.port" defaultValue="6379" description="Redis主服务器端口" />
+        <property name="flora.master.redis.timeout" defaultValue="2000" description="Redis主服务器超时时间" />
+        <property name="flora.master.redis.password" defaultValue="" description="Redis主服务器密码" required="false"/>
+
+        <!-- 又拍云图片访问域名 -->
+        <property name="flora.upyun.domain" defaultValue="#" description="又拍云图片访问域名" />
+        <property name="flora.upyun.https.domain" defaultValue="#" description="又拍云https访问域名" />
+
+        <!-- 云信短信平台配置 -->
+        <property name="flora.yunxin.message.username" defaultValue="#" description="云信平台用户名" />
+        <property name="flora.yunxin.message.password" defaultValue="#" description="云信平台密码" />
+        <property name="flora.yunxin.message.chufa.url" defaultValue="#" description="云信触发平台接口URL" />
+
+        <!-- 微信服务号开发相关配置 -->
+        <property name="flora.wechat.appid" defaultValue="#" description="原品主义微信服务号APPID" />
+        <property name="flora.wechat.secret" defaultValue="#" description="原品主义微信服务号APPSecret" />
+        <property name="flora.wechat.vote.redirect.url" defaultValue="#" description="重定向到投票权限验证url" />
+        <property name="flora.wechat.vote.snsapi.type" defaultValue="#" description="权限验证类型(snsapi_base,snsapi_userinfo)" />
+        <property name="flora.wechat.authorize.url" defaultValue="#" description="微信网页授权接口URL" />
+        <property name="flora.wechat.access.token.url" defaultValue="#" description="微信网页获取accessToken接口" />
+
+        <!-- 接口安全验证配置 -->
+        <property name="flora.security.interface.switch" defaultValue="off" description="接口安全验证配置（开启接口安全验证:on,关闭接口安全验证:off）,开发阶段建议设置为off,线上建议设置为on" />
+        <property name="flora.security.interface.secret.code" defaultValue="f_l_o_r_a" description="接口安全验证密钥" />
+
+        <!-- 消息中间件RocketMQ配置 -->
+        <property name="flora.master.rocketMQ.consumer.groupName" defaultValue="FloraConsumerGroup" description="消息队列收消息分组" />
+        <property name="flora.master.rocketMQ.producer.groupName" defaultValue="FloraProducerGroup" description="消息队列发消息分组" />
+        <property name="flora.master.rocketMQ.default.topicName" defaultValue="testFaunaTopic" description="消息Topic" />
+        <property name="flora.master.rocketMQ.bauna.default.topicName" defaultValue="testBaunaTopic" description="消息队列发消息到bauna的topicName配置" />
+        <property name="flora.master.rocketMQ.cauna.default.topicName" defaultValue="testCaunaTopic" description="消息队列发消息到cauna的topicName配置" />
+        <property name="flora.master.rocketMQ.namesrv" defaultValue="#" description="消息中间件rocketMq服务器地址配置" />
+        <property name="flora.master.rocketMQ.postfix" defaultValue="dev" description="mq环境鉴别，可以是任意的英文、数字，以便在一个mq服务器里启用不同的队列" required="false"/>
+        <property name="flora.master.rocketMQ.postfixType" defaultValue="topic" description="mq环境差异化，后缀加在topic OR tag上" required="false"/>
+        <property name="flora.master.rocketMQ.switch" defaultValue="off" description="消息中间件rocketMq开关,开发阶段建议设置为off，有需要时打开,线上建议设置为on" />
+
+
+        <property name="flora.cauna.server.url.base" defaultValue="#" description="flora访问cauna路径" />
+
+        <!-- keyRing -->
+        <property name = "flora.keyRing.ringId" defaultValue = "flora" description = "ringId" />
+        <property name = "flora.keyRing.ringDirectory" defaultValue = "src/main/resources" description = "秘钥文件夹地址" />
+
+        <!-- Flora服务器地址配置 -->
+        <property name="flora.server.url" defaultValue="#" description="Flora服务器访问地址" />
+        <property name="flora.server.contextName" defaultValue="flora" description="Flora context name" />
+        
+        <!-- 支付宝支付账户信息 -->
+        <property name="flora.alipay.partner" defaultValue="#" description="支付宝企业商户合作号" />
+        <property name="flora.alipay.key" defaultValue="#" description="支付宝key" />
+        <property name="flora.alipay.private.key" defaultValue="#" description="商户私钥" />
+        <property name="flora.alipay.ali.public.key" defaultValue="#" description="支付宝公钥" />
+        <property name="flora.alipay.notify.verify.url" defaultValue="#" description="支付宝通知验证API的url" />
+        
+        <property name="flora.alipay.pc.return.url" defaultValue="#" description="支付宝处理完请求后，当前页面自动跳转到商户网站里指定页面的http路径" />
+
+        <!-- openid相关配置 -->
+        <property name="openid.session.user.id.key" defaultValue="userId" description="userId的key" />
+        <property name="openid.session.user.id.type" defaultValue="Long" description="userId的类型" />
+        <property name="openid.session.uuid.key" defaultValue="uuid" description="uuid的key" />
+        <property name="openid.server.url" defaultValue="http://localhost:8080/fauna" description="openid服务器url， 如果启用SSL，需保证http也可正常访问" />
+        <property name="openid.server.usessl" defaultValue="false" description="openid服务器是否启用ssl" />
+        <property name="openid.redirect.url" defaultValue="/simpleRedirect" description="重定向的相对uri" />
+        <property name="openid.gen.uuid.url" defaultValue="/openid/genUuid" description="生成uuid的相对uri" />
+        <property name="openid.comet.server.url" defaultValue="/comet" description="扫码登录comet服务器地址, 如果启用了SSL，这里也写http://，内部会根据标记转换" />
+        <property name="openid.comet.enabled" defaultValue="false" description="是否启用Comet长连接服务" />
+
+         <!-- JPUSH 配置 -->
+        <property name="flora.jpush.ios.appkey" defaultValue="#" description="jpush ios app key" required="false"/>
+        <property name="flora.jpush.ios.masterSecret" defaultValue="#" description="jpush ios master secret" required="false"/>
+        <property name="flora.jpush.ios.aspnProduction" defaultValue="false" description="jpush ios 是否使用生成环境aspn"/>
+        <property name="flora.jpush.android.appkey" defaultValue="" description="jpush android app key" required="false"/>
+        <property name="flora.jpush.android.masterSecret" defaultValue="" description="jpush android master secret" required="false"/>
+        <property name="flora.jpush.maxRetryTimes" defaultValue="3" description="jpush 链接最大重试时间" required="false"/>
+
+        <!-- 环信服务器配置 -->
+        <property name="flora.huanxin.server.url" defaultValue="#" description="环信服务器URL" required="=false"/>
+        <property name="flora.huanxin.org.name" defaultValue="#" description="环信orgName" required="=false"/>
+        <property name="flora.huanxin.app.name" defaultValue="#" description="环信appName" required="=false"/>
+        <property name="flora.huanxin.app.client.id" defaultValue="#" description="环信app client id" required="=false"/>
+        <property name="flora.huanxin.app.client.secret" defaultValue="#" description="环信app client secret" required="=false"/>
+        
+        <!-- 连连支付配置 -->
+        <property name="flora.lianlianPay.partner" defaultValue="#" description="连连支付商户号" required="=false"/>
+        <property name="flora.lianlianPay.yintong.public.key" defaultValue="#" description="连连支付公钥" required="=false"/>
+        <property name="flora.lianlianPay.private.key" defaultValue="#" description="连连支付使用的神汽私钥" required="=false"/>
+        <property name="flora.lianlianPay.md5.key" defaultValue="#" description="连连支付MD5 key" required="=false"/>
+        <property name="flora.lianlianPay.server.url" defaultValue="#" description="连连支付服务器URL" required="=false"/>
+        <property name="flora.lianlianPay.user.prefix" defaultValue="Test" description="连连支付userID前缀" required="=false"/>
+
+        <!-- 易宝支付配置 -->
+        <property name="flora.yeepay.customernumber" defaultValue="#" description="易宝支付商户号" required="=false"/>
+        <property name="flora.yeepay.key" defaultValue="#" description="易宝支付私钥" required="=false"/>
+
+        <!-- 配置文件目录 -->
+        <property name="flora.sec.data.dir" defaultValue="#" description="配置文件目录" required="=false"/>
+        
+        <property name="flora.sec.cert.alias" defaultValue="#" description="证书别名" required="false"/>
+        <property name="flora.sec.cert.pwd" defaultValue="#" description="证书密码" required="false"/>
+        <property name="flora.sec.cert.path" defaultValue="#" description="证书路径" required="false"/>
+        
+        
+        <property name="flora.sec.api.pwd" defaultValue="#" description="api接口密码" required="false"/>
+        
+        
+        <property name="flora.platform.order.user.id" defaultValue="-1" description="订单助手userId" required="true"/>
+        <property name="flora.platform.notify.user.id" defaultValue="-1" description="通知助手userId" required="true"/>
+
+        
+        <property name="flora.bauna.server.url.base" defaultValue="-1" description="bauna接口" required="true"/>
+
+        <property name="flora.platform.active.user.id" defaultValue="-1" description="活动官方账号" required="true"/>
+
+        <property name="search.data.monitor.dataId" defaultValue="1000" description="搜索监控数据id" />
+
+        <!--容联云通信配置-->
+        <property name="flora.cloopen.voice.serveIP" defaultValue="#" description="云通信服务器地址" />
+        <property name="flora.cloopen.voice.servePort" defaultValue="#" description="云通信服务器端口" />
+        <property name="flora.cloopen.voice.accountSid" defaultValue="#" description="云通信主账号名称" />
+        <property name="flora.cloopen.voice.accountToken" defaultValue="#" description="云通信主账号令牌" />
+        <property name="flora.cloopen.voice.appId" defaultValue="#" description="云通信应用ID" />
+        <property name="flora.cloopen.voice.displayNum" defaultValue="#" description="云通信主来电展示号码" />
+        <property name="flora.cloopen.voice.playTimes" defaultValue="#" description="云通信播放次数" />
+
+        <!-- 中信微信支付参数配置 -->
+        <property name="flora.credit.wechatPay.merId" defaultValue="#" description="中信微信支付商户编号" />
+        <property name="flora.credit.wechatPay.public.merId" defaultValue="#" description="中信微信公众号支付商户编号" />
+        <property name="flora.credit.wechatPay.serverUrl" defaultValue="#" description="中信微信支付服务器地址" />
+        <property name="flora.credit.wechatPay.privateKey" defaultValue="#" description="商户私钥" />
+        <property name="flora.credit.wechatPay.citic.publicKey" defaultValue="#" description="中信微信支付公钥" />
+        
+        <!-- 物流平台参数 -->
+        <property name="flora.express100.url" defaultValue="#" description="快递100url" />
+        <property name="flora.express100.id" defaultValue="#" description="快递100id" />
+        <property name="flora.expressbird.url" defaultValue="#" description="快递鸟url" />
+        <property name="flora.expressbird.id" defaultValue="#" description="快递鸟id" />
+        <property name="flora.expressbird.key" defaultValue="#" description="快递鸟key" />
+
+        <!-- 绿信通短信平台 -->
+        <property name="flora.green.msg.url" defaultValue="#" description="绿信通短信平台URL" />
+        <property name="flora.green.msg.username" defaultValue="#" description="绿信通短信平台用户名" />
+        <property name="flora.green.msg.password" defaultValue="#" description="绿信通短信平台密码" />
+
+        <!-- 招商银行一网通支付参数 -->
+        <property name="cmb.pay.branchNo" defaultValue="#" description="支付商户开户分行号" />
+        <property name="cmb.pay.merchantNo" defaultValue="#" description="支付商户号" />
+        <property name="cmb.pay.key" defaultValue="#" description="商户密钥"  required="false"/>
+        <property name="cmb.pay.payUrl" defaultValue="#" description="支付URL" />
+        <property name="cmb.pay.basePayUrl" defaultValue="#" description="Base支付URL" />
+        <property name="cmb.pay.publicKeyUrl" defaultValue="#" description="获取招行公约URL" />
+        <property name="cmb.pay.eBankServerUrl" defaultValue="#" description="招行eBank服务器地址" />
+
+
+    </group>
+
+    <script>
+        <generate template="application.properties.vm" destfile="WEB-INF/application.properties" charset ="UTF-8" />
+        <generate template="logback.xml.vm" destfile="WEB-INF/classes/logback.xml" charset="UTF-8" />
+    </script>
+</config>

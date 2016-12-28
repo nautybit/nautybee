@@ -1,0 +1,6 @@
+{
+  "templatesDir": "/Users/chengxiaoqi1/Workspace/blora/templates",
+  "tableSqlPath": "/Users/chengxiaoqi1/Workspace/blora/templates/template.sql.sample",
+  "outputDir": "/Users/chengxiaoqi1/Workspace/blora/templates/output",
+  "superPakage":"template"
+}

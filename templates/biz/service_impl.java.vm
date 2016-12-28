@@ -1,0 +1,47 @@
+package ${pkgPrefix}.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.stereotype.Service;
+ 
+import com.yuanpin.flora.biz.base.BaseServiceImpl;
+import ${pkgPrefix}.${FMT.XyzAbc($table)}Service;
+import ${dao_java_vm_pkgPrefix}.${FMT.XyzAbc($table)}Dao;
+import ${entity_java_vm_pkgPrefix}.${FMT.XyzAbc($table)};
+
+
+@Service
+public class ${FMT.XyzAbc($table)}ServiceImpl extends BaseServiceImpl  implements ${FMT.XyzAbc($table)}Service{
+
+  @Autowired
+  private ${FMT.XyzAbc($table)}Dao ${FMT.xyzAbc($table)}Dao;
+
+  public List<${FMT.XyzAbc($table)}> getAll() {
+    return super.getAll(${FMT.xyzAbc($table)}Dao);
+  }
+
+  public List<${FMT.XyzAbc(${table})}> select(${FMT.XyzAbc(${table})}QueryParam param){
+    return ${FMT.xyzAbc($table)}Dao.select(param);
+  }
+
+  public Integer selectCount(${FMT.XyzAbc(${table})}QueryParam param){
+    return ${FMT.xyzAbc($table)}Dao.selectCount(param);
+  }
+
+  public ${FMT.XyzAbc($table)} getById(Long id) {
+    return super.getById(${FMT.xyzAbc($table)}Dao, id);
+  }
+
+  public boolean save(${FMT.XyzAbc($table)} ${FMT.xyzAbc($table)}) {
+    return super.save(${FMT.xyzAbc($table)}Dao, ${FMT.xyzAbc($table)});
+  }
+
+  public boolean deleteById(Long id) {
+    return super.deleteById(${FMT.xyzAbc($table)}Dao, id);
+  }
+
+  public int deleteByIds(Long[] ids) {
+    return super.deleteByIds(${FMT.xyzAbc($table)}Dao, ids);
+  }
+}

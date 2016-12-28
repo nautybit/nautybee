@@ -1,0 +1,20 @@
+CREATE TABLE `flora_transport_car` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `creator` int(11) DEFAULT NULL COMMENT '创建人id',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifier` int(11) DEFAULT NULL COMMENT '修改人id',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
+  `is_deleted` char(1) DEFAULT NULL COMMENT '是否删除',
+  `car_plate` varchar(64) NOT NULL COMMENT '车牌号',
+  `driver_name` varchar(64) NOT NULL COMMENT '司机姓名',
+  `mobile_phone` varchar(20) NOT NULL COMMENT '司机手机号',
+  `car_type` varchar(64) NOT NULL COMMENT '车型',
+  `car_length` int(8) NOT NULL COMMENT '车长(cm)',
+  `car_width` int(8) NOT NULL COMMENT '车宽(cm)',
+  `car_load` int(8) NOT NULL COMMENT '车载（kg）',
+  `wh_id` int(11) NOT NULL COMMENT '仓库ID',
+  `is_signed` char(1) NOT NULL COMMENT '是否签约',
+  `car_company` varchar(64) NOT NULL COMMENT '运输车所属公司',
+  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8 COMMENT='运输车辆信息表';
