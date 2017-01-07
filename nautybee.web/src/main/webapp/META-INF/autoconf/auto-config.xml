@@ -22,9 +22,9 @@
         <property name="nautybee.log.charset" defaultValue="UTF-8" description="log文件编码类型" />
 
         <!-- 又拍云账号信息 -->
-        <property name="nautybee.upyun.bucketName" defaultValue="yuanpin" description="upyun空间名" />
-        <property name="nautybee.upyun.userName" defaultValue="yuanpin" description="upyun用户名" />
-        <property name="nautybee.upyun.password" defaultValue="yuanpin" description="upyun密码" />
+        <property name="nautybee.upyun.bucketName" defaultValue="nautybit" description="upyun空间名" />
+        <property name="nautybee.upyun.userName" defaultValue="nautybit" description="upyun用户名" />
+        <property name="nautybee.upyun.password" defaultValue="nautybit" description="upyun密码" />
         <property name="nautybee.upyun.timeout" defaultValue="30" description="upyun超时时间" />
 
         <!-- Flora邮件配置 -->
@@ -35,7 +35,7 @@
         <property name="nautybee.mail.stmp.username" defaultValue="" description="系统邮件SMTP服务器参数"  required="false"/>
 
         <property name="nautybee.mail.need.send" defaultValue="false" description="是否需要发短信" />
-        <property name="nautybee.mail.send.to" defaultValue="@yuanpin.com" description="测试发邮件的人" />
+        <property name="nautybee.mail.send.to" defaultValue="@nautybit.com" description="测试发邮件的人" />
         <property name="nautybee.sms.need.send" defaultValue="false" description="是否需要发短信" />
         <property name="nautybee.sms.send.to" defaultValue="12312341234" description="测试发短信的人" />
 

@@ -19,7 +19,7 @@
     <task:annotation-driven/>
 
     <!-- 扫描控制器类 -->
-    <context:component-scan base-package="com.yuanpin.nautybee" />
+    <context:component-scan base-package="com.nautybit.nautybee" />
 
     <import resource="data-source.xml" />
     <import resource="mybatis-config.xml" />

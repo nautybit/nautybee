@@ -2,24 +2,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>nautybee</artifactId>
-		<groupId>com.yuanpin.nautybee</groupId>
+		<groupId>com.nautybit.nautybee</groupId>
 		<version>2.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>nautybee.web</artifactId>
 	<packaging>war</packaging>
 	<name>nautybee.web Maven Webapp</name>
-	<url>http://www.yuanpinzhuyi.com</url>
+	<url>http://www.nautybit.com</url>
 	
     <properties>
-        <war.name>fauna</war.name>
+        <war.name>nautybee</war.name>
     </properties>
     
 	<dependencies>
 
 		<!-- 模块引用 -->
 		<dependency>
-			<groupId>com.yuanpin.nautybee</groupId>
+			<groupId>com.nautybit.nautybee</groupId>
 			<artifactId>nautybee.biz</artifactId>
 		</dependency>
 
@@ -101,6 +101,16 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
+
+        <!-- Velocity -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
+        </dependency>
 
 		<!-- 单元测试 -->
 		<dependency>

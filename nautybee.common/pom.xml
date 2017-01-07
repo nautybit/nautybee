@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>nautybee</artifactId>
-        <groupId>com.yuanpin.nautybee</groupId>
+        <groupId>com.nautybit.nautybee</groupId>
         <version>2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -50,13 +50,6 @@
         <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom2</artifactId>
-        </dependency>
-
-
-
-        <dependency>
-            <groupId>com.yuanpin.base</groupId>
-            <artifactId>yuanpin-base-common</artifactId>
         </dependency>
 
         <dependency>

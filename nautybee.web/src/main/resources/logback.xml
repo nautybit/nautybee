@@ -44,7 +44,7 @@
         </encoder>
     </appender>
     <appender name="DB" class="ch.qos.logback.core.FileAppender">
-        <filter class="com.yuanpin.nautybee.common.filter.DbNoConneInfoFilter" />
+        <filter class="com.nautybit.nautybee.common.filter.DbNoConneInfoFilter" />
 		<file>logs/db.log</file>
         <append>false</append>
         <encoder>
@@ -92,24 +92,24 @@
 		<appender-ref ref="DB" />
 		<appender-ref ref="ERROR" />
 	</logger>
-	<logger name="com.yuanpin.nautybee">
+	<logger name="com.nautybit.nautybee">
 		<level value="DEBUG" />
 	</logger>
-    <logger name="com.yuanpin.nautybee.dao" additivity="false">
+    <logger name="com.nautybit.nautybee.dao" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="DB" />
 		<appender-ref ref="ERROR" />
 	</logger>
-    <logger name="com.yuanpin.nautybee.filter.MonitorFilter" additivity="false">
+    <logger name="com.nautybit.nautybee.filter.MonitorFilter" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="MONITOR" />
         <appender-ref ref="ERROR" />
 	</logger>
-    <logger name="com.yuanpin.nautybee.redis" additivity="false">
+    <logger name="com.nautybit.nautybee.redis" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="REDIS" />
     </logger>
-    <logger name="com.yuanpin.nautybee.mq" additivity="false">
+    <logger name="com.nautybit.nautybee.mq" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="ROCKETMQ" />
     </logger>

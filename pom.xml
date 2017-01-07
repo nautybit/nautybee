@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yuanpin.nautybee</groupId>
+    <groupId>com.nautybit.nautybee</groupId>
     <artifactId>nautybee</artifactId>
     <packaging>pom</packaging>
     <version>2.0-SNAPSHOT</version>
@@ -61,51 +61,27 @@
         <dependencies>
             <!-- 模块引用 -->
             <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
+                <groupId>com.nautybit.nautybee</groupId>
                 <artifactId>nautybee.common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
+                <groupId>com.nautybit.nautybee</groupId>
                 <artifactId>nautybee.dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
+                <groupId>com.nautybit.nautybee</groupId>
                 <artifactId>nautybee.biz</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
+                <groupId>com.nautybit.nautybee</groupId>
                 <artifactId>nautybee.web</artifactId>
                 <type>war</type>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
-                <artifactId>nautybee.shared</artifactId>
-                <version>${nautybee.shared}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.yuanpin.base</groupId>
-                <artifactId>yuanpin-base-common</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.yuanpin.base</groupId>
-                <artifactId>yuanpin-base-resource</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.yuanpin.base</groupId>
-                <artifactId>sq-mq</artifactId>
-                <version>1.1.5</version>
-            </dependency>
-            <dependency>
-                <groupId>com.yuanpin.base</groupId>
-                <artifactId>sq-cache</artifactId>
-                <version>1.0.2</version>
-            </dependency>
+
             <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -314,6 +290,18 @@
                 <version>1.2.1</version>
             </dependency>
 
+            <!-- Velocity -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-tools</artifactId>
+                <version>2.0</version>
+            </dependency>
+
             <!-- Jedis -->
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -381,12 +369,6 @@
 
 
             <dependency>
-                <groupId>com.yuanpin.base</groupId>
-                <artifactId>yuanpin-base-util</artifactId>
-                <version>1.6-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>17.0</version>
@@ -411,11 +393,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.yuanpin.nautybee</groupId>
-                <artifactId>nautybee.api</artifactId>
-                <version>1.6-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

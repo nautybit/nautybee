@@ -38,7 +38,7 @@
         </encoder>
     </appender>
 	<appender name="DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		 <filter class="com.yuanpin.nautybee.common.filter.DbNoConneInfoFilter" />
+		 <filter class="com.nautybit.nautybee.common.filter.DbNoConneInfoFilter" />
 		<file>${nautybee_log_root}/db.log</file>
 		<append>true</append>
 		<param name="datePattern" value=".yyyy-MM-dd" />
@@ -305,91 +305,91 @@
         </encoder>
     </appender>
     
-    <logger name="com.yuanpin.nautybee.biz.express" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.express" additivity="false">
         <level value="INFO" />
         <appender-ref ref="express" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.pay" additivity="false">
+    <logger name="com.nautybit.nautybee.pay" additivity="false">
         <level value="INFO" />
         <appender-ref ref="PAY" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.biz.flow" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.flow" additivity="false">
         <level value="INFO" />
         <appender-ref ref="FLOW" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.im.HuanXinService" additivity="false">
+    <logger name="com.nautybit.nautybee.im.HuanXinService" additivity="false">
         <level value="INFO" />
         <appender-ref ref="HUANXIN" />
         <appender-ref ref="ERROR" />
     </logger>
     
-     <logger name="com.yuanpin.nautybee.biz.deposit" additivity="false">
+     <logger name="com.nautybit.nautybee.biz.deposit" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="DEPOSIT" />
          <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.biz.task" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.task" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="TASK" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.api" additivity="false">
+    <logger name="com.nautybit.nautybee.api" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="API" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.biz.loan.impl.CheckAmountServiceImpl" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.loan.impl.CheckAmountServiceImpl" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="CHECK_AMOUNT" />
         <appender-ref ref="ERROR" />
     </logger>
     
-    <logger name="com.yuanpin.nautybee.biz.loan" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.loan" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="LOAN" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.biz.callback.impl" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.callback.impl" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="callback" />
         <appender-ref ref="ERROR" />
     </logger>
 
-    <logger name="com.yuanpin.nautybee.common.service.PushService" additivity="false">
+    <logger name="com.nautybit.nautybee.common.service.PushService" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="PUSH" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.web.live" additivity="false">
+    <logger name="com.nautybit.nautybee.web.live" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="LIVE" />
     </logger>
-    <logger name="com.yuanpin.nautybee.biz.common.MessageService" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.common.MessageService" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="MOBILEMESSAGE" />
         <appender-ref ref="ERROR" />
     </logger>
 
-    <logger name="com.yuanpin.nautybee.biz.activity" additivity="false">
+    <logger name="com.nautybit.nautybee.biz.activity" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="ACTIVITY" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.web.activity" additivity="false">
+    <logger name="com.nautybit.nautybee.web.activity" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="ACTIVITY" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.common.filter" additivity="false">
+    <logger name="com.nautybit.common.filter" additivity="false">
         <level value="INFO" />
         <appender-ref ref="SECURE" />
         <appender-ref ref="ERROR" />
@@ -400,40 +400,40 @@
 		<appender-ref ref="DB" />
 		<appender-ref ref="ERROR" />
 	</logger>
-	<logger name="com.yuanpin.base.resource" additivity="false">
+	<logger name="com.nautybit.base.resource" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="CACHE" />
         <appender-ref ref="ERROR" />
 	</logger>
-	<logger name="com.yuanpin.nautybee">
+	<logger name="com.nautybit.nautybee">
 		<level value="DEBUG" />
 	</logger>
-    <logger name="com.yuanpin.nautybee.dao" additivity="false">
+    <logger name="com.nautybit.nautybee.dao" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="DB" />
 		<appender-ref ref="ERROR" />
 	</logger>
-	<logger name="com.yuanpin.nautybee.filter.MonitorFilter" additivity="false">
+	<logger name="com.nautybit.nautybee.filter.MonitorFilter" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="MONITOR" />
 		<appender-ref ref="ERROR" />
 	</logger>
-    <logger name="com.yuanpin.common.mq" additivity="false">
+    <logger name="com.nautybit.common.mq" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="MQ" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.redis" additivity="false">
+    <logger name="com.nautybit.nautybee.redis" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="REDIS" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.mq" additivity="false">
+    <logger name="com.nautybit.nautybee.mq" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="MQ" />
         <appender-ref ref="ERROR" />
     </logger>
-    <logger name="com.yuanpin.nautybee.http.request.sauna" additivity="false">
+    <logger name="com.nautybit.nautybee.http.request.sauna" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="SEARCH" />
         <appender-ref ref="ERROR" />
