@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.user.UserDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.user.User"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "user_name" property = "userName" />
+        <result column = "password" property = "password" />
+        <result column = "email" property = "email" />
+        <result column = "sex" property = "sex" />
+        <result column = "birthday" property = "birthday" />
+        <result column = "address_id" property = "addressId" />
+        <result column = "nick_name" property = "nickName" />
+        <result column = "qq" property = "qq" />
+        <result column = "wechat" property = "wechat" />
+        <result column = "mobile_phone" property = "mobilePhone" />
+        <result column = "user_photo" property = "userPhoto" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "userName != null">
+                    and user_name = #{userName}
+                </if>
+                <if test = "password != null">
+                    and password = #{password}
+                </if>
+                <if test = "email != null">
+                    and email = #{email}
+                </if>
+                <if test = "sex != null">
+                    and sex = #{sex}
+                </if>
+                <if test = "birthday != null">
+                    and birthday = #{birthday}
+                </if>
+                <if test = "addressId != null">
+                    and address_id = #{addressId}
+                </if>
+                <if test = "nickName != null">
+                    and nick_name = #{nickName}
+                </if>
+                <if test = "qq != null">
+                    and qq = #{qq}
+                </if>
+                <if test = "wechat != null">
+                    and wechat = #{wechat}
+                </if>
+                <if test = "mobilePhone != null">
+                    and mobile_phone = #{mobilePhone}
+                </if>
+                <if test = "userPhoto != null">
+                    and user_photo = #{userPhoto}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "userName != null">
+                user_name = #{userName},
+            </if>
+            <if test = "password != null">
+                password = #{password},
+            </if>
+            <if test = "email != null">
+                email = #{email},
+            </if>
+            <if test = "sex != null">
+                sex = #{sex},
+            </if>
+            <if test = "birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test = "addressId != null">
+                address_id = #{addressId},
+            </if>
+            <if test = "nickName != null">
+                nick_name = #{nickName},
+            </if>
+            <if test = "qq != null">
+                qq = #{qq},
+            </if>
+            <if test = "wechat != null">
+                wechat = #{wechat},
+            </if>
+            <if test = "mobilePhone != null">
+                mobile_phone = #{mobilePhone},
+            </if>
+            <if test = "userPhoto != null">
+                user_photo = #{userPhoto}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from user
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from user
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from user
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update user
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update user
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update user
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into user (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        user_name,
+        password,
+        email,
+        sex,
+        birthday,
+        address_id,
+        nick_name,
+        qq,
+        wechat,
+        mobile_phone,
+        user_photo
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{userName},
+        #{password},
+        #{email},
+        #{sex},
+        #{birthday},
+        #{addressId},
+        #{nickName},
+        #{qq},
+        #{wechat},
+        #{mobilePhone},
+        #{userPhoto}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update user
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

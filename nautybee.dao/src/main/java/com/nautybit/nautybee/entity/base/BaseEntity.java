@@ -1,4 +1,4 @@
-package com.nautybit.nautybee.dao.base;
+package com.nautybit.nautybee.entity.base;
 
 import java.util.Date;
 

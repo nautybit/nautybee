@@ -1,0 +1,24 @@
+package ${pkgPrefix};
+
+import java.util.List;
+import java.util.Map;
+
+import ${entity_java_vm_pkgPrefix}.${FMT.XyzAbc($table)};
+
+public interface ${FMT.XyzAbc($table)}Service {
+  List<${FMT.XyzAbc($table)}> getAll();
+
+  List<${FMT.XyzAbc(${table})}> select(${FMT.XyzAbc(${table})}QueryParam param);
+
+  Integer selectCount(${FMT.XyzAbc(${table})}QueryParam param);
+
+  ${FMT.XyzAbc($table)} getById(Long id);
+
+  boolean save(${FMT.XyzAbc($table)} ${FMT.xyzAbc($table)});
+
+  boolean deleteById( Long id);
+
+  int deleteByIds(Long[] ids);
+
+
+}
