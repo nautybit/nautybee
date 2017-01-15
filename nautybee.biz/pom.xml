@@ -77,12 +77,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.cloopen</groupId>
-			<artifactId>rest-sdk</artifactId>
-			<version>2.7.1r-redundancy</version>
-		</dependency>
-
 
 	</dependencies>
 
