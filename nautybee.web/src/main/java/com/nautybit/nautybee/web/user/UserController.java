@@ -27,9 +27,7 @@ public class UserController extends BaseController {
     @RequestMapping("getUserList")
     @ResponseBody
     public Result<?> getUserList() throws IOException{
-//        User user = userService.getById(1000l);
-        User user = new User();
-        user.setUserName("李秋峦");
+        User user = userService.getById(1000l);
         return Result.wrapSuccessfulResult(user);
     }
 
