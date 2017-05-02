@@ -14,14 +14,14 @@ public class User extends BaseEntity {
 
   private String userName;
   private String password;
-  private String email;
   private Integer sex;
   private Date birthday;
-  private Long addressId;
   private String nickName;
-  private String qq;
   private String wechat;
   private String mobilePhone;
+  private Integer isSeller;
+  private Integer memberLevel;
   private String userPhoto;
+  private String remark;
 
 }

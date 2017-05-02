@@ -7,15 +7,15 @@
                extends = "COMMON.BASE_RESULT_MAP">
         <result column = "user_name" property = "userName" />
         <result column = "password" property = "password" />
-        <result column = "email" property = "email" />
         <result column = "sex" property = "sex" />
         <result column = "birthday" property = "birthday" />
-        <result column = "address_id" property = "addressId" />
         <result column = "nick_name" property = "nickName" />
-        <result column = "qq" property = "qq" />
         <result column = "wechat" property = "wechat" />
         <result column = "mobile_phone" property = "mobilePhone" />
+        <result column = "is_seller" property = "isSeller" />
+        <result column = "member_level" property = "memberLevel" />
         <result column = "user_photo" property = "userPhoto" />
+        <result column = "remark" property = "remark" />
     </resultMap>
 
     <sql id = "BaseWhereClause">
@@ -28,23 +28,14 @@
                 <if test = "password != null">
                     and password = #{password}
                 </if>
-                <if test = "email != null">
-                    and email = #{email}
-                </if>
                 <if test = "sex != null">
                     and sex = #{sex}
                 </if>
                 <if test = "birthday != null">
                     and birthday = #{birthday}
                 </if>
-                <if test = "addressId != null">
-                    and address_id = #{addressId}
-                </if>
                 <if test = "nickName != null">
                     and nick_name = #{nickName}
-                </if>
-                <if test = "qq != null">
-                    and qq = #{qq}
                 </if>
                 <if test = "wechat != null">
                     and wechat = #{wechat}
@@ -52,8 +43,17 @@
                 <if test = "mobilePhone != null">
                     and mobile_phone = #{mobilePhone}
                 </if>
+                <if test = "isSeller != null">
+                    and is_seller = #{isSeller}
+                </if>
+                <if test = "memberLevel != null">
+                    and member_level = #{memberLevel}
+                </if>
                 <if test = "userPhoto != null">
                     and user_photo = #{userPhoto}
+                </if>
+                <if test = "remark != null">
+                    and remark = #{remark}
                 </if>
             </trim>
         </where>
@@ -68,23 +68,14 @@
             <if test = "password != null">
                 password = #{password},
             </if>
-            <if test = "email != null">
-                email = #{email},
-            </if>
             <if test = "sex != null">
                 sex = #{sex},
             </if>
             <if test = "birthday != null">
                 birthday = #{birthday},
             </if>
-            <if test = "addressId != null">
-                address_id = #{addressId},
-            </if>
             <if test = "nickName != null">
                 nick_name = #{nickName},
-            </if>
-            <if test = "qq != null">
-                qq = #{qq},
             </if>
             <if test = "wechat != null">
                 wechat = #{wechat},
@@ -92,8 +83,17 @@
             <if test = "mobilePhone != null">
                 mobile_phone = #{mobilePhone},
             </if>
+            <if test = "isSeller != null">
+                is_seller = #{isSeller},
+            </if>
+            <if test = "memberLevel != null">
+                member_level = #{memberLevel},
+            </if>
             <if test = "userPhoto != null">
-                user_photo = #{userPhoto}
+                user_photo = #{userPhoto},
+            </if>
+            <if test = "remark != null">
+                remark = #{remark}
             </if>
         </set>
     </sql>
@@ -101,7 +101,7 @@
     <!-- 查询总数 -->
     <select id = "selectCount" resultType = "java.lang.Integer">
         select count(id)
-        from user
+        from nautybee_user
         <include refid = "BaseWhereClause" />
     </select>
 
@@ -109,7 +109,7 @@
     <select id = "select" resultMap = "BaseResultMap">
         select
         <include refid = "COMMON.ALL_COLUMN_LIST" />
-        from user
+        from nautybee_user
         <include refid = "BaseWhereClause" />
         <include refid = "COMMON.ORDER_BY" />
         <include refid = "COMMON.PAGE" />
@@ -119,13 +119,13 @@
     <select id = "selectById" resultMap = "BaseResultMap">
         select
         <include refid = "COMMON.ALL_COLUMN_LIST" />
-        from user
+        from nautybee_user
         where id = #{id}
     </select>
 
     <!-- 根据IDS批量删除 -->
     <update id = "deleteByIds">
-        update user
+        update nautybee_user
         set is_deleted='Y'
         where id in
         (
@@ -137,53 +137,53 @@
 
     <!-- 根据ID删除 -->
     <update id = "deleteById">
-        update user
+        update nautybee_user
         set is_deleted='Y'
         where id=#{id}
     </update>
 
     <!-- 删除 -->
     <delete id = "delete">
-        update user
+        update nautybee_user
         set is_deleted='Y'
         <include refid = "BaseWhereClause" />
     </delete>
 
     <!-- 添加   -->
     <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
-        insert into user (
+        insert into nautybee_user (
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
         user_name,
         password,
-        email,
         sex,
         birthday,
-        address_id,
         nick_name,
-        qq,
         wechat,
         mobile_phone,
-        user_photo
+        is_seller,
+        member_level,
+        user_photo,
+        remark
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
         #{userName},
         #{password},
-        #{email},
         #{sex},
         #{birthday},
-        #{addressId},
         #{nickName},
-        #{qq},
         #{wechat},
         #{mobilePhone},
-        #{userPhoto}
+        #{isSeller},
+        #{memberLevel},
+        #{userPhoto},
+        #{remark}
         )
     </insert>
 
     <!-- 通过ID更新 -->
     <update id = "updateById">
-        update user
+        update nautybee_user
         <include refid = "BaseUpdateSet" />
         where id = #{id}
     </update>
