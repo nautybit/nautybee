@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.goods.SpuDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.goods.Spu"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "spu_sn" property = "spuSn" />
+        <result column = "store_id" property = "storeId" />
+        <result column = "cat_id" property = "catId" />
+        <result column = "goods_name" property = "goodsName" />
+        <result column = "goods_price" property = "goodsPrice" />
+        <result column = "alipay_discount" property = "alipayDiscount" />
+        <result column = "wechatpay_discount" property = "wechatpayDiscount" />
+        <result column = "unionpay_discount" property = "unionpayDiscount" />
+        <result column = "unit" property = "unit" />
+        <result column = "spu_img" property = "spuImg" />
+        <result column = "goods_type" property = "goodsType" />
+        <result column = "goods_nick_name" property = "goodsNickName" />
+        <result column = "sale_volume" property = "saleVolume" />
+        <result column = "visit_num" property = "visitNum" />
+        <result column = "goods_brief" property = "goodsBrief" />
+        <result column = "goods_desc" property = "goodsDesc" />
+        <result column = "keywords" property = "keywords" />
+        <result column = "buy_min" property = "buyMin" />
+        <result column = "buy_step" property = "buyStep" />
+        <result column = "step_price_cfg" property = "stepPriceCfg" />
+        <result column = "remark" property = "remark" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "spuSn != null">
+                    and spu_sn = #{spuSn}
+                </if>
+                <if test = "storeId != null">
+                    and store_id = #{storeId}
+                </if>
+                <if test = "catId != null">
+                    and cat_id = #{catId}
+                </if>
+                <if test = "goodsName != null">
+                    and goods_name = #{goodsName}
+                </if>
+                <if test = "goodsPrice != null">
+                    and goods_price = #{goodsPrice}
+                </if>
+                <if test = "alipayDiscount != null">
+                    and alipay_discount = #{alipayDiscount}
+                </if>
+                <if test = "wechatpayDiscount != null">
+                    and wechatpay_discount = #{wechatpayDiscount}
+                </if>
+                <if test = "unionpayDiscount != null">
+                    and unionpay_discount = #{unionpayDiscount}
+                </if>
+                <if test = "unit != null">
+                    and unit = #{unit}
+                </if>
+                <if test = "spuImg != null">
+                    and spu_img = #{spuImg}
+                </if>
+                <if test = "goodsType != null">
+                    and goods_type = #{goodsType}
+                </if>
+                <if test = "goodsNickName != null">
+                    and goods_nick_name = #{goodsNickName}
+                </if>
+                <if test = "saleVolume != null">
+                    and sale_volume = #{saleVolume}
+                </if>
+                <if test = "visitNum != null">
+                    and visit_num = #{visitNum}
+                </if>
+                <if test = "goodsBrief != null">
+                    and goods_brief = #{goodsBrief}
+                </if>
+                <if test = "goodsDesc != null">
+                    and goods_desc = #{goodsDesc}
+                </if>
+                <if test = "keywords != null">
+                    and keywords = #{keywords}
+                </if>
+                <if test = "buyMin != null">
+                    and buy_min = #{buyMin}
+                </if>
+                <if test = "buyStep != null">
+                    and buy_step = #{buyStep}
+                </if>
+                <if test = "stepPriceCfg != null">
+                    and step_price_cfg = #{stepPriceCfg}
+                </if>
+                <if test = "remark != null">
+                    and remark = #{remark}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "spuSn != null">
+                spu_sn = #{spuSn},
+            </if>
+            <if test = "storeId != null">
+                store_id = #{storeId},
+            </if>
+            <if test = "catId != null">
+                cat_id = #{catId},
+            </if>
+            <if test = "goodsName != null">
+                goods_name = #{goodsName},
+            </if>
+            <if test = "goodsPrice != null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test = "alipayDiscount != null">
+                alipay_discount = #{alipayDiscount},
+            </if>
+            <if test = "wechatpayDiscount != null">
+                wechatpay_discount = #{wechatpayDiscount},
+            </if>
+            <if test = "unionpayDiscount != null">
+                unionpay_discount = #{unionpayDiscount},
+            </if>
+            <if test = "unit != null">
+                unit = #{unit},
+            </if>
+            <if test = "spuImg != null">
+                spu_img = #{spuImg},
+            </if>
+            <if test = "goodsType != null">
+                goods_type = #{goodsType},
+            </if>
+            <if test = "goodsNickName != null">
+                goods_nick_name = #{goodsNickName},
+            </if>
+            <if test = "saleVolume != null">
+                sale_volume = #{saleVolume},
+            </if>
+            <if test = "visitNum != null">
+                visit_num = #{visitNum},
+            </if>
+            <if test = "goodsBrief != null">
+                goods_brief = #{goodsBrief},
+            </if>
+            <if test = "goodsDesc != null">
+                goods_desc = #{goodsDesc},
+            </if>
+            <if test = "keywords != null">
+                keywords = #{keywords},
+            </if>
+            <if test = "buyMin != null">
+                buy_min = #{buyMin},
+            </if>
+            <if test = "buyStep != null">
+                buy_step = #{buyStep},
+            </if>
+            <if test = "stepPriceCfg != null">
+                step_price_cfg = #{stepPriceCfg},
+            </if>
+            <if test = "remark != null">
+                remark = #{remark}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_spu
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_spu
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_spu
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_spu
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_spu
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_spu
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_spu (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        spu_sn,
+        store_id,
+        cat_id,
+        goods_name,
+        goods_price,
+        alipay_discount,
+        wechatpay_discount,
+        unionpay_discount,
+        unit,
+        spu_img,
+        goods_type,
+        goods_nick_name,
+        sale_volume,
+        visit_num,
+        goods_brief,
+        goods_desc,
+        keywords,
+        buy_min,
+        buy_step,
+        step_price_cfg,
+        remark
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{spuSn},
+        #{storeId},
+        #{catId},
+        #{goodsName},
+        #{goodsPrice},
+        #{alipayDiscount},
+        #{wechatpayDiscount},
+        #{unionpayDiscount},
+        #{unit},
+        #{spuImg},
+        #{goodsType},
+        #{goodsNickName},
+        #{saleVolume},
+        #{visitNum},
+        #{goodsBrief},
+        #{goodsDesc},
+        #{keywords},
+        #{buyMin},
+        #{buyStep},
+        #{stepPriceCfg},
+        #{remark}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_spu
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

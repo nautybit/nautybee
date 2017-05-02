@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.goods.GoodsDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.goods.Goods"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "goods_sn" property = "goodsSn" />
+        <result column = "goods_price" property = "goodsPrice" />
+        <result column = "goods_img" property = "goodsImg" />
+        <result column = "sale_volume" property = "saleVolume" />
+        <result column = "spu_id" property = "spuId" />
+        <result column = "prop_detail_id1" property = "propDetailId1" />
+        <result column = "prop_detail_id2" property = "propDetailId2" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "goodsSn != null">
+                    and goods_sn = #{goodsSn}
+                </if>
+                <if test = "goodsPrice != null">
+                    and goods_price = #{goodsPrice}
+                </if>
+                <if test = "goodsImg != null">
+                    and goods_img = #{goodsImg}
+                </if>
+                <if test = "saleVolume != null">
+                    and sale_volume = #{saleVolume}
+                </if>
+                <if test = "spuId != null">
+                    and spu_id = #{spuId}
+                </if>
+                <if test = "propDetailId1 != null">
+                    and prop_detail_id1 = #{propDetailId1}
+                </if>
+                <if test = "propDetailId2 != null">
+                    and prop_detail_id2 = #{propDetailId2}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "goodsSn != null">
+                goods_sn = #{goodsSn},
+            </if>
+            <if test = "goodsPrice != null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test = "goodsImg != null">
+                goods_img = #{goodsImg},
+            </if>
+            <if test = "saleVolume != null">
+                sale_volume = #{saleVolume},
+            </if>
+            <if test = "spuId != null">
+                spu_id = #{spuId},
+            </if>
+            <if test = "propDetailId1 != null">
+                prop_detail_id1 = #{propDetailId1},
+            </if>
+            <if test = "propDetailId2 != null">
+                prop_detail_id2 = #{propDetailId2}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_goods
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_goods
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_goods
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_goods
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_goods (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        goods_sn,
+        goods_price,
+        goods_img,
+        sale_volume,
+        spu_id,
+        prop_detail_id1,
+        prop_detail_id2
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{goodsSn},
+        #{goodsPrice},
+        #{goodsImg},
+        #{saleVolume},
+        #{spuId},
+        #{propDetailId1},
+        #{propDetailId2}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_goods
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>
