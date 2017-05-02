@@ -78,7 +78,7 @@ public class WxController extends BaseController {
         }
         String accessToken = (String)getAccessToken.getData();
         String url = createMenuUrl + accessToken;
-        String param = "{\"button\":[{\"name\":\"小栈服务\",\"sub_button\":[{\"type\":\"view\",\"name\":\"课程报名\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"课程分享\",\"url\":\"http://www.baidu.com/\"}]},{\"type\":\"view\",\"name\":\"我\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"关于小栈\",\"url\":\"http://www.baidu.com/\"}]}";
+        String param = "{\"button\":[{\"name\":\"小栈服务\",\"sub_button\":[{\"type\":\"view\",\"name\":\"课程报名\",\"url\":\"http://1c6ef3b5.ngrok.io/nautybee/wx/store/getStoreList\"},{\"type\":\"view\",\"name\":\"课程分享\",\"url\":\"http://www.baidu.com/\"}]},{\"type\":\"view\",\"name\":\"我\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"关于小栈\",\"url\":\"http://www.baidu.com/\"}]}";
         String result = HttpUtils.sendPost(url, param);
         //根据返回值判断结果
         if (StringUtils.isEmpty(result)) {
