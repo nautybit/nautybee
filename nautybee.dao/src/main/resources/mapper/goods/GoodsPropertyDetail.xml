@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.goods.GoodsPropertyDetailDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.goods.GoodsPropertyDetail"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "prop_id" property = "propId" />
+        <result column = "detail_name" property = "detailName" />
+        <result column = "goods_img" property = "goodsImg" />
+        <result column = "remark" property = "remark" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "propId != null">
+                    and prop_id = #{propId}
+                </if>
+                <if test = "detailName != null">
+                    and detail_name = #{detailName}
+                </if>
+                <if test = "goodsImg != null">
+                    and goods_img = #{goodsImg}
+                </if>
+                <if test = "remark != null">
+                    and remark = #{remark}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "propId != null">
+                prop_id = #{propId},
+            </if>
+            <if test = "detailName != null">
+                detail_name = #{detailName},
+            </if>
+            <if test = "goodsImg != null">
+                goods_img = #{goodsImg},
+            </if>
+            <if test = "remark != null">
+                remark = #{remark}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_goods_property_detail
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods_property_detail
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods_property_detail
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_goods_property_detail
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_goods_property_detail
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_goods_property_detail
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_goods_property_detail (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        prop_id,
+        detail_name,
+        goods_img,
+        remark
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{propId},
+        #{detailName},
+        #{goodsImg},
+        #{remark}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_goods_property_detail
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

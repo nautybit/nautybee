@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.order.PayNotifyDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.order.PayNotify"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "trade_no" property = "tradeNo" />
+        <result column = "pay_system_trade_no" property = "paySystemTradeNo" />
+        <result column = "notify_id" property = "notifyId" />
+        <result column = "status" property = "status" />
+        <result column = "status_message" property = "statusMessage" />
+        <result column = "request_param" property = "requestParam" />
+        <result column = "response_param" property = "responseParam" />
+        <result column = "remark" property = "remark" />
+        <result column = "user_type" property = "userType" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "tradeNo != null">
+                    and trade_no = #{tradeNo}
+                </if>
+                <if test = "paySystemTradeNo != null">
+                    and pay_system_trade_no = #{paySystemTradeNo}
+                </if>
+                <if test = "notifyId != null">
+                    and notify_id = #{notifyId}
+                </if>
+                <if test = "status != null">
+                    and status = #{status}
+                </if>
+                <if test = "statusMessage != null">
+                    and status_message = #{statusMessage}
+                </if>
+                <if test = "requestParam != null">
+                    and request_param = #{requestParam}
+                </if>
+                <if test = "responseParam != null">
+                    and response_param = #{responseParam}
+                </if>
+                <if test = "remark != null">
+                    and remark = #{remark}
+                </if>
+                <if test = "userType != null">
+                    and user_type = #{userType}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "tradeNo != null">
+                trade_no = #{tradeNo},
+            </if>
+            <if test = "paySystemTradeNo != null">
+                pay_system_trade_no = #{paySystemTradeNo},
+            </if>
+            <if test = "notifyId != null">
+                notify_id = #{notifyId},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+            <if test = "statusMessage != null">
+                status_message = #{statusMessage},
+            </if>
+            <if test = "requestParam != null">
+                request_param = #{requestParam},
+            </if>
+            <if test = "responseParam != null">
+                response_param = #{responseParam},
+            </if>
+            <if test = "remark != null">
+                remark = #{remark},
+            </if>
+            <if test = "userType != null">
+                user_type = #{userType}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_pay_notify
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_pay_notify
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_pay_notify
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_pay_notify
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_pay_notify
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_pay_notify
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_pay_notify (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        trade_no,
+        pay_system_trade_no,
+        notify_id,
+        status,
+        status_message,
+        request_param,
+        response_param,
+        remark,
+        user_type
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{tradeNo},
+        #{paySystemTradeNo},
+        #{notifyId},
+        #{status},
+        #{statusMessage},
+        #{requestParam},
+        #{responseParam},
+        #{remark},
+        #{userType}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_pay_notify
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

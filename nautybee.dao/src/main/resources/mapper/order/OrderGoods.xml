@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.order.OrderGoodsDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.order.OrderGoods"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "order_id" property = "orderId" />
+        <result column = "goods_id" property = "goodsId" />
+        <result column = "spu_id" property = "spuId" />
+        <result column = "prop_detail_id1" property = "propDetailId1" />
+        <result column = "prop_detail_id2" property = "propDetailId2" />
+        <result column = "prop_detail_name1" property = "propDetailName1" />
+        <result column = "prop_detail_name2" property = "propDetailName2" />
+        <result column = "discount_desc" property = "discountDesc" />
+        <result column = "goods_name" property = "goodsName" />
+        <result column = "unit" property = "unit" />
+        <result column = "goods_img" property = "goodsImg" />
+        <result column = "goods_number" property = "goodsNumber" />
+        <result column = "sales_amount" property = "salesAmount" />
+        <result column = "receipts_amount" property = "receiptsAmount" />
+        <result column = "avg_price" property = "avgPrice" />
+        <result column = "ori_price" property = "oriPrice" />
+        <result column = "alipay_discount" property = "alipayDiscount" />
+        <result column = "wechatpay_discount" property = "wechatpayDiscount" />
+        <result column = "unionpay_discount" property = "unionpayDiscount" />
+        <result column = "base_price" property = "basePrice" />
+        <result column = "return_count" property = "returnCount" />
+        <result column = "store_id" property = "storeId" />
+        <result column = "goods_sn" property = "goodsSn" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "orderId != null">
+                    and order_id = #{orderId}
+                </if>
+                <if test = "goodsId != null">
+                    and goods_id = #{goodsId}
+                </if>
+                <if test = "spuId != null">
+                    and spu_id = #{spuId}
+                </if>
+                <if test = "propDetailId1 != null">
+                    and prop_detail_id1 = #{propDetailId1}
+                </if>
+                <if test = "propDetailId2 != null">
+                    and prop_detail_id2 = #{propDetailId2}
+                </if>
+                <if test = "propDetailName1 != null">
+                    and prop_detail_name1 = #{propDetailName1}
+                </if>
+                <if test = "propDetailName2 != null">
+                    and prop_detail_name2 = #{propDetailName2}
+                </if>
+                <if test = "discountDesc != null">
+                    and discount_desc = #{discountDesc}
+                </if>
+                <if test = "goodsName != null">
+                    and goods_name = #{goodsName}
+                </if>
+                <if test = "unit != null">
+                    and unit = #{unit}
+                </if>
+                <if test = "goodsImg != null">
+                    and goods_img = #{goodsImg}
+                </if>
+                <if test = "goodsNumber != null">
+                    and goods_number = #{goodsNumber}
+                </if>
+                <if test = "salesAmount != null">
+                    and sales_amount = #{salesAmount}
+                </if>
+                <if test = "receiptsAmount != null">
+                    and receipts_amount = #{receiptsAmount}
+                </if>
+                <if test = "avgPrice != null">
+                    and avg_price = #{avgPrice}
+                </if>
+                <if test = "oriPrice != null">
+                    and ori_price = #{oriPrice}
+                </if>
+                <if test = "alipayDiscount != null">
+                    and alipay_discount = #{alipayDiscount}
+                </if>
+                <if test = "wechatpayDiscount != null">
+                    and wechatpay_discount = #{wechatpayDiscount}
+                </if>
+                <if test = "unionpayDiscount != null">
+                    and unionpay_discount = #{unionpayDiscount}
+                </if>
+                <if test = "basePrice != null">
+                    and base_price = #{basePrice}
+                </if>
+                <if test = "returnCount != null">
+                    and return_count = #{returnCount}
+                </if>
+                <if test = "storeId != null">
+                    and store_id = #{storeId}
+                </if>
+                <if test = "goodsSn != null">
+                    and goods_sn = #{goodsSn}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test = "goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test = "spuId != null">
+                spu_id = #{spuId},
+            </if>
+            <if test = "propDetailId1 != null">
+                prop_detail_id1 = #{propDetailId1},
+            </if>
+            <if test = "propDetailId2 != null">
+                prop_detail_id2 = #{propDetailId2},
+            </if>
+            <if test = "propDetailName1 != null">
+                prop_detail_name1 = #{propDetailName1},
+            </if>
+            <if test = "propDetailName2 != null">
+                prop_detail_name2 = #{propDetailName2},
+            </if>
+            <if test = "discountDesc != null">
+                discount_desc = #{discountDesc},
+            </if>
+            <if test = "goodsName != null">
+                goods_name = #{goodsName},
+            </if>
+            <if test = "unit != null">
+                unit = #{unit},
+            </if>
+            <if test = "goodsImg != null">
+                goods_img = #{goodsImg},
+            </if>
+            <if test = "goodsNumber != null">
+                goods_number = #{goodsNumber},
+            </if>
+            <if test = "salesAmount != null">
+                sales_amount = #{salesAmount},
+            </if>
+            <if test = "receiptsAmount != null">
+                receipts_amount = #{receiptsAmount},
+            </if>
+            <if test = "avgPrice != null">
+                avg_price = #{avgPrice},
+            </if>
+            <if test = "oriPrice != null">
+                ori_price = #{oriPrice},
+            </if>
+            <if test = "alipayDiscount != null">
+                alipay_discount = #{alipayDiscount},
+            </if>
+            <if test = "wechatpayDiscount != null">
+                wechatpay_discount = #{wechatpayDiscount},
+            </if>
+            <if test = "unionpayDiscount != null">
+                unionpay_discount = #{unionpayDiscount},
+            </if>
+            <if test = "basePrice != null">
+                base_price = #{basePrice},
+            </if>
+            <if test = "returnCount != null">
+                return_count = #{returnCount},
+            </if>
+            <if test = "storeId != null">
+                store_id = #{storeId},
+            </if>
+            <if test = "goodsSn != null">
+                goods_sn = #{goodsSn}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_order_goods
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_goods
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_goods
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_order_goods
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_order_goods
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_order_goods
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_order_goods (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        order_id,
+        goods_id,
+        spu_id,
+        prop_detail_id1,
+        prop_detail_id2,
+        prop_detail_name1,
+        prop_detail_name2,
+        discount_desc,
+        goods_name,
+        unit,
+        goods_img,
+        goods_number,
+        sales_amount,
+        receipts_amount,
+        avg_price,
+        ori_price,
+        alipay_discount,
+        wechatpay_discount,
+        unionpay_discount,
+        base_price,
+        return_count,
+        store_id,
+        goods_sn
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{orderId},
+        #{goodsId},
+        #{spuId},
+        #{propDetailId1},
+        #{propDetailId2},
+        #{propDetailName1},
+        #{propDetailName2},
+        #{discountDesc},
+        #{goodsName},
+        #{unit},
+        #{goodsImg},
+        #{goodsNumber},
+        #{salesAmount},
+        #{receiptsAmount},
+        #{avgPrice},
+        #{oriPrice},
+        #{alipayDiscount},
+        #{wechatpayDiscount},
+        #{unionpayDiscount},
+        #{basePrice},
+        #{returnCount},
+        #{storeId},
+        #{goodsSn}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_order_goods
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

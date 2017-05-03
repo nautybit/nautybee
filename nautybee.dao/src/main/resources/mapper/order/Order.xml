@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.order.OrderDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.order.Order"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "order_sn" property = "orderSn" />
+        <result column = "user_id" property = "userId" />
+        <result column = "store_id" property = "storeId" />
+        <result column = "order_status" property = "orderStatus" />
+        <result column = "buyer_evaluate" property = "buyerEvaluate" />
+        <result column = "pay_status" property = "payStatus" />
+        <result column = "pay_id" property = "payId" />
+        <result column = "order_amount" property = "orderAmount" />
+        <result column = "base_order_amount" property = "baseOrderAmount" />
+        <result column = "order_amount_type" property = "orderAmountType" />
+        <result column = "change_amount_times" property = "changeAmountTimes" />
+        <result column = "coupon_fee" property = "couponFee" />
+        <result column = "activity_discount_fee" property = "activityDiscountFee" />
+        <result column = "remark" property = "remark" />
+        <result column = "receipts_amount" property = "receiptsAmount" />
+        <result column = "first_order" property = "firstOrder" />
+        <result column = "cancel_reason_type" property = "cancelReasonType" />
+        <result column = "cancel_reason" property = "cancelReason" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "orderSn != null">
+                    and order_sn = #{orderSn}
+                </if>
+                <if test = "userId != null">
+                    and user_id = #{userId}
+                </if>
+                <if test = "storeId != null">
+                    and store_id = #{storeId}
+                </if>
+                <if test = "orderStatus != null">
+                    and order_status = #{orderStatus}
+                </if>
+                <if test = "buyerEvaluate != null">
+                    and buyer_evaluate = #{buyerEvaluate}
+                </if>
+                <if test = "payStatus != null">
+                    and pay_status = #{payStatus}
+                </if>
+                <if test = "payId != null">
+                    and pay_id = #{payId}
+                </if>
+                <if test = "orderAmount != null">
+                    and order_amount = #{orderAmount}
+                </if>
+                <if test = "baseOrderAmount != null">
+                    and base_order_amount = #{baseOrderAmount}
+                </if>
+                <if test = "orderAmountType != null">
+                    and order_amount_type = #{orderAmountType}
+                </if>
+                <if test = "changeAmountTimes != null">
+                    and change_amount_times = #{changeAmountTimes}
+                </if>
+                <if test = "couponFee != null">
+                    and coupon_fee = #{couponFee}
+                </if>
+                <if test = "activityDiscountFee != null">
+                    and activity_discount_fee = #{activityDiscountFee}
+                </if>
+                <if test = "remark != null">
+                    and remark = #{remark}
+                </if>
+                <if test = "receiptsAmount != null">
+                    and receipts_amount = #{receiptsAmount}
+                </if>
+                <if test = "firstOrder != null">
+                    and first_order = #{firstOrder}
+                </if>
+                <if test = "cancelReasonType != null">
+                    and cancel_reason_type = #{cancelReasonType}
+                </if>
+                <if test = "cancelReason != null">
+                    and cancel_reason = #{cancelReason}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "orderSn != null">
+                order_sn = #{orderSn},
+            </if>
+            <if test = "userId != null">
+                user_id = #{userId},
+            </if>
+            <if test = "storeId != null">
+                store_id = #{storeId},
+            </if>
+            <if test = "orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test = "buyerEvaluate != null">
+                buyer_evaluate = #{buyerEvaluate},
+            </if>
+            <if test = "payStatus != null">
+                pay_status = #{payStatus},
+            </if>
+            <if test = "payId != null">
+                pay_id = #{payId},
+            </if>
+            <if test = "orderAmount != null">
+                order_amount = #{orderAmount},
+            </if>
+            <if test = "baseOrderAmount != null">
+                base_order_amount = #{baseOrderAmount},
+            </if>
+            <if test = "orderAmountType != null">
+                order_amount_type = #{orderAmountType},
+            </if>
+            <if test = "changeAmountTimes != null">
+                change_amount_times = #{changeAmountTimes},
+            </if>
+            <if test = "couponFee != null">
+                coupon_fee = #{couponFee},
+            </if>
+            <if test = "activityDiscountFee != null">
+                activity_discount_fee = #{activityDiscountFee},
+            </if>
+            <if test = "remark != null">
+                remark = #{remark},
+            </if>
+            <if test = "receiptsAmount != null">
+                receipts_amount = #{receiptsAmount},
+            </if>
+            <if test = "firstOrder != null">
+                first_order = #{firstOrder},
+            </if>
+            <if test = "cancelReasonType != null">
+                cancel_reason_type = #{cancelReasonType},
+            </if>
+            <if test = "cancelReason != null">
+                cancel_reason = #{cancelReason}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_order
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_order
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_order
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_order
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_order (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        order_sn,
+        user_id,
+        store_id,
+        order_status,
+        buyer_evaluate,
+        pay_status,
+        pay_id,
+        order_amount,
+        base_order_amount,
+        order_amount_type,
+        change_amount_times,
+        coupon_fee,
+        activity_discount_fee,
+        remark,
+        receipts_amount,
+        first_order,
+        cancel_reason_type,
+        cancel_reason
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{orderSn},
+        #{userId},
+        #{storeId},
+        #{orderStatus},
+        #{buyerEvaluate},
+        #{payStatus},
+        #{payId},
+        #{orderAmount},
+        #{baseOrderAmount},
+        #{orderAmountType},
+        #{changeAmountTimes},
+        #{couponFee},
+        #{activityDiscountFee},
+        #{remark},
+        #{receiptsAmount},
+        #{firstOrder},
+        #{cancelReasonType},
+        #{cancelReason}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_order
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>
