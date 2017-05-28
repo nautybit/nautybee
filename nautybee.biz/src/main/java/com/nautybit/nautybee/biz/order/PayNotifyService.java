@@ -16,5 +16,6 @@ public interface PayNotifyService {
 
   int deleteByIds(Long[] ids);
 
+    public PayNotify queryByNotifyIdAndStatus(String notifyId,String tradeStatus);
 
 }

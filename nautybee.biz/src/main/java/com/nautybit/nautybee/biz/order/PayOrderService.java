@@ -16,5 +16,6 @@ public interface PayOrderService {
 
   int deleteByIds(Long[] ids);
 
+    public int updateStatusByTradeNo(String tradeNo, String status);
 
 }

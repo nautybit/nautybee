@@ -170,4 +170,11 @@
         where id = #{id}
     </update>
 
+    <!-- 根据tradeNo更新status -->
+    <update id = "updateStatusByTradeNo">
+        update nautybee_pay_order
+        set status = #{status},gmt_modified=now()
+        where trade_no = #{tradeNo}
+    </update>
+
 </mapper>

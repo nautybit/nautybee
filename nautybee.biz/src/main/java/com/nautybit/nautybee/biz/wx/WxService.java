@@ -3,13 +3,18 @@ package com.nautybit.nautybee.biz.wx;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nautybit.nautybee.common.result.Result;
+import com.nautybit.nautybee.common.result.wx.JsapiTicket;
+import com.nautybit.nautybee.common.result.wx.JssdkConfig;
 import com.nautybit.nautybee.common.result.wx.WxAccessToken;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.HttpUtils;
+import com.nautybit.nautybee.common.utils.SHA1;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class WxService{
@@ -23,6 +28,9 @@ public class WxService{
     private String accessToken;
     private Date lastUpdateTime;
     private Integer accessExpire;
+
+    private String jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+    private String jsapiTicket;
 
     public Result<?> getAccessToken(){
         boolean reFetch = false;
@@ -45,9 +53,45 @@ public class WxService{
             accessExpire = wxAccessToken.getExpires_in();
             accessToken = wxAccessToken.getAccess_token();
             lastUpdateTime = new Date();
+
+
+            //jsapi_ticket
+            String ticketResStr = HttpUtils.sendGet(jsapiTicketUrl, "access_token=" + accessToken + "&type=jsapi");
+            JsapiTicket ticketRes = gson.fromJson(ticketResStr, new TypeToken<JsapiTicket>(){}.getType());
+            if(!"0".equals(ticketRes.getErrcode())){
+                return Result.wrapErrorResult("","failed...damn");
+            }
+            jsapiTicket = ticketRes.getTicket();
+
             return Result.wrapSuccessfulResult(accessToken);
         }else {
             return Result.wrapSuccessfulResult(accessToken);
+        }
+    }
+
+    public Result<?> jssdkConfig(String url){
+
+        if(StringUtils.isEmpty(url)){
+            return Result.wrapErrorResult("","invalid url");
+        }else {
+            if(StringUtils.isEmpty(jsapiTicket)){
+                getAccessToken();
+            }
+            String appId = wechatappid;
+            String nonceStr = UUID.randomUUID().toString();
+            Long timestamp = System.currentTimeMillis() / 1000;
+            url = url.split("#")[0];
+
+            String concatStr = "jsapi_ticket="+jsapiTicket+"&noncestr="+nonceStr+"&timestamp="+timestamp+"&url="+url;
+            // SHA1加密
+            String signature = SHA1.encode(concatStr).toLowerCase();
+
+            JssdkConfig jssdkConfig = new JssdkConfig();
+            jssdkConfig.setAppId(appId);
+            jssdkConfig.setNonceStr(nonceStr);
+            jssdkConfig.setTimestamp(timestamp);
+            jssdkConfig.setSignature(signature);
+            return Result.wrapSuccessfulResult(jssdkConfig);
         }
     }
 }

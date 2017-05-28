@@ -7,7 +7,5 @@ import ${entity_java_vm_pkgPrefix}.${FMT.XyzAbc($table)};
 @MyBatisRepository
 public interface ${FMT.XyzAbc($table)}Dao extends BaseDao<${FMT.XyzAbc($table)}> {
 
-    public List<${FMT.XyzAbc(${table})}> select(${FMT.XyzAbc(${table})}QueryParam param);
 
-    public Integer selectCount(${FMT.XyzAbc(${table})}QueryParam param);
 }

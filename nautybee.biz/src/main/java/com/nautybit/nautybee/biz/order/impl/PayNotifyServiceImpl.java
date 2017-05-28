@@ -37,4 +37,8 @@ public class PayNotifyServiceImpl extends BaseServiceImpl  implements PayNotifyS
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(payNotifyDao, ids);
   }
+
+    public PayNotify queryByNotifyIdAndStatus(String notifyId,String tradeStatus) {
+        return payNotifyDao.queryByNotifyIdAndStatus(notifyId, tradeStatus);
+    }
 }

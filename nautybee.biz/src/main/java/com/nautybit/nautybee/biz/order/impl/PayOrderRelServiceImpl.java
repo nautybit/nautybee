@@ -37,4 +37,19 @@ public class PayOrderRelServiceImpl extends BaseServiceImpl  implements PayOrder
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(payOrderRelDao, ids);
   }
+
+    public List<PayOrderRel> queryByTradeNo(String tradeNo) {
+        return payOrderRelDao.queryByTradeNo(tradeNo);
+    }
+    public void createOrderList(String tradeNo, List<Long> orderIdList) {
+        for (Long orderId : orderIdList) {
+            PayOrderRel payOrderRel = new PayOrderRel();
+            payOrderRel.setDefaultBizValue();
+            payOrderRel.setTradeNo(tradeNo);
+            payOrderRel.setOrderId(orderId);
+            payOrderRelDao.insert(payOrderRel);
+        }
+    }
+
+
 }

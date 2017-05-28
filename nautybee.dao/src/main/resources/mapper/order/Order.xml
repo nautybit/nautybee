@@ -251,4 +251,15 @@
         where id = #{id}
     </update>
 
+    <!-- 批量查询订单 -->
+    <select id="queryByIds" resultMap="BaseResultMap">
+        select *
+        from nautybee_order
+        where is_deleted = 'N'
+        and id in (
+        <foreach collection="list" index="index" item="orderId" separator=",">
+            #{orderId}
+        </foreach>
+        )
+    </select>
 </mapper>

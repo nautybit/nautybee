@@ -1,6 +1,17 @@
 var gAppDownloadPage = {
     b:"http://www.sqmall.com/dd"
 }
+function extend(s, c) {
+    function f() {
+    }
+
+    f.prototype = s.prototype;
+    c.prototype = new f();
+    c.prototype.__super__ = s.prototype;
+    c.prototype.__super__.constructor = s;
+    c.prototype.constructor = c;
+    return c;
+}
 
 function gGetDevice() {
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;

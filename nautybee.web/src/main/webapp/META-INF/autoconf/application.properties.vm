@@ -40,6 +40,7 @@ nautybee.yunxin.message.chufa.url = ${nautybee_yunxin_message_chufa_url}
 
 nautybee.wechat.appid = ${nautybee_wechat_appid}
 nautybee.wechat.secret = ${nautybee_wechat_secret}
+nautybee.wechat.mchid = ${nautybee_wechat_mchid}
 nautybee.wechat.vote.redirect.url = ${nautybee_wechat_vote_redirect_url}
 nautybee.wechat.vote.snsapi.type = ${nautybee_wechat_vote_snsapi_type}
 nautybee.wechat.authorize.url = ${nautybee_wechat_authorize_url}

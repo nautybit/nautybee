@@ -16,5 +16,8 @@ public interface PayOrderRelService {
 
   int deleteByIds(Long[] ids);
 
+    public List<PayOrderRel> queryByTradeNo(String tradeNo);
+
+    public void createOrderList(String tradeNo, List<Long> orderIdList);
 
 }

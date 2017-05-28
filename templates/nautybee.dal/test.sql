@@ -1,21 +1,15 @@
-CREATE TABLE `user` (
+CREATE TABLE `flora_lottery_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `creator` int(11) DEFAULT NULL COMMENT '创建人id',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   `modifier` int(11) DEFAULT NULL COMMENT '修改人id',
   `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
   `is_deleted` char(1) DEFAULT NULL COMMENT '是否删除',
-  `user_name` varchar(45) NOT NULL COMMENT '用户名',
-  `password` varchar(64) DEFAULT NULL COMMENT '登录密码',
-  `email` varchar(100) DEFAULT NULL COMMENT '用户邮箱',
-  `sex` tinyint(1) DEFAULT '0' COMMENT '性别：0 保密，1 男，2 女',
-  `birthday` datetime DEFAULT NULL COMMENT '用户生日',
-  `address_id` int(11) DEFAULT NULL COMMENT '用户收获地址',
-  `nick_name` varchar(60) DEFAULT NULL COMMENT '昵称',
-  `qq` varchar(20) DEFAULT NULL COMMENT 'QQ',
-  `wechat` varchar(60) DEFAULT NULL COMMENT '微信号',
-  `mobile_phone` varchar(20) NOT NULL COMMENT '手机号',
-  `user_photo` varchar(512) DEFAULT NULL COMMENT '用户头像',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `lottery_id` int(11) NOT NULL COMMENT '抽奖id',
+  `ticket_sn` text COMMENT '券号，逗号分隔',
+  `num` int(8) DEFAULT NULL COMMENT '一次购买数量',
+  `trade_no` varchar(64) DEFAULT NULL COMMENT '交易流水号',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `mobile_phone_UNIQUE` (`mobile_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='用户基础信息表';
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COMMENT='抽奖用户表';

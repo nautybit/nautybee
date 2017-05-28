@@ -21,13 +21,6 @@ public class ${FMT.XyzAbc($table)}ServiceImpl extends BaseServiceImpl  implement
     return super.getAll(${FMT.xyzAbc($table)}Dao);
   }
 
-  public List<${FMT.XyzAbc(${table})}> select(${FMT.XyzAbc(${table})}QueryParam param){
-    return ${FMT.xyzAbc($table)}Dao.select(param);
-  }
-
-  public Integer selectCount(${FMT.XyzAbc(${table})}QueryParam param){
-    return ${FMT.xyzAbc($table)}Dao.selectCount(param);
-  }
 
   public ${FMT.XyzAbc($table)} getById(Long id) {
     return super.getById(${FMT.xyzAbc($table)}Dao, id);

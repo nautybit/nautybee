@@ -170,4 +170,13 @@
         where id = #{id}
     </update>
 
+    <!-- 根据notifyId查询 -->
+    <select id = "queryByNotifyIdAndStatus" resultMap = "BaseResultMap">
+        select *
+        from nautybee_pay_notify
+        where is_deleted = 'N'
+        and notify_id = #{notifyId}
+        and status = #{status}
+        limit 1
+    </select>
 </mapper>

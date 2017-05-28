@@ -16,5 +16,7 @@ public interface OrderService {
 
   int deleteByIds(Long[] ids);
 
+    String generateTradeNo();
+    List<Order> queryByIds(List<Long> orderIdList);
 
 }

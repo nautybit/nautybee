@@ -14,6 +14,21 @@
         <result column = "prop_detail_id2" property = "propDetailId2" />
     </resultMap>
 
+    <!--用于搜索返回视图-->
+    <resultMap id="GoodsViewMap" type="com.nautybit.nautybee.view.goods.GoodsView"
+               extends="COMMON.BASE_RESULT_MAP">
+        <result column = "goods_sn" property = "goodsSn" />
+        <result column = "goods_price" property = "goodsPrice" />
+        <result column = "goods_img" property = "goodsImg" />
+        <result column = "sale_volume" property = "saleVolume" />
+        <result column = "spu_id" property = "spuId" />
+        <result column = "prop_detail_id1" property = "propDetailId1" />
+        <result column = "prop_detail_id2" property = "propDetailId2" />
+
+        <result column = "goods_name" property = "goodsName" />
+    </resultMap>
+
+
     <sql id = "BaseWhereClause">
         <where>
             <trim prefixOverrides = "and">
@@ -152,4 +167,20 @@
         where id = #{id}
     </update>
 
+    <!-- 根据orderId列表查询商品 -->
+    <select id="queryGoodsByOrderIdList" resultMap="GoodsViewMap">
+        select
+        a.*,
+        c.goods_name
+        from nautybee_goods a,nautybee_order_goods b,nautybee_spu c
+        where a.id = b.goods_id
+        and a.spu_id = c.id
+        and a.is_deleted='N' and b.is_deleted='N' and c.is_deleted='N'
+        and b.order_id in
+        (
+        <foreach collection="list" index="index" item="orderId" separator=",">
+            #{orderId}
+        </foreach>
+        )
+    </select>
 </mapper>

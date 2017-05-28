@@ -134,4 +134,13 @@
         where id = #{id}
     </update>
 
+    <!-- 根据tradeNo查询 -->
+    <select id = "queryByTradeNo" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_pay_order_rel
+        where is_deleted = 'N'
+        and trade_no = #{tradeNo}
+    </select>
+
 </mapper>

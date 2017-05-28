@@ -37,4 +37,8 @@ public class PayOrderServiceImpl extends BaseServiceImpl  implements PayOrderSer
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(payOrderDao, ids);
   }
+
+    public int updateStatusByTradeNo(String tradeNo, String status) {
+        return payOrderDao.updateStatusByTradeNo(tradeNo, status);
+    }
 }
