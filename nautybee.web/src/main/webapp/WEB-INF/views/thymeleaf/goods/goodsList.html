@@ -17,36 +17,87 @@
 <div style="width: 100%" id="main">
     <div id="wrapper">
         <div id="scroller">
-            <!--<div class="weui-cells">-->
-                <!--<a class="weui-cell weui-cell_access" href="">-->
-                    <!--<div class="weui-cell__hd">-->
-                        <!--<img alt="" style="width:100px;height:100px;margin-right:5px;display:block"/>-->
-                    <!--</div>-->
-                    <!--<div class="weui-cell__bd weui-cell_primary">-->
-                        <!--<p>写作班</p>-->
-                    <!--</div>-->
-                        <!--<span class="weui-cell__ft">-->
-
-                        <!--</span>-->
-                <!--</a>-->
-                <!--<a class="weui-cell weui-cell_access" href="javascript:;">-->
-                    <!--<div class="weui-cell__hd">-->
-                        <!--<img  alt="" style="width:100px;height:100px;margin-right:5px;display:block"/>-->
-                    <!--</div>-->
-                    <!--<div class="weui-cell__bd weui-cell_primary">-->
-                        <!--<p>书法班</p>-->
-                    <!--</div>-->
-                        <!--<span class="weui-cell__ft">-->
-
-                        <!--</span>-->
-                <!--</a>-->
-            <!--</div>-->
             <a href="javascript:;" id="purchaseBtn" class="weui-btn weui-btn_primary touchable">购买</a>
-            <th:block th:each="entity : ${spuList}">
-                <div th:text="${entity.goodsName}">
 
-                </div>
-            </th:block>
+            <div class="weui-cells__title">学期周末班</div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access goods touchable" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>写作班</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>硬笔书法基础班（上册）</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>硬笔书法基础班（下册）</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>硬笔书法提高班</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </div>
+
+            <div class="weui-cells__title">课后作业辅导班</div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>写作班</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>硬笔书法基础班（上册）</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>硬笔书法基础班（下册）</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </div>
+
+            <div class="weui-cells__title">暑假班</div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>写作班</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>书法班</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </div>
+            <!--<th:block th:each="entity : ${spuList}">-->
+                <!--<div th:text="${entity.goodsName}">-->
+
+                <!--</div>-->
+            <!--</th:block>-->
         </div>
     </div>
 </div>

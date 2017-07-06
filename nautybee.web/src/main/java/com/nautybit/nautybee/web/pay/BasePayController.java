@@ -71,7 +71,7 @@ public class BasePayController extends BaseController {
         Long endTime = startTime + rangeTime;
 
         WechatPayParam wechatPayParam = new WechatPayParam();
-        wechatPayParam.setAppid("wx47b77ec8ef89f1a7");
+        wechatPayParam.setAppid(wechatappid);
         wechatPayParam.setMch_id(wechatmchid);
         wechatPayParam.setDevice_info("1111");
         wechatPayParam.setNonce_str(GenerationUtils.generateRandomCode(16));
@@ -85,9 +85,9 @@ public class BasePayController extends BaseController {
 
 
         wechatPayParam.setFee_type(WechatPayConstants.FEE_TYPE);
-        wechatPayParam.setTotal_fee(totalFee.intValue());
+        wechatPayParam.setTotal_fee(totalFee.toString());
 //        wechatPayParam.setSpbill_create_ip(getIp());
-        wechatPayParam.setSpbill_create_ip("116.62.35.66");
+        wechatPayParam.setSpbill_create_ip("122.224.207.42");
 
 
         wechatPayParam.setTime_start(DateUtils.dateFormat(currentDate, DateUtils.YMDHMS));
@@ -97,7 +97,7 @@ public class BasePayController extends BaseController {
         wechatPayParam.setTrade_type("JSAPI");
         wechatPayParam.setProduct_id("test_product_id");
         wechatPayParam.setLimit_pay("no_credit");
-        wechatPayParam.setOpenid("oqCGOwhAHwOMoj_QCkJErPCg-BV8");
+        wechatPayParam.setOpenid("oE1wbwoqKSISaaDyoV_VFBl9oXnw");
         return wechatPayParam;
     }
     /**

@@ -2,7 +2,8 @@ package com.nautybit.nautybee.biz.goods.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import com.nautybit.nautybee.view.goods.SpuView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import com.nautybit.nautybee.biz.base.BaseServiceImpl;
@@ -36,4 +37,8 @@ public class SpuServiceImpl extends BaseServiceImpl  implements SpuService{
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(spuDao, ids);
   }
+
+  public List<SpuView> queryList(){
+        return spuDao.queryList();
+    }
 }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8"/>
+    <title>课程列表</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/resources/libs/css/weui/weui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/libs/css/unslider/unslider.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/libs/css/unslider/unslider-dots.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/view/css/goods/goodsDetail.css}"/>
+</head>
+<body style="visibility: hidden">
+<div style="width: 100%" id="main">
+    <div id="wrapper">
+
+        <div id="picWrapper" style="line-height: 0;position: relative;">
+            <ul>
+                <th:block th:each= "entity : ${spuList}">
+                    <li class="goodsPic touchable" th:styleappend="'background-image:url('+${entity.spuImg}+');'"></li>
+                </th:block>
+            </ul>
+        </div>
+        <div class="goodsName">
+            <h4 class="weui-media-box__title">周末写作班</h4>
+            <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+        </div>
+        <!--<div class="weui-panel weui-panel_access" id="showPicker">-->
+            <!--<a class="weui-cell weui-cell_access" href="javascript:;" style="background-color: white">-->
+                <!--<div class="weui-cell__bd weui-cell_primary">-->
+                    <!--<p>时段选择</p>-->
+                <!--</div>-->
+                <!--<span class="weui-cell__ft"></span>-->
+            <!--</a>-->
+        <!--</div>-->
+        <div style="background-color: #ffffff;border-top: 1px solid #eeeeee;margin-bottom: 50px">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">课程详情</h4>
+                    <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%;text-align: center;position: fixed;bottom: 0;">
+            <a href="javascript:;" id="purchaseBtn" class="weui-btn weui-btn_primary touchable">立即报名</a>
+        </div>
+    </div>
+
+
+
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    /*]]>*/
+</script>
+<!-- Javascript -->
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery-2.1.4.min.js}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery.event.move.js}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery.event.swipe.js}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/unslider/unslider.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/utils.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/net.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/request.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/goods/goodsDetail.js}"/>
+</body>
+</html>

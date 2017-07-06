@@ -28,6 +28,31 @@
         <result column = "remark" property = "remark" />
     </resultMap>
 
+    <resultMap id = "SpuView" type = "com.nautybit.nautybee.view.goods.SpuView"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "spu_sn" property = "spuSn" />
+        <result column = "store_id" property = "storeId" />
+        <result column = "cat_id" property = "catId" />
+        <result column = "goods_name" property = "goodsName" />
+        <result column = "goods_price" property = "goodsPrice" />
+        <result column = "alipay_discount" property = "alipayDiscount" />
+        <result column = "wechatpay_discount" property = "wechatpayDiscount" />
+        <result column = "unionpay_discount" property = "unionpayDiscount" />
+        <result column = "unit" property = "unit" />
+        <result column = "spu_img" property = "spuImg" />
+        <result column = "goods_type" property = "goodsType" />
+        <result column = "goods_nick_name" property = "goodsNickName" />
+        <result column = "sale_volume" property = "saleVolume" />
+        <result column = "visit_num" property = "visitNum" />
+        <result column = "goods_brief" property = "goodsBrief" />
+        <result column = "goods_desc" property = "goodsDesc" />
+        <result column = "keywords" property = "keywords" />
+        <result column = "buy_min" property = "buyMin" />
+        <result column = "buy_step" property = "buyStep" />
+        <result column = "step_price_cfg" property = "stepPriceCfg" />
+        <result column = "remark" property = "remark" />
+    </resultMap>
+
     <sql id = "BaseWhereClause">
         <where>
             <trim prefixOverrides = "and">
@@ -277,5 +302,13 @@
         <include refid = "BaseUpdateSet" />
         where id = #{id}
     </update>
+
+    <!-- 查询 -->
+    <select id = "queryList" resultMap = "SpuView">
+        select
+        *
+        from nautybee_spu
+        where is_deleted = 'N'
+    </select>
 
 </mapper>

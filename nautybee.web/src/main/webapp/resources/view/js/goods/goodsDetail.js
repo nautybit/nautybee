@@ -15,17 +15,7 @@ RequestJSApiConfig = extend ( RequestBase, function(){
     this.method = "get";
     this.contentType = "application/json";
 });
-RequestToWechatPay = extend( RequestBase, function(queryParam)
-{
-    this.__super__.constructor(this);
-    this.url = "pay/auth";
-    this.method = "post";
-    this.contentType = "application/json";
-    this.dataType = "json";
-    this.async = true;
-    var params = JSON.stringify(queryParam);
-    this.params = params;
-});
+
 $(function(){
     init();
 });
@@ -37,74 +27,67 @@ function init(){
     }
 
     windowResized();
-    $('body').css("visibility","visible")
-    initButtonStatus();
+    $('body').css("visibility","visible");
     initEventHandlers();
-    //初始化iscroll
-    loadScroll();
     //微信初始化
     initWx();
+    //轮播插件初始化
+    initSlider();
 }
 function getScreenWidth(){
     return document.body.clientWidth;
 }
 function windowResized(){
-    $('.storeBanner').css({
+    $('#picWrapper').css({
         'width':getScreenWidth()+'px',
-        'height':0.4*getScreenWidth()+'px',
-        'margin-top':20/640*getScreenWidth()+'px',
-        'line-height':0.4*getScreenWidth()+'px',
-        'text-align':'center',
-        'font-size':'large',
-        'background-color':'lightgray'
-    })
+        'height':getScreenWidth()*0.75+'px'
+    });
+    $('.goodsName').css({
+        'width':getScreenWidth()+'px',
+        'padding':15/414*getScreenWidth()+'px',
+        'background-color':'white'
+    });
 }
-function loadScroll () {
-    gViewModel.gPageScroll = new IScroll('#wrapper', {
-        scrollX: false,
-        scrollY: true,
-        momentum: true,
-        snap: false,
-        scrollbars: true,
-        fadeScrollbars:true,
-        shrinkScrollbars: 'scale',
-        bounce: true,
-        probeType:1,
-        click:true
+function initSlider() {
+    var slider = $('#picWrapper').unslider({
+        arrows:false,
+        infinite:true,
+        fluid:true,
+        keys:false
     });
-    gViewModel.gPageScroll.on('scrollStart',function(e){
-        $(".active").removeClass("active");
-    });
-    gViewModel.gPageScroll.on('scroll',function(e){
-        gViewModel.$wrapper.trigger("scroll");
-    });
-    gViewModel.gPageScroll.on('scrollEnd',function(e){
-        $(".active").removeClass("active");
-        gViewModel.$wrapper.trigger("scroll");
-    });
-    refreshScroll();
-}
-function refreshScroll(){
-    setTimeout(function(){
-        gViewModel.gPageScroll.refresh();
-    },200);
-}
-function initButtonStatus(){
-    //注册可点击按钮
-    $('.touchable').clickStatus({
-        touchEventEnable:gIsTouchDevice
-    });
-
 }
 function initEventHandlers(){
-    $('#purchaseBtn').on('clickstatus.up',function(){
+    $('#purchaseBtn').on('click',function(){
         var queryParam = {};
         queryParam.totalFee = 0.01;
         doRequest(queryParam);
     });
-    $('.goods').on('clickstatus.up',function(){
-        window.location.href = window.location.origin + '/nautybee/wx/goods/getSpuDetail'
-    })
+    $('#showPicker').on('click', function () {
+        weui.picker([{
+            label: '飞机票',
+            value: 0
+        }, {
+            label: '火车票',
+            value: 1
+        }, {
+            label: '的士票',
+            value: 2
+        },{
+            label: '公交票 (disabled)',
+            disabled: true,
+            value: 3
+        }, {
+            label: '其他',
+            value: 4
+        }], {
+            onChange: function (result) {
+                console.log(result);
+            },
+            onConfirm: function (result) {
+                console.log(result);
+            }
+        });
+    });
 }
 function doRequest(queryParam){
     var request = new RequestToWechatPay(queryParam);

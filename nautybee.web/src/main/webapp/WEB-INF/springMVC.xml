@@ -159,5 +159,6 @@
 
     <!-- 对静态资源文件的访问 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/**" location="/"/>
     <mvc:resources mapping="/test/**" location="/test/"/>
 </beans>

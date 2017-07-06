@@ -9,6 +9,7 @@ import com.nautybit.nautybee.common.result.wx.WxAuthToken;
 import com.nautybit.nautybee.common.utils.HttpUtils;
 import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.user.User;
+import com.nautybit.nautybee.view.goods.SpuView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-@RequestMapping("goods")
+@RequestMapping("wx/goods")
 public class SpuController extends BaseController {
     @Autowired
     private SpuService spuService;
@@ -59,6 +60,29 @@ public class SpuController extends BaseController {
         spuList.add(spu);
         model.addAttribute("spuList",spuList);
         return "goods/goodsList";
+    }
+
+    @RequestMapping("getSpuDetail")
+    public String getSpuDetail(ModelMap model,String code,String state) {
+
+        if(code != null){
+            String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
+            WxAuthToken wxAuthToken = gson.fromJson(authRes, new TypeToken<WxAuthToken>() {}.getType());
+            String openid = wxAuthToken.getOpenid();
+            System.out.println("openid:"+openid);
+            model.addAttribute("openid",openid);
+            log.debug("openid:"+openid);
+        }
+
+        List<Spu> spuList = new ArrayList<>();
+        model.addAttribute("spuList",spuList);
+        Spu spu1 = new Spu();
+        spu1.setSpuImg("http://fauna-test.b0.upaiyun.com/goodsImg/201706/15/1497528130853_1710283143.jpg!S");
+        Spu spu2 = new Spu();
+        spu2.setSpuImg("http://fauna-test.b0.upaiyun.com/goodsImg/201706/13/1497329055657_917223379.jpg!S");
+        spuList.add(spu1);
+        spuList.add(spu2);
+        return "goods/goodsDetail";
     }
 
 

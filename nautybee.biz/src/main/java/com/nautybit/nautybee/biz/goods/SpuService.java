@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nautybit.nautybee.entity.goods.Spu;
+import com.nautybit.nautybee.view.goods.SpuView;
 
 public interface SpuService {
   List<Spu> getAll();
@@ -16,5 +17,6 @@ public interface SpuService {
 
   int deleteByIds(Long[] ids);
 
+    List<SpuView> queryList();
 
 }

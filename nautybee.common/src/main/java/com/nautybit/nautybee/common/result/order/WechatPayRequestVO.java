@@ -8,13 +8,14 @@ import lombok.Data;
  */
 @Data
 public class WechatPayRequestVO {
-    public String appid;
+    public String appId;
     public String partnerid;
     public String prepayid;
     public String packageValue;
-    public String noncestr;
-    public Long timestamp;
+    public String nonceStr;
+    public Long timeStamp;
     public String sign;
     public String tradeNo;
     public String payId;
+    public String signType;
 }
