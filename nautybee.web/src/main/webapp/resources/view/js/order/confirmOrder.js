@@ -38,44 +38,20 @@ function init(){
     initEventHandlers();
     //微信初始化
     initWx();
-    //轮播插件初始化
-    initSlider();
-
-
-//    var wxOpenId = getCookie("wxOpenId");
-//    alert("wxOpenId:"+wxOpenId);
-
 
 }
 function getScreenWidth(){
     return document.body.clientWidth;
 }
 function windowResized(){
-    $('#picWrapper').css({
-        'width':getScreenWidth()+'px',
-        'height':getScreenWidth()*0.75+'px'
-    });
-    $('.goodsName').css({
-        'width':getScreenWidth()+'px',
-        'padding':15/414*getScreenWidth()+'px',
-        'background-color':'white'
-    });
-}
-function initSlider() {
-    var slider = $('#picWrapper').unslider({
-        arrows:false,
-        infinite:true,
-        fluid:true,
-        keys:false
-    });
+
 }
 function initEventHandlers(){
     $('#purchaseBtn').on('click',function(){
-//        var queryParam = {};
-//        queryParam.totalFee = 0.01;
-//        queryParam.wxOpenid = getCookie("wxOpenId");
-//        doRequest(queryParam);
-        window.location.href = window.location.origin + '/nautybee/wx/order/confirmOrder'
+        var queryParam = {};
+        queryParam.totalFee = 0.01;
+        queryParam.wxOpenid = getCookie("wxOpenId");
+        doRequest(queryParam);
     });
 //    $('#showPicker').on('click', function () {
 //        weui.picker([{
@@ -117,7 +93,7 @@ function doRequest(queryParam){
             return;
         }else{
             var data = result.data;
-//            alert("appId:"+data.appId);
+            alert("appId:"+data.appId);
             if (typeof WeixinJSBridge == "undefined"){
                 console.log("WeixinJSBridge not defined")
                 return;
