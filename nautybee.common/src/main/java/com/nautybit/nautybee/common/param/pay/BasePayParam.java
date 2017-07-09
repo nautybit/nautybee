@@ -23,5 +23,5 @@ public class BasePayParam {
     /**
      * openid
      */
-    private String orderSubOpenid;
+    private String wxOpenid;
 }

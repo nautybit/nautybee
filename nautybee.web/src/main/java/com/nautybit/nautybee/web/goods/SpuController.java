@@ -46,14 +46,14 @@ public class SpuController extends BaseController {
     @RequestMapping("getSpuList")
     public String getSpuList(ModelMap model,String code,String state) {
 
-        if(code != null){
+//        if(code != null){
             String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
             WxAuthToken wxAuthToken = gson.fromJson(authRes, new TypeToken<WxAuthToken>() {}.getType());
             String openid = wxAuthToken.getOpenid();
             System.out.println("openid:"+openid);
             model.addAttribute("openid",openid);
             log.debug("openid:"+openid);
-        }
+//        }
 
         Spu spu = spuService.getById(1000l);
         List<Spu> spuList = new ArrayList<>();

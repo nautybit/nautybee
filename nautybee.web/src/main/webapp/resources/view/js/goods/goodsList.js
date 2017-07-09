@@ -100,6 +100,9 @@ function initEventHandlers(){
     $('#purchaseBtn').on('clickstatus.up',function(){
         var queryParam = {};
         queryParam.totalFee = 0.01;
+        var openid = $('#main').attr("openid");
+        alert("openid:"+openid);
+        queryParam.wxOpenid = openid;
         doRequest(queryParam);
     });
     $('.goods').on('clickstatus.up',function(){

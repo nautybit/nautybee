@@ -97,7 +97,7 @@ public class BasePayController extends BaseController {
         wechatPayParam.setTrade_type("JSAPI");
         wechatPayParam.setProduct_id("test_product_id");
         wechatPayParam.setLimit_pay("no_credit");
-        wechatPayParam.setOpenid("oE1wbwoqKSISaaDyoV_VFBl9oXnw");
+        wechatPayParam.setOpenid(payParam.getWxOpenid());
         return wechatPayParam;
     }
     /**
