@@ -127,7 +127,7 @@ function doRequest(queryParam){
             return;
         }else{
             var data = result.data;
-            alert("appId:"+data.appId);
+//            alert("appId:"+data.appId);
             if (typeof WeixinJSBridge == "undefined"){
                 console.log("WeixinJSBridge not defined")
                 return;
@@ -168,7 +168,7 @@ function doRequest(queryParam){
 // ************微信相关初始化操作START************
 function initWx(){
     wxReady().then(function(data){
-        alert("wx ready");
+//        alert("wx ready");
         handleShareEvent();
     }).fail(
         function(){
@@ -197,7 +197,7 @@ function wxReady(){
 }
 function initWxConfig(wxConfig){
     var config = $.extend({}, wxConfig , {
-        debug:true,
+        debug:false,
         jsApiList:[
             'onMenuShareTimeline',
             'onMenuShareAppMessage'
