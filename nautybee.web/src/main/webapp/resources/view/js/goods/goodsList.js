@@ -36,6 +36,8 @@ function init(){
 //        return;
 //    }
 
+    initEnvOpenId();
+
     windowResized();
     $('body').css("visibility","visible")
     initButtonStatus();
@@ -44,6 +46,9 @@ function init(){
     loadScroll();
     //微信初始化
     initWx();
+}
+function initEnvOpenId(){
+    setCookie('wxOpenId', $('#main').attr("openid"), null, '/');
 }
 function getScreenWidth(){
     return document.body.clientWidth;
@@ -201,8 +206,8 @@ function initWxConfig(wxConfig){
     wx.config(config);
 }
 function handleShareEvent(){
-    var title = "圣诞狂欢购不停";
-    var descrption = "";
+    var title = "武义小作家辅导中心";
+    var descrption = "欢迎您加入";
     var imgUrl = "";
     var url = window.location.href;
 
@@ -213,7 +218,7 @@ function handleShareEvent(){
     var failure = function(){
     };
     wx.onMenuShareTimeline({
-        title: title+"："+descrption, // 分享标题
+        title: title, // 分享标题
         desc: descrption, // 分享描述
         link: url, // 分享链接
         imgUrl: imgUrl, // 分享图标

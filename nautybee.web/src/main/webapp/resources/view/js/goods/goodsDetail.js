@@ -15,16 +15,23 @@ RequestJSApiConfig = extend ( RequestBase, function(){
     this.method = "get";
     this.contentType = "application/json";
 });
+RequestToWechatPay = extend( RequestBase, function(queryParam)
+{
+    this.__super__.constructor(this);
+    this.url = "pay/auth";
+    this.method = "post";
+    this.contentType = "application/json";
+    this.dataType = "json";
+    this.async = true;
+    var params = JSON.stringify(queryParam);
+    this.params = params;
+});
 
 $(function(){
     init();
 });
 function init(){
 
-    if(SEARCH.code){
-        window.location.href = window.location.href.substring(0,window.location.href.indexOf("?code"));
-        return;
-    }
 
     windowResized();
     $('body').css("visibility","visible");
@@ -33,6 +40,12 @@ function init(){
     initWx();
     //轮播插件初始化
     initSlider();
+
+
+//    var wxOpenId = getCookie("wxOpenId");
+//    alert("wxOpenId:"+wxOpenId);
+
+
 }
 function getScreenWidth(){
     return document.body.clientWidth;
@@ -60,34 +73,35 @@ function initEventHandlers(){
     $('#purchaseBtn').on('click',function(){
         var queryParam = {};
         queryParam.totalFee = 0.01;
+        queryParam.wxOpenid = getCookie("wxOpenId");
         doRequest(queryParam);
     });
-    $('#showPicker').on('click', function () {
-        weui.picker([{
-            label: '飞机票',
-            value: 0
-        }, {
-            label: '火车票',
-            value: 1
-        }, {
-            label: '的士票',
-            value: 2
-        },{
-            label: '公交票 (disabled)',
-            disabled: true,
-            value: 3
-        }, {
-            label: '其他',
-            value: 4
-        }], {
-            onChange: function (result) {
-                console.log(result);
-            },
-            onConfirm: function (result) {
-                console.log(result);
-            }
-        });
-    });
+//    $('#showPicker').on('click', function () {
+//        weui.picker([{
+//            label: '飞机票',
+//            value: 0
+//        }, {
+//            label: '火车票',
+//            value: 1
+//        }, {
+//            label: '的士票',
+//            value: 2
+//        },{
+//            label: '公交票 (disabled)',
+//            disabled: true,
+//            value: 3
+//        }, {
+//            label: '其他',
+//            value: 4
+//        }], {
+//            onChange: function (result) {
+//                console.log(result);
+//            },
+//            onConfirm: function (result) {
+//                console.log(result);
+//            }
+//        });
+//    });
 }
 function doRequest(queryParam){
     var request = new RequestToWechatPay(queryParam);
@@ -181,8 +195,8 @@ function initWxConfig(wxConfig){
     wx.config(config);
 }
 function handleShareEvent(){
-    var title = "圣诞狂欢购不停";
-    var descrption = "";
+    var title = "武义小作家辅导中心";
+    var descrption = "欢迎您加入";
     var imgUrl = "";
     var url = window.location.href;
 
@@ -193,7 +207,7 @@ function handleShareEvent(){
     var failure = function(){
     };
     wx.onMenuShareTimeline({
-        title: title+"："+descrption, // 分享标题
+        title: title, // 分享标题
         desc: descrption, // 分享描述
         link: url, // 分享链接
         imgUrl: imgUrl, // 分享图标

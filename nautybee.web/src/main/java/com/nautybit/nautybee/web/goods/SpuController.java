@@ -77,9 +77,9 @@ public class SpuController extends BaseController {
         List<Spu> spuList = new ArrayList<>();
         model.addAttribute("spuList",spuList);
         Spu spu1 = new Spu();
-        spu1.setSpuImg("http://fauna-test.b0.upaiyun.com/goodsImg/201706/15/1497528130853_1710283143.jpg!S");
+        spu1.setSpuImg("https://fauna-test.b0.upaiyun.com/goods/637/081/909/051/150909180736_036_7.jpg!S");
         Spu spu2 = new Spu();
-        spu2.setSpuImg("http://fauna-test.b0.upaiyun.com/goodsImg/201706/13/1497329055657_917223379.jpg!S");
+        spu2.setSpuImg("https://fauna-test.b0.upaiyun.com/goodsImg/201604/18/1460961803938_58088389.jpg!M");
         spuList.add(spu1);
         spuList.add(spu2);
         return "goods/goodsDetail";
