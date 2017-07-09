@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by UFO on 17/01/19.
@@ -77,14 +78,14 @@ public class WxController extends BaseController {
 
     @RequestMapping("/createMenu")
     @ResponseBody
-    public Result<?> createMenu(){
+    public Result<?> createMenu(String param){
         Result getAccessToken = wxService.getAccessToken();
         if(!getAccessToken.isSuccess()){
             return getAccessToken;
         }
         String accessToken = (String)getAccessToken.getData();
         String url = createMenuUrl + accessToken;
-        String param = "{\"button\":[{\"name\":\"KCFW\",\"sub_button\":[{\"type\":\"view\",\"name\":\"课程报名\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\"},{\"type\":\"view\",\"name\":\"课程分享\",\"url\":\"http://www.baidu.com/\"}]},{\"name\":\"我的\",\"sub_button\":[{\"type\":\"view\",\"name\":\"我的课程\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"我的分享\",\"url\":\"http://www.baidu.com/\"}]},{\"name\":\"关于我们\",\"sub_button\":[{\"type\":\"view\",\"name\":\"学校简介\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"学校地址\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"加入我们\",\"url\":\"http://www.baidu.com/\"}]}]}";
+//        param = "{\"button\":[{\"name\":\"test\",\"sub_button\":[{\"type\":\"view\",\"name\":\"课程报名\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\"},{\"type\":\"view\",\"name\":\"课程分享\",\"url\":\"http://www.baidu.com/\"}]},{\"name\":\"我的\",\"sub_button\":[{\"type\":\"view\",\"name\":\"我的课程\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"我的分享\",\"url\":\"http://www.baidu.com/\"}]},{\"name\":\"关于我们\",\"sub_button\":[{\"type\":\"view\",\"name\":\"学校简介\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"学校地址\",\"url\":\"http://www.baidu.com/\"},{\"type\":\"view\",\"name\":\"加入我们\",\"url\":\"http://www.baidu.com/\"}]}]}";
         String result = HttpUtils.sendPost(url, param);
         //根据返回值判断结果
         if (StringUtils.isEmpty(result)) {
