@@ -23,8 +23,9 @@ public class WxService{
     private String wechatappid;
     @Value("${nautybee.wechat.secret}")
     private String wechatsecret;
-    private String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";
     private Gson gson = new Gson();
+
+    private String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";
     private String accessToken;
     private Date lastUpdateTime;
     private Integer accessExpire;
@@ -35,7 +36,7 @@ public class WxService{
     public Result<?> getAccessToken(){
         boolean reFetch = false;
         //服务器重启导致
-        if(accessToken == null || lastUpdateTime == null){
+        if(StringUtils.isEmpty(accessToken) || null == lastUpdateTime || StringUtils.isEmpty(jsapiTicket)){
             reFetch = true;
         }else {
             Date date = new Date();
@@ -75,6 +76,7 @@ public class WxService{
             return Result.wrapErrorResult("","invalid url");
         }else {
             if(StringUtils.isEmpty(jsapiTicket)){
+                System.out.println("jsapiTicket empty");
                 getAccessToken();
             }
             String appId = wechatappid;

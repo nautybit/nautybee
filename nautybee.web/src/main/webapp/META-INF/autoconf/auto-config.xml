@@ -60,6 +60,7 @@
         <property name="nautybee.wechat.appid" defaultValue="#" description="原品主义微信服务号APPID" />
         <property name="nautybee.wechat.secret" defaultValue="#" description="原品主义微信服务号APPSecret" />
         <property name="nautybee.wechat.mchid" defaultValue="#" description="微信支付 商户号" />
+        <property name="nautybee.wechat.mchkey" defaultValue="#" description="微信支付 商户API秘钥" />
         <property name="nautybee.wechat.vote.redirect.url" defaultValue="#" description="重定向到投票权限验证url" />
         <property name="nautybee.wechat.vote.snsapi.type" defaultValue="#" description="权限验证类型(snsapi_base,snsapi_userinfo)" />
         <property name="nautybee.wechat.authorize.url" defaultValue="#" description="微信网页授权接口URL" />

@@ -11,7 +11,7 @@ gViewModel.$main = $('#main');
 gViewModel.$wrapper = $('#wrapper');
 RequestJSApiConfig = extend ( RequestBase, function(){
     this.__super__.constructor(this);
-    this.url ="wx/jssdkConfig?url="+window.location.href;
+    this.url ="wx/jssdkConfig?url="+encodeURIComponent(window.location.href);
     this.method = "get";
     this.contentType = "application/json";
 });
@@ -31,10 +31,10 @@ $(function(){
 });
 function init(){
 
-    if(SEARCH.code){
-        window.location.href = window.location.href.substring(0,window.location.href.indexOf("?code"));
-        return;
-    }
+//    if(SEARCH.code){
+//        window.location.href = window.location.href.substring(0,window.location.href.indexOf("?code"));
+//        return;
+//    }
 
     windowResized();
     $('body').css("visibility","visible")

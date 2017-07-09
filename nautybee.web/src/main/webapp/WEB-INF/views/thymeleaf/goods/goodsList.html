@@ -19,6 +19,7 @@
         <div id="scroller">
             <a href="javascript:;" id="purchaseBtn" class="weui-btn weui-btn_primary touchable">购买</a>
 
+            <div style="width: 100%;text-align: center" th:text="${openid}"></div>
             <div class="weui-cells__title">学期周末班</div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access goods touchable" href="javascript:;">
@@ -116,6 +117,6 @@
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/goods/goodsList.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/goods/goodsList.js?time=5}"/>
 </body>
 </html>

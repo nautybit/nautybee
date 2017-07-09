@@ -19,6 +19,7 @@ import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,8 @@ import java.util.*;
 @Slf4j
 public class PayController extends BasePayController {
 
+    @Value("${nautybee.wechat.mchkey}")
+    private String mchkey;
     @Autowired
     private WechatPayService wechatPayService;
 
@@ -83,7 +86,7 @@ public class PayController extends BasePayController {
 
             resultString = resultString.replace("packageValue","package");
 
-            String sign = Md5Utils.getMD5Str(resultString+"&key=44ris19u8nblx42vugypcijvca1mgjvl").toUpperCase();
+            String sign = Md5Utils.getMD5Str(resultString+"&key="+mchkey).toUpperCase();
             wechatPayRequestVO.setPartnerid(wechatPayParam.getMch_id());
             wechatPayRequestVO.setPrepayid(wechatPrePayResult.getPrepay_id());
             wechatPayRequestVO.setSign(sign);
