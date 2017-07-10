@@ -37,6 +37,7 @@ public class WxService{
 
     public Result<?> getAccessToken(){
         boolean reFetch = false;
+        log.debug("beforeReFetch:"+"accessToken_"+accessToken+",lastUpdateTime_"+lastUpdateTime+",jsapiTicket"+jsapiTicket);
         //服务器重启导致
         if(StringUtils.isEmpty(accessToken) || null == lastUpdateTime || StringUtils.isEmpty(jsapiTicket)){
             reFetch = true;
