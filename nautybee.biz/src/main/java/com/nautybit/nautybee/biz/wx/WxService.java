@@ -9,6 +9,7 @@ import com.nautybit.nautybee.common.result.wx.WxAccessToken;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.HttpUtils;
 import com.nautybit.nautybee.common.utils.SHA1;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class WxService{
 
     @Value("${nautybee.wechat.appid}")
@@ -46,6 +48,9 @@ public class WxService{
             }
         }
         if(reFetch){
+
+            log.debug("reFetch:"+"accessToken_"+accessToken+",lastUpdateTime_"+lastUpdateTime+",jsapiTicket"+jsapiTicket);
+
             String resStr = HttpUtils.sendGet(accessTokenUrl, "grant_type=client_credential&appid=" + wechatappid + "&secret=" + wechatsecret);
             if(resStr.indexOf("errcode")>-1){
                 return Result.wrapErrorResult("","failed...damn");
