@@ -81,10 +81,7 @@ public class WxService{
         if(StringUtils.isEmpty(url)){
             return Result.wrapErrorResult("","invalid url");
         }else {
-            if(StringUtils.isEmpty(jsapiTicket)){
-                System.out.println("jsapiTicket empty");
-                getAccessToken();
-            }
+            getAccessToken();
             String appId = wechatappid;
             String nonceStr = UUID.randomUUID().toString();
             Long timestamp = System.currentTimeMillis() / 1000;
