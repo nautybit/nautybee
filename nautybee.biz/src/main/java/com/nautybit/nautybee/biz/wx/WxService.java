@@ -3,12 +3,11 @@ package com.nautybit.nautybee.biz.wx;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nautybit.nautybee.common.result.Result;
-import com.nautybit.nautybee.common.result.wx.JsapiTicket;
-import com.nautybit.nautybee.common.result.wx.JssdkConfig;
-import com.nautybit.nautybee.common.result.wx.WxAccessToken;
+import com.nautybit.nautybee.common.result.wx.*;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.HttpUtils;
 import com.nautybit.nautybee.common.utils.SHA1;
+import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +33,7 @@ public class WxService{
 
     private String jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
     private String jsapiTicket;
+    private String userInfoUrl = "https://api.weixin.qq.com/cgi-bin/user/info";
 
     public Result<?> getAccessToken(){
         boolean reFetch = false;
@@ -98,5 +98,32 @@ public class WxService{
             jssdkConfig.setSignature(signature);
             return Result.wrapSuccessfulResult(jssdkConfig);
         }
+    }
+
+    public String getOpenId(String authUrl,String code){
+        String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
+        WxAuthToken wxAuthToken = gson.fromJson(authRes, new TypeToken<WxAuthToken>() {}.getType());
+        String openid = wxAuthToken.getOpenid();
+        return openid;
+    }
+
+    public String getQRCode(String scene_str) {
+        Result getAccessToken = getAccessToken();
+        String accessToken = (String)getAccessToken.getData();
+        String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+accessToken;
+        String param = "{\"action_name\":\"QR_LIMIT_STR_SCENE\",\"action_info\":{\"scene\":{\"scene_str\":\""+scene_str+"\"}}}";
+        String createQRCodeTicketStr = HttpUtils.sendPost(url, param);
+
+        CreateQRCodeTicket createQRCodeTicket = gson.fromJson(createQRCodeTicketStr, new TypeToken<CreateQRCodeTicket>(){}.getType());
+        String ticket = createQRCodeTicket.getTicket();
+        String createQRCodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+ SignUtils.urlEncode(ticket);
+        return createQRCodeUrl;
+    }
+
+    public UserInfo getUserInfo(String openid){
+        getAccessToken();
+        String userInfoStr = HttpUtils.sendGet(userInfoUrl,"access_token="+accessToken+"&openid="+openid+"&lang=zh_CN");
+        UserInfo userInfo = gson.fromJson(userInfoStr, new TypeToken<UserInfo>(){}.getType());
+        return userInfo;
     }
 }

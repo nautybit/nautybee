@@ -48,7 +48,7 @@ public class MessageUtil {
     // 事件类型：unsubscribe(取消订阅)
     public static final String EVENT_TYPE_UNSUBSCRIBE = "unsubscribe";
     // 事件类型：scan(用户已关注时的扫描带参数二维码)
-    public static final String EVENT_TYPE_SCAN = "scan";
+    public static final String EVENT_TYPE_SCAN = "SCAN";
     // 事件类型：LOCATION(上报地理位置)
     public static final String EVENT_TYPE_LOCATION = "LOCATION";
     // 事件类型：CLICK(自定义菜单)

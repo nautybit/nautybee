@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nautybit.nautybee.biz.goods.SpuService;
 import com.nautybit.nautybee.biz.user.UserService;
+import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.result.wx.WxAuthToken;
 import com.nautybit.nautybee.common.utils.HttpUtils;
@@ -32,6 +33,8 @@ import java.util.List;
 public class SpuController extends BaseController {
     @Autowired
     private SpuService spuService;
+    @Autowired
+    private WxService wxService;
 
     @Value("${nautybee.wechat.appid}")
     private String wechatappid;
@@ -46,14 +49,9 @@ public class SpuController extends BaseController {
     @RequestMapping("getSpuList")
     public String getSpuList(ModelMap model,String code,String state) {
 
-//        if(code != null){
-            String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
-            WxAuthToken wxAuthToken = gson.fromJson(authRes, new TypeToken<WxAuthToken>() {}.getType());
-            String openid = wxAuthToken.getOpenid();
-            System.out.println("openid:"+openid);
-            model.addAttribute("openid",openid);
-            log.debug("openid:"+openid);
-//        }
+        String openid = wxService.getOpenId(authUrl,code);
+        System.out.println("openid from getSpuList:"+openid);
+        model.addAttribute("openid", openid);
 
         Spu spu = spuService.getById(1000l);
         List<Spu> spuList = new ArrayList<>();

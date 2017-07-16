@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.nautybit.nautybee.common.param.wx.ArticleItem;
 import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
+import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.MessageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,16 +77,42 @@ public class MessageService {
                 String eventType = (String)requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    // 回复文本消息
-                    TextMessage textMessage = new TextMessage();
-                    textMessage.setToUserName(fromUserName);
-                    textMessage.setFromUserName(toUserName);
-                    textMessage.setCreateTime(new Date().getTime());
-                    textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                    respContent = "恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。";
-                    // 设置文本消息的内容
-                    textMessage.setContent(respContent);
-                    respStr = MessageUtil.messageToXml(textMessage);
+                    String EventKey = (String)requestMap.get("EventKey");
+                    if(StringUtils.isNotEmpty(EventKey) && EventKey.indexOf("recommend_")>-1){
+
+                        String openId = EventKey.substring(EventKey.indexOf("recommend_")+"recommend_".length(),EventKey.length());
+                        UserInfo userInfo = wxService.getUserInfo(openId);
+                        String recommendSource = userInfo.getNickname();
+
+                        ArticleMessage articleMessage = new ArticleMessage();
+                        articleMessage.setToUserName(fromUserName);
+                        articleMessage.setFromUserName(toUserName);
+                        articleMessage.setCreateTime(new Date().getTime());
+                        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+                        articleMessage.setArticleCount(1);
+
+                        List<ArticleItem> articleItemList = new ArrayList<>();
+                        ArticleItem articleItem = new ArticleItem();
+                        articleItem.setTitle(recommendSource+" 推荐了您");
+                        articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
+                        articleItem.setPicUrl("");
+                        articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+                        articleItemList.add(articleItem);
+                        articleMessage.setArticles(articleItemList);
+
+                        respStr = MessageUtil.messageToXml(articleMessage);
+                    }else {
+                        // 回复文本消息
+                        TextMessage textMessage = new TextMessage();
+                        textMessage.setToUserName(fromUserName);
+                        textMessage.setFromUserName(toUserName);
+                        textMessage.setCreateTime(new Date().getTime());
+                        textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                        respContent = "恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。";
+                        // 设置文本消息的内容
+                        textMessage.setContent(respContent);
+                        respStr = MessageUtil.messageToXml(textMessage);
+                    }
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -92,17 +120,8 @@ public class MessageService {
                 }
                 // 扫描带参数二维码
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
-
-                }
-                // 上报地理位置
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {
-                    // TODO 处理上报地理位置事件
-                }
-                // 自定义菜单
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
                     String EventKey = (String)requestMap.get("EventKey");
-                    if("recommend_code".equals(EventKey)){
-                        String QRCode = wxService.getQRCode("recommend-"+fromUserName);
+                    if(EventKey.indexOf("recommend_")>-1){
                         ArticleMessage articleMessage = new ArticleMessage();
                         articleMessage.setToUserName(fromUserName);
                         articleMessage.setFromUserName(toUserName);
@@ -114,7 +133,34 @@ public class MessageService {
                         ArticleItem articleItem = new ArticleItem();
                         articleItem.setTitle("title test");
                         articleItem.setDescription("description test");
-                        articleItem.setPicUrl(QRCode);
+                        articleItem.setPicUrl("");
+                        articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+                        articleItemList.add(articleItem);
+                        articleMessage.setArticles(articleItemList);
+
+                        respStr = MessageUtil.messageToXml(articleMessage);
+                    }
+                }
+                // 上报地理位置
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {
+                    // TODO 处理上报地理位置事件
+                }
+                // 自定义菜单
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+                    String EventKey = (String)requestMap.get("EventKey");
+                    if("recommend_code".equals(EventKey)){
+                        ArticleMessage articleMessage = new ArticleMessage();
+                        articleMessage.setToUserName(fromUserName);
+                        articleMessage.setFromUserName(toUserName);
+                        articleMessage.setCreateTime(new Date().getTime());
+                        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+                        articleMessage.setArticleCount(1);
+
+                        List<ArticleItem> articleItemList = new ArrayList<>();
+                        ArticleItem articleItem = new ArticleItem();
+                        articleItem.setTitle("title test");
+                        articleItem.setDescription("description test");
+                        articleItem.setPicUrl("");
                         articleItem.setUrl("http://www.baidu.com/");
                         articleItemList.add(articleItem);
                         articleMessage.setArticles(articleItemList);

@@ -30,16 +30,9 @@ $(function(){
     init();
 });
 function init(){
-
-//    if(SEARCH.code){
-//        window.location.href = window.location.href.substring(0,window.location.href.indexOf("?code"));
-//        return;
-//    }
-
     initEnvOpenId();
-
     windowResized();
-    $('body').css("visibility","visible")
+    $('body').css("visibility","visible");
     initButtonStatus();
     initEventHandlers();
     //初始化iscroll
