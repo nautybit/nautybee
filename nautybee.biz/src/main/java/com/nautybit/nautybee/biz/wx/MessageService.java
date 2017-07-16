@@ -6,6 +6,7 @@ import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
 import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.MessageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Created by UFO on 17/7/16.
  */
 @Service
+@Slf4j
 public class MessageService {
 
     @Autowired
@@ -94,6 +96,7 @@ public class MessageService {
                         List<ArticleItem> articleItemList = new ArrayList<>();
                         ArticleItem articleItem = new ArticleItem();
                         articleItem.setTitle(recommendSource+" 推荐了您");
+                        log.debug("recommendSource:"+recommendSource);
                         articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
                         articleItem.setPicUrl("");
                         articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
