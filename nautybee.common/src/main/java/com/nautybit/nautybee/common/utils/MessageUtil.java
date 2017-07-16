@@ -1,5 +1,7 @@
 package com.nautybit.nautybee.common.utils;
 
+import com.nautybit.nautybee.common.param.wx.ArticleItem;
+import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
@@ -137,5 +139,17 @@ public class MessageUtil {
     public static String messageToXml(TextMessage textMessage) {
         xstream.alias("xml", textMessage.getClass());
         return xstream.toXML(textMessage);
+    }
+
+    /**
+     * 图文消息对象转换成xml
+     *
+     * @param articleMessage 图文消息对象
+     * @return xml
+     */
+    public static String messageToXml(ArticleMessage articleMessage) {
+        xstream.alias("xml", articleMessage.getClass());
+        xstream.alias("item", new ArticleItem().getClass());
+        return xstream.toXML(articleMessage);
     }
 }

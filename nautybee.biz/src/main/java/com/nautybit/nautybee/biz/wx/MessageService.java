@@ -1,25 +1,33 @@
 package com.nautybit.nautybee.biz.wx;
 
 import com.google.gson.Gson;
+import com.nautybit.nautybee.common.param.wx.ArticleItem;
+import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
 import com.nautybit.nautybee.common.utils.MessageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by UFO on 17/7/16.
  */
+@Service
 public class MessageService {
 
-
+    @Autowired
+    private WxService wxService;
     /**
      * 处理微信发来的请求
      * @param request
      * @return xml
      */
-    public static String processRequest(HttpServletRequest request) {
+    public String processRequest(HttpServletRequest request) {
         String respStr = null;
         // 默认返回的文本消息内容
         String respContent = "未知的消息类型！";
@@ -92,7 +100,27 @@ public class MessageService {
                 }
                 // 自定义菜单
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
-                    // TODO 处理菜单点击事件
+                    String EventKey = (String)requestMap.get("EventKey");
+                    if("recommend_code".equals(EventKey)){
+                        String QRCode = wxService.getQRCode("recommend-"+fromUserName);
+                        ArticleMessage articleMessage = new ArticleMessage();
+                        articleMessage.setToUserName(fromUserName);
+                        articleMessage.setFromUserName(toUserName);
+                        articleMessage.setCreateTime(new Date().getTime());
+                        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+                        articleMessage.setArticleCount(1);
+
+                        List<ArticleItem> articleItemList = new ArrayList<>();
+                        ArticleItem articleItem = new ArticleItem();
+                        articleItem.setTitle("title test");
+                        articleItem.setDescription("description test");
+                        articleItem.setPicUrl(QRCode);
+                        articleItem.setUrl("http://www.baidu.com/");
+                        articleItemList.add(articleItem);
+                        articleMessage.setArticles(articleItemList);
+
+                        respStr = MessageUtil.messageToXml(articleMessage);
+                    }
                 }
             }
         } catch (Exception e) {

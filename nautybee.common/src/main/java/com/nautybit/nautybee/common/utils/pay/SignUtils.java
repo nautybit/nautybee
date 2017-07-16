@@ -129,7 +129,7 @@ public class SignUtils {
         }
     }
     
-    private static String urlEncode(String str){
+    public static String urlEncode(String str){
         try {
             return URLEncoder.encode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
