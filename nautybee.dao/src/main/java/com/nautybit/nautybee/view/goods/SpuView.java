@@ -30,6 +30,7 @@ public class SpuView extends BaseEntity {
   private Integer buyMin;
   private Integer buyStep;
   private String stepPriceCfg;
-  private String remark;
+    private Long showOrder;
+    private String remark;
 
 }

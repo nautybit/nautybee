@@ -12,6 +12,7 @@
         <result column = "spu_id" property = "spuId" />
         <result column = "prop_detail_id1" property = "propDetailId1" />
         <result column = "prop_detail_id2" property = "propDetailId2" />
+        <result column = "show_order" property = "showOrder" />
     </resultMap>
 
     <!--用于搜索返回视图-->
@@ -24,6 +25,7 @@
         <result column = "spu_id" property = "spuId" />
         <result column = "prop_detail_id1" property = "propDetailId1" />
         <result column = "prop_detail_id2" property = "propDetailId2" />
+        <result column = "show_order" property = "showOrder" />
 
         <result column = "goods_name" property = "goodsName" />
     </resultMap>
@@ -54,6 +56,9 @@
                 <if test = "propDetailId2 != null">
                     and prop_detail_id2 = #{propDetailId2}
                 </if>
+                <if test = "showOrder != null">
+                    and show_order = #{showOrder}
+                </if>
             </trim>
         </where>
     </sql>
@@ -80,7 +85,10 @@
                 prop_detail_id1 = #{propDetailId1},
             </if>
             <if test = "propDetailId2 != null">
-                prop_detail_id2 = #{propDetailId2}
+                prop_detail_id2 = #{propDetailId2},
+            </if>
+            <if test = "showOrder != null">
+                show_order = #{showOrder}
             </if>
         </set>
     </sql>
@@ -146,7 +154,8 @@
         sale_volume,
         spu_id,
         prop_detail_id1,
-        prop_detail_id2
+        prop_detail_id2,
+        show_order
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
@@ -156,7 +165,8 @@
         #{saleVolume},
         #{spuId},
         #{propDetailId1},
-        #{propDetailId2}
+        #{propDetailId2},
+        #{showOrder}
         )
     </insert>
 
