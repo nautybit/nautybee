@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.goods.CategoryDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.goods.Category"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "store_id" property = "storeId" />
+        <result column = "cat_name" property = "catName" />
+        <result column = "cat_desc" property = "catDesc" />
+        <result column = "cat_order" property = "catOrder" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "storeId != null">
+                    and store_id = #{storeId}
+                </if>
+                <if test = "catName != null">
+                    and cat_name = #{catName}
+                </if>
+                <if test = "catDesc != null">
+                    and cat_desc = #{catDesc}
+                </if>
+                <if test = "catOrder != null">
+                    and cat_order = #{catOrder}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "storeId != null">
+                store_id = #{storeId},
+            </if>
+            <if test = "catName != null">
+                cat_name = #{catName},
+            </if>
+            <if test = "catDesc != null">
+                cat_desc = #{catDesc},
+            </if>
+            <if test = "catOrder != null">
+                cat_order = #{catOrder}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_category
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_category
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_category
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_category
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_category
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_category
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_category (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        store_id,
+        cat_name,
+        cat_desc,
+        cat_order
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{storeId},
+        #{catName},
+        #{catDesc},
+        #{catOrder}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_category
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>
