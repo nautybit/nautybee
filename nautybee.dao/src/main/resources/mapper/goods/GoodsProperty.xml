@@ -116,4 +116,14 @@
         where id = #{id}
     </update>
 
+    <!-- 根据spuId查询 -->
+    <select id = "getBySpuId" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods_property
+        where spu_id = #{spuId}
+        and is_deleted = 'N'
+        order by prop_level
+    </select>
+
 </mapper>

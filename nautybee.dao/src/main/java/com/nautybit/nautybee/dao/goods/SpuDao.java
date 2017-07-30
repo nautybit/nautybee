@@ -11,5 +11,5 @@ import java.util.List;
 public interface SpuDao extends BaseDao<Spu> {
 
     List<SpuView> queryList();
-
+    List<SpuView> queryListOfCategory();
 }

@@ -15,5 +15,6 @@ public class GoodsPropertyDetail extends BaseEntity {
   private String detailName;
   private String goodsImg;
   private String remark;
+    private Long showOrder;
 
 }

@@ -37,4 +37,10 @@ public class GoodsPropertyDetailServiceImpl extends BaseServiceImpl  implements 
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(goodsPropertyDetailDao, ids);
   }
+
+    @Override
+    public List<GoodsPropertyDetail> selectByPropId(Long propId){
+        return goodsPropertyDetailDao.selectByPropId(propId);
+    }
+
 }

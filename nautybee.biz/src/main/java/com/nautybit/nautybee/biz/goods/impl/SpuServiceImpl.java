@@ -41,4 +41,8 @@ public class SpuServiceImpl extends BaseServiceImpl  implements SpuService{
   public List<SpuView> queryList(){
         return spuDao.queryList();
     }
+
+  public List<SpuView> queryListOfCategory(){
+        return spuDao.queryListOfCategory();
+    }
 }

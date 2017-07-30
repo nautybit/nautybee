@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nautybit.nautybee.entity.goods.GoodsAttribute;
+import com.nautybit.nautybee.view.goods.GoodsAttributeView;
 
 public interface GoodsAttributeService {
   List<GoodsAttribute> getAll();
@@ -16,5 +17,6 @@ public interface GoodsAttributeService {
 
   int deleteByIds(Long[] ids);
 
+    List<GoodsAttributeView> queryByGoodsIdList(List<Long> goodsIdList);
 
 }

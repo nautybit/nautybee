@@ -10,15 +10,19 @@ import com.nautybit.nautybee.common.result.wx.WxAuthToken;
 import com.nautybit.nautybee.common.utils.HttpUtils;
 import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.user.User;
+import com.nautybit.nautybee.http.result.goods.SpuListVO;
 import com.nautybit.nautybee.view.goods.SpuView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
+import org.mockito.internal.util.collections.ListUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.util.ListUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,15 +57,46 @@ public class SpuController extends BaseController {
         System.out.println("openid from getSpuList:"+openid);
         model.addAttribute("openid", openid);
 
-        Spu spu = spuService.getById(1000l);
-        List<Spu> spuList = new ArrayList<>();
-        spuList.add(spu);
-        model.addAttribute("spuList",spuList);
+        List<SpuView> spuList = spuService.queryListOfCategory();
+
+
+        List<SpuListVO> targetList = new ArrayList<>();
+        if(!ListUtils.isEmpty(spuList)){
+            for(SpuView spuView:spuList){
+                if(ListUtils.isEmpty(targetList)){
+                    SpuListVO spuListVO = new SpuListVO();
+                    spuListVO.setCatName(spuView.getCatName());
+                    List<SpuView> spuViewList = new ArrayList<>();
+                    spuViewList.add(spuView);
+                    spuListVO.setSpuViewList(spuViewList);
+                    targetList.add(spuListVO);
+                }else {
+                    boolean hasGroup = false;
+                    for(SpuListVO spuListVO:targetList){
+                        if(spuListVO.getCatName().equals(spuView.getCatName())){
+                            hasGroup = true;
+                            spuListVO.getSpuViewList().add(spuView);
+                        }
+                    }
+                    if(!hasGroup){
+                        SpuListVO spuListVO = new SpuListVO();
+                        spuListVO.setCatName(spuView.getCatName());
+                        List<SpuView> spuViewList = new ArrayList<>();
+                        spuViewList.add(spuView);
+                        spuListVO.setSpuViewList(spuViewList);
+                        targetList.add(spuListVO);
+                    }
+                }
+            }
+        }
+
+
+        model.addAttribute("targetList",targetList);
         return "goods/goodsList";
     }
 
     @RequestMapping("getSpuDetail")
-    public String getSpuDetail(ModelMap model,String code,String state) {
+    public String getSpuDetail(ModelMap model,String code,String state,Long spuId) {
 
         if(code != null){
             String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
@@ -72,14 +107,14 @@ public class SpuController extends BaseController {
             log.debug("openid:"+openid);
         }
 
-        List<Spu> spuList = new ArrayList<>();
-        model.addAttribute("spuList",spuList);
-        Spu spu1 = new Spu();
-        spu1.setSpuImg("https://fauna-test.b0.upaiyun.com/goods/637/081/909/051/150909180736_036_7.jpg!S");
-        Spu spu2 = new Spu();
-        spu2.setSpuImg("https://fauna-test.b0.upaiyun.com/goodsImg/201604/18/1460961803938_58088389.jpg!M");
-        spuList.add(spu1);
-        spuList.add(spu2);
+        Spu spu = spuService.getById(spuId);
+        SpuView spuView = new SpuView();
+        BeanUtils.copyProperties(spu,spuView);
+        List<String> picList = new ArrayList<>();
+        picList.add("https://fauna-test.b0.upaiyun.com/goods/637/081/909/051/150909180736_036_7.jpg!S");
+        picList.add("https://fauna-test.b0.upaiyun.com/goodsImg/201604/18/1460961803938_58088389.jpg!M");
+        spuView.setPicList(picList);
+        model.addAttribute("spuView",spuView);
         return "goods/goodsDetail";
     }
 

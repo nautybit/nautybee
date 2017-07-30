@@ -47,9 +47,26 @@ img {
 }
 /*bootstrap piece end*/
 #wrapper {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
     width:100%;
     overflow:auto;
-    background-color: white;
+    /*text-align: center;*/
+    background-color: #f8f8f8;
+}
+#scroller {
+    position:absolute;
+    z-index:1;
+    width:100%;
+    padding:0;
+}
+#scroller ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 #picWrapper ul {
     list-style: none;

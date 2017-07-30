@@ -104,7 +104,8 @@ function initEventHandlers(){
         doRequest(queryParam);
     });
     $('.goods').on('clickstatus.up',function(){
-        window.location.href = window.location.origin + '/nautybee/wx/goods/getSpuDetail'
+        var spuId = $(this).attr("spuId");
+        window.location.href = window.location.origin + '/nautybee/wx/goods/getSpuDetail?spuId='+spuId;
     })
 }
 function doRequest(queryParam){

@@ -12,7 +12,6 @@
         <result column = "spu_id" property = "spuId" />
         <result column = "prop_detail_id1" property = "propDetailId1" />
         <result column = "prop_detail_id2" property = "propDetailId2" />
-        <result column = "show_order" property = "showOrder" />
     </resultMap>
 
     <!--用于搜索返回视图-->
@@ -25,9 +24,14 @@
         <result column = "spu_id" property = "spuId" />
         <result column = "prop_detail_id1" property = "propDetailId1" />
         <result column = "prop_detail_id2" property = "propDetailId2" />
-        <result column = "show_order" property = "showOrder" />
 
         <result column = "goods_name" property = "goodsName" />
+        <result column = "prop_name1" property = "propName1" />
+        <result column = "detail_name1" property = "detailName1" />
+        <result column = "prop_name2" property = "propName2" />
+        <result column = "detail_name2" property = "detailName2" />
+        <result column = "goods_num" property = "goodsNum" />
+
     </resultMap>
 
 
@@ -56,9 +60,7 @@
                 <if test = "propDetailId2 != null">
                     and prop_detail_id2 = #{propDetailId2}
                 </if>
-                <if test = "showOrder != null">
-                    and show_order = #{showOrder}
-                </if>
+
             </trim>
         </where>
     </sql>
@@ -154,8 +156,7 @@
         sale_volume,
         spu_id,
         prop_detail_id1,
-        prop_detail_id2,
-        show_order
+        prop_detail_id2
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
@@ -165,8 +166,7 @@
         #{saleVolume},
         #{spuId},
         #{propDetailId1},
-        #{propDetailId2},
-        #{showOrder}
+        #{propDetailId2}
         )
     </insert>
 
@@ -192,5 +192,17 @@
             #{orderId}
         </foreach>
         )
+    </select>
+
+    <!-- 根据spuId查询商品 -->
+    <select id="queryGoodsBySpuId" resultMap="GoodsViewMap">
+        select a.id,c.prop_name as prop_name1,b.detail_name as detail_name1,e.prop_name as prop_name2,d.detail_name as detail_name2,goods_num
+        from nautybee_goods a
+        join nautybee_goods_property_detail b on a.prop_detail_id1 = b.id and b.is_deleted = 'N'
+        join nautybee_goods_property c on b.prop_id = c.id and c.is_deleted = 'N'
+        join nautybee_stock f on a.id = f.goods_id and f.is_deleted = 'N'
+        left join nautybee_goods_property_detail d on a.prop_detail_id2 = d.id and d.is_deleted = 'N'
+        left join nautybee_goods_property e on d.prop_id = e.id and e.is_deleted = 'N'
+        where a.spu_id = #{spuId} and a.is_deleted = 'N' order by b.show_order,d.show_order;
     </select>
 </mapper>

@@ -12,5 +12,6 @@ import java.util.List;
 public interface GoodsDao extends BaseDao<Goods> {
 
     List<GoodsView> queryGoodsByOrderIdList(@Param("list") List<Long> orderId);
+    List<GoodsView> queryGoodsBySpuId(Long spuId);
 
 }

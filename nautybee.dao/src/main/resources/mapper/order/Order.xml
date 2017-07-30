@@ -7,6 +7,7 @@
                extends = "COMMON.BASE_RESULT_MAP">
         <result column = "order_sn" property = "orderSn" />
         <result column = "user_id" property = "userId" />
+        <result column = "wx_open_id" property = "wxOpenId" />
         <result column = "store_id" property = "storeId" />
         <result column = "order_status" property = "orderStatus" />
         <result column = "buyer_evaluate" property = "buyerEvaluate" />
@@ -34,6 +35,9 @@
                 </if>
                 <if test = "userId != null">
                     and user_id = #{userId}
+                </if>
+                <if test = "wxOpenId != null">
+                    and wx_open_id = #{wxOpenId}
                 </if>
                 <if test = "storeId != null">
                     and store_id = #{storeId}
@@ -95,6 +99,9 @@
             </if>
             <if test = "userId != null">
                 user_id = #{userId},
+            </if>
+            <if test = "wxOpenId != null">
+                wx_open_id = #{wxOpenId},
             </if>
             <if test = "storeId != null">
                 store_id = #{storeId},
@@ -204,6 +211,7 @@
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
         order_sn,
         user_id,
+        wx_open_id,
         store_id,
         order_status,
         buyer_evaluate,
@@ -225,6 +233,7 @@
         <include refid = "COMMON.BASE_INSERT_VALUE" />
         #{orderSn},
         #{userId},
+        #{wxOpenId},
         #{storeId},
         #{orderStatus},
         #{buyerEvaluate},

@@ -2,7 +2,8 @@ package com.nautybit.nautybee.biz.goods.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import com.nautybit.nautybee.view.goods.GoodsAttributeView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import com.nautybit.nautybee.biz.base.BaseServiceImpl;
@@ -37,4 +38,9 @@ public class GoodsAttributeServiceImpl extends BaseServiceImpl  implements Goods
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(goodsAttributeDao, ids);
   }
+
+    @Override
+    public List<GoodsAttributeView> queryByGoodsIdList(List<Long> goodsIdList){
+        return goodsAttributeDao.queryByGoodsIdList(goodsIdList);
+    }
 }

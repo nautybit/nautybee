@@ -31,14 +31,15 @@ $(function(){
     init();
 });
 function init(){
-
-
     windowResized();
+    //填写属性值
+    fillAttribute();
+    //隐藏在校信息
+    $('.school-info').hide();
     $('body').css("visibility","visible");
     initEventHandlers();
     //微信初始化
     initWx();
-
 }
 function getScreenWidth(){
     return document.body.clientWidth;
@@ -49,36 +50,110 @@ function windowResized(){
 function initEventHandlers(){
     $('#purchaseBtn').on('click',function(){
         var queryParam = {};
+
+
+//        var goodsId;
+//        if(gPropLength == 1){
+//            goodsId = $('.weui-select[name="select"]').val();
+//        }else{
+//            goodsId = $('.weui-select[name="select2"]').val();
+//        }
+//        var studentName = $('#studentName').val();
+//        if(studentName == null || studentName == ''){
+//            showTip("请填写姓名");
+//            return;
+//        }
+//        var contactMobile = $('#contactMobile').val();
+//        if(studentName == null || studentName == ''){
+//            showTip("请填写手机号");
+//            return;
+//        }else if(!isValidMobile(contactMobile)){
+//            showTip("请填写正确的手机号");
+//            return;
+//        }
+//
+//        queryParam.goodsId = goodsId;
+//        queryParam.studentName = studentName;
+//        queryParam.contactMobile = contactMobile;
+//        if($('#isAtSchoolSwitch').prop("checked")){
+//            queryParam.isAtSchool = 1;
+//        }
+//        queryParam.schoolName = $('#schoolName').val();
+//        queryParam.schoolGrade = $('#schoolGrade').val();
+//        queryParam.schoolClass = $('#schoolClass').val();
+//        queryParam.teacherName = $('#teacherName').val();
+//        queryParam.teacherMobile = $('#teacherMobile').val();
+
         queryParam.totalFee = 0.01;
         queryParam.wxOpenid = getCookie("wxOpenId");
         doRequest(queryParam);
     });
-//    $('#showPicker').on('click', function () {
-//        weui.picker([{
-//            label: '飞机票',
-//            value: 0
-//        }, {
-//            label: '火车票',
-//            value: 1
-//        }, {
-//            label: '的士票',
-//            value: 2
-//        },{
-//            label: '公交票 (disabled)',
-//            disabled: true,
-//            value: 3
-//        }, {
-//            label: '其他',
-//            value: 4
-//        }], {
-//            onChange: function (result) {
-//                console.log(result);
-//            },
-//            onConfirm: function (result) {
-//                console.log(result);
-//            }
-//        });
-//    });
+}
+
+
+function showTip(text){
+    var $tooltips = $('.js_tooltips');
+    if ($tooltips.css('display') != 'none') return;
+    $tooltips.text(text);
+    $tooltips.css('display', 'block');
+    setTimeout(function () {
+        $tooltips.css('display', 'none');
+        $tooltips.text('');
+    }, 2000);
+}
+
+
+function fillAttribute(){
+    var goodsAttributeViewList = [];
+    if(gPropLength == 1){
+        var goodsId = $('.weui-select[name="select"]').val();
+        for(var i=0;i<gGoodsViewList.length;i++){
+            if(gGoodsViewList[i].id == goodsId){
+                goodsAttributeViewList = gGoodsViewList[i].goodsAttributeViewList;
+                break;
+            }
+        }
+    }else{
+        var mainDetailName = $('.weui-select[name="select1"]').find("option:selected").text();
+        var goodsId = $('.weui-select[name="select2"]').val();
+        var goodsViewList = gMainDetailGoodsListMap[mainDetailName];
+        for(var i=0;i<goodsViewList.length;i++){
+            if(goodsViewList[i].id == goodsId){
+                goodsAttributeViewList = goodsViewList[i].goodsAttributeViewList;
+                break;
+            }
+        }
+    }
+    if(goodsAttributeViewList.length > 0){
+        var attrHtmlStr = '';
+        for(var i=0;i<goodsAttributeViewList.length;i++){
+            var entity = goodsAttributeViewList[i];
+            attrHtmlStr += '<p>'+entity.attrName+'：'+entity.attrValue+'</p>'
+        }
+        $('#attributes').html(attrHtmlStr);
+    }
+}
+function changeDetail1(){
+    var mainDetailName = $('.weui-select[name="select1"]').find("option:selected").text();
+    var goodsViewList = gMainDetailGoodsListMap[mainDetailName];
+    var appendStr = '';
+    for(var i=0;i<goodsViewList.length;i++){
+        var goodsView = goodsViewList[i];
+        if(goodsView.goodsNum < 1){
+            appendStr += '<option value="'+goodsView.id+'" disabled="true">'+goodsView.detailName2+'</option>'
+        }else{
+            appendStr += '<option value="'+goodsView.id+'">'+goodsView.detailName2+'</option>'
+        }
+    }
+    $('.weui-select[name="select2"]').html(appendStr);
+    fillAttribute();
+}
+function switchSchoolInfo(obj){
+    if($(obj).prop("checked")){
+        $('.school-info').show();
+    }else{
+        $('.school-info').hide();
+    }
 }
 function doRequest(queryParam){
     var request = new RequestToWechatPay(queryParam);
@@ -93,7 +168,7 @@ function doRequest(queryParam){
             return;
         }else{
             var data = result.data;
-            alert("appId:"+data.appId);
+//            alert("appId:"+data.appId);
             if (typeof WeixinJSBridge == "undefined"){
                 console.log("WeixinJSBridge not defined")
                 return;
@@ -112,17 +187,13 @@ function doRequest(queryParam){
                 function(res){
                     console.log("wx pay callback.");
                     console.log("callback res = " + JSON.stringify(res));
-
                     if(res.err_msg == "get_brand_wcpay_request:cancel" ) {
-
                         return;
                     }
                     if(res.err_msg == "get_brand_wcpay_request:fail" ) {
-
                         return;
                     }
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-
                         return;
                     }
                 }

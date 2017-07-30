@@ -54,7 +54,7 @@ img {
     width:100%;
     overflow:auto;
     /*text-align: center;*/
-    background-color: #eeeeee;
+    background-color: #f8f8f8;
 }
 #scroller {
     position:absolute;

@@ -9,6 +9,7 @@
         <result column = "detail_name" property = "detailName" />
         <result column = "goods_img" property = "goodsImg" />
         <result column = "remark" property = "remark" />
+        <result column = "show_order" property = "showOrder" />
     </resultMap>
 
     <sql id = "BaseWhereClause">
@@ -27,6 +28,9 @@
                 <if test = "remark != null">
                     and remark = #{remark}
                 </if>
+                <if test = "showOrder != null">
+                    and show_order = #{showOrder}
+                </if>
             </trim>
         </where>
     </sql>
@@ -44,7 +48,10 @@
                 goods_img = #{goodsImg},
             </if>
             <if test = "remark != null">
-                remark = #{remark}
+                remark = #{remark},
+            </if>
+            <if test = "showOrder != null">
+                show_order = #{showOrder}
             </if>
         </set>
     </sql>
@@ -107,14 +114,16 @@
         prop_id,
         detail_name,
         goods_img,
-        remark
+        remark,
+        show_order
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
         #{propId},
         #{detailName},
         #{goodsImg},
-        #{remark}
+        #{remark},
+        #{showOrder}
         )
     </insert>
 
@@ -125,4 +134,13 @@
         where id = #{id}
     </update>
 
+    <!-- 根据propId查询 -->
+    <select id = "selectByPropId" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods_property_detail
+        where prop_id = #{propId}
+        and is_deleted = 'N'
+        order by show_order
+    </select>
 </mapper>

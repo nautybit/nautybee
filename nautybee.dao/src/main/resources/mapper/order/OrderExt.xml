@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.order.OrderExtDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.order.OrderExt"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "order_sn" property = "orderSn" />
+        <result column = "student_name" property = "studentName" />
+        <result column = "contact_mobile" property = "contactMobile" />
+        <result column = "is_at_school" property = "isAtSchool" />
+        <result column = "school_name" property = "schoolName" />
+        <result column = "school_grade" property = "schoolGrade" />
+        <result column = "school_class" property = "schoolClass" />
+        <result column = "teacher_name" property = "teacherName" />
+        <result column = "teacher_mobile" property = "teacherMobile" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "orderSn != null">
+                    and order_sn = #{orderSn}
+                </if>
+                <if test = "studentName != null">
+                    and student_name = #{studentName}
+                </if>
+                <if test = "contactMobile != null">
+                    and contact_mobile = #{contactMobile}
+                </if>
+                <if test = "isAtSchool != null">
+                    and is_at_school = #{isAtSchool}
+                </if>
+                <if test = "schoolName != null">
+                    and school_name = #{schoolName}
+                </if>
+                <if test = "schoolGrade != null">
+                    and school_grade = #{schoolGrade}
+                </if>
+                <if test = "schoolClass != null">
+                    and school_class = #{schoolClass}
+                </if>
+                <if test = "teacherName != null">
+                    and teacher_name = #{teacherName}
+                </if>
+                <if test = "teacherMobile != null">
+                    and teacher_mobile = #{teacherMobile}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "orderSn != null">
+                order_sn = #{orderSn},
+            </if>
+            <if test = "studentName != null">
+                student_name = #{studentName},
+            </if>
+            <if test = "contactMobile != null">
+                contact_mobile = #{contactMobile},
+            </if>
+            <if test = "isAtSchool != null">
+                is_at_school = #{isAtSchool},
+            </if>
+            <if test = "schoolName != null">
+                school_name = #{schoolName},
+            </if>
+            <if test = "schoolGrade != null">
+                school_grade = #{schoolGrade},
+            </if>
+            <if test = "schoolClass != null">
+                school_class = #{schoolClass},
+            </if>
+            <if test = "teacherName != null">
+                teacher_name = #{teacherName},
+            </if>
+            <if test = "teacherMobile != null">
+                teacher_mobile = #{teacherMobile}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_order_ext
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_ext
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_ext
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_order_ext
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_order_ext
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_order_ext
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_order_ext (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        order_sn,
+        student_name,
+        contact_mobile,
+        is_at_school,
+        school_name,
+        school_grade,
+        school_class,
+        teacher_name,
+        teacher_mobile
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{orderSn},
+        #{studentName},
+        #{contactMobile},
+        #{isAtSchool},
+        #{schoolName},
+        #{schoolGrade},
+        #{schoolClass},
+        #{teacherName},
+        #{teacherMobile}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_order_ext
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

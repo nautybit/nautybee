@@ -37,4 +37,8 @@ public class GoodsPropertyServiceImpl extends BaseServiceImpl  implements GoodsP
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(goodsPropertyDao, ids);
   }
+
+  public List<GoodsProperty> getBySpuId(Long spuId){
+      return goodsPropertyDao.getBySpuId(spuId);
+  }
 }

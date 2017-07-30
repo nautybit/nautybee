@@ -19,4 +19,6 @@ public interface SpuService {
 
     List<SpuView> queryList();
 
+    List<SpuView> queryListOfCategory();
+
 }

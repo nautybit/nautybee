@@ -19,6 +19,5 @@ public class Goods extends BaseEntity {
   private Long spuId;
   private Long propDetailId1;
   private Long propDetailId2;
-    private Long showOrder;
 
 }

@@ -18,5 +18,7 @@ public interface GoodsService {
   int deleteByIds(Long[] ids);
 
     List<GoodsView> queryGoodsByOrderIdList(List<Long> orderId);
+    List<GoodsView> queryGoodsBySpuId(Long spuId);
+    void fillGoodsAttribute(List<GoodsView> goodsViewList);
 
 }

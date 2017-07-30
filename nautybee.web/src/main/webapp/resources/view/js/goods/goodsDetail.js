@@ -40,7 +40,8 @@ function init(){
     initWx();
     //轮播插件初始化
     initSlider();
-
+    //初始化iscroll
+    loadScroll();
 
 //    var wxOpenId = getCookie("wxOpenId");
 //    alert("wxOpenId:"+wxOpenId);
@@ -75,7 +76,8 @@ function initEventHandlers(){
 //        queryParam.totalFee = 0.01;
 //        queryParam.wxOpenid = getCookie("wxOpenId");
 //        doRequest(queryParam);
-        window.location.href = window.location.origin + '/nautybee/wx/order/confirmOrder'
+        var spuId = SEARCH.spuId;
+        window.location.href = window.location.origin + '/nautybee/wx/order/confirmOrder?spuId='+spuId;
     });
 //    $('#showPicker').on('click', function () {
 //        weui.picker([{
@@ -154,6 +156,43 @@ function doRequest(queryParam){
         }
     };
     net.request(request,success);
+}
+function loadScroll () {
+    gViewModel.gPageScroll = new IScroll('#wrapper', {
+        scrollX: false,
+        scrollY: true,
+        momentum: true,
+        snap: false,
+        scrollbars: true,
+        fadeScrollbars:true,
+        shrinkScrollbars: 'scale',
+        bounce: true,
+        probeType:1,
+        click:true
+    });
+    gViewModel.gPageScroll.on('scrollStart',function(e){
+        $(".active").removeClass("active");
+    });
+    gViewModel.gPageScroll.on('scroll',function(e){
+        gViewModel.$wrapper.trigger("scroll");
+    });
+    gViewModel.gPageScroll.on('scrollEnd',function(e){
+        $(".active").removeClass("active");
+        gViewModel.$wrapper.trigger("scroll");
+    });
+    refreshScroll();
+}
+function refreshScroll(){
+    setTimeout(function(){
+        gViewModel.gPageScroll.refresh();
+    },200);
+}
+function initButtonStatus(){
+    //注册可点击按钮
+    $('.touchable').clickStatus({
+        touchEventEnable:gIsTouchDevice
+    });
+
 }
 // ************微信相关初始化操作START************
 function initWx(){

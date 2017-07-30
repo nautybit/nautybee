@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -33,4 +34,6 @@ public class SpuView extends BaseEntity {
     private Long showOrder;
     private String remark;
 
+    private String catName;
+    private List<String> picList;
 }

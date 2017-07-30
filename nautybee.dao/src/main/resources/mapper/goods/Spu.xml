@@ -53,6 +53,8 @@
         <result column = "step_price_cfg" property = "stepPriceCfg" />
         <result column = "show_order" property = "showOrder" />
         <result column = "remark" property = "remark" />
+
+        <result column = "cat_name" property = "catName" />
     </resultMap>
 
     <sql id = "BaseWhereClause">
@@ -314,11 +316,14 @@
     </update>
 
     <!-- 查询 -->
-    <select id = "queryList" resultMap = "SpuView">
+    <select id = "queryListOfCategory" resultMap = "SpuView">
         select
-        *
-        from nautybee_spu
-        where is_deleted = 'N'
+        a.*,b.cat_name
+        from nautybee_spu a,nautybee_category b
+        where a.cat_id = b.id
+        and a.is_deleted = 'N'
+        and b.is_deleted = 'N'
+        order by b.cat_order,a.show_order
     </select>
 
 </mapper>

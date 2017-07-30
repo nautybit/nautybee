@@ -16,5 +16,5 @@ public interface GoodsPropertyService {
 
   int deleteByIds(Long[] ids);
 
-
+    List<GoodsProperty> getBySpuId(Long spuId);
 }

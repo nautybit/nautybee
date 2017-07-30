@@ -10,6 +10,16 @@
         <result column = "attr_value" property = "attrValue" />
     </resultMap>
 
+    <!--用于搜索返回视图-->
+    <resultMap id="GoodsAttributeViewMap" type="com.nautybit.nautybee.view.goods.GoodsAttributeView"
+               extends="COMMON.BASE_RESULT_MAP">
+        <result column = "goods_id" property = "goodsId" />
+        <result column = "attr_id" property = "attrId" />
+        <result column = "attr_value" property = "attrValue" />
+        <result column = "attr_name" property = "attrName" />
+
+    </resultMap>
+
     <sql id = "BaseWhereClause">
         <where>
             <trim prefixOverrides = "and">
@@ -115,5 +125,21 @@
         <include refid = "BaseUpdateSet" />
         where id = #{id}
     </update>
+
+    <!-- 根据goodsId列表查询商品 -->
+    <select id="queryByGoodsIdList" resultMap="GoodsAttributeViewMap">
+        select
+        a.*,b.attr_name
+        from nautybee_goods_attribute a,nautybee_attribute b
+        where a.attr_id = b.id
+        and a.is_deleted='N' and b.is_deleted='N'
+        and a.goods_id in
+        (
+        <foreach collection="list" index="index" item="goodsId" separator=",">
+            #{goodsId}
+        </foreach>
+        )
+        order by a.goods_id,b.attr_order
+    </select>
 
 </mapper>
