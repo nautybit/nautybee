@@ -15,6 +15,17 @@ RequestJSApiConfig = extend ( RequestBase, function(){
     this.method = "get";
     this.contentType = "application/json";
 });
+RequestCreateOrder = extend( RequestBase, function(queryParam)
+{
+    this.__super__.constructor(this);
+    this.url = "wx/order/createOrder";
+    this.method = "post";
+    this.contentType = "application/json";
+    this.dataType = "json";
+    this.async = true;
+    var params = JSON.stringify(queryParam);
+    this.params = params;
+});
 RequestToWechatPay = extend( RequestBase, function(queryParam)
 {
     this.__super__.constructor(this);
@@ -50,43 +61,43 @@ function windowResized(){
 function initEventHandlers(){
     $('#purchaseBtn').on('click',function(){
         var queryParam = {};
+        var goodsId;
+        if(gPropLength == 1){
+            goodsId = $('.weui-select[name="select"]').val();
+        }else{
+            goodsId = $('.weui-select[name="select2"]').val();
+        }
+        var studentName = $('#studentName').val();
+        if(studentName == null || studentName == ''){
+            showTip("请填写姓名");
+            return;
+        }
+        var contactMobile = $('#contactMobile').val();
+        if(studentName == null || studentName == ''){
+            showTip("请填写手机号");
+            return;
+        }else if(!isValidMobile(contactMobile)){
+            showTip("请填写正确的手机号");
+            return;
+        }
 
-
-//        var goodsId;
-//        if(gPropLength == 1){
-//            goodsId = $('.weui-select[name="select"]').val();
-//        }else{
-//            goodsId = $('.weui-select[name="select2"]').val();
-//        }
-//        var studentName = $('#studentName').val();
-//        if(studentName == null || studentName == ''){
-//            showTip("请填写姓名");
-//            return;
-//        }
-//        var contactMobile = $('#contactMobile').val();
-//        if(studentName == null || studentName == ''){
-//            showTip("请填写手机号");
-//            return;
-//        }else if(!isValidMobile(contactMobile)){
-//            showTip("请填写正确的手机号");
-//            return;
-//        }
-//
-//        queryParam.goodsId = goodsId;
-//        queryParam.studentName = studentName;
-//        queryParam.contactMobile = contactMobile;
-//        if($('#isAtSchoolSwitch').prop("checked")){
-//            queryParam.isAtSchool = 1;
-//        }
-//        queryParam.schoolName = $('#schoolName').val();
-//        queryParam.schoolGrade = $('#schoolGrade').val();
-//        queryParam.schoolClass = $('#schoolClass').val();
-//        queryParam.teacherName = $('#teacherName').val();
-//        queryParam.teacherMobile = $('#teacherMobile').val();
+        queryParam.goodsId = goodsId;
+        queryParam.storeId = gStoreId;
+        queryParam.studentName = studentName;
+        queryParam.contactMobile = contactMobile;
+        if($('#isAtSchoolSwitch').prop("checked")){
+            queryParam.isAtSchool = 1;
+        }
+        queryParam.schoolName = $('#schoolName').val();
+        queryParam.schoolGrade = $('#schoolGrade').val();
+        queryParam.schoolClass = $('#schoolClass').val();
+        queryParam.teacherName = $('#teacherName').val();
+        queryParam.teacherMobile = $('#teacherMobile').val();
 
         queryParam.totalFee = 0.01;
         queryParam.wxOpenid = getCookie("wxOpenId");
-        doRequest(queryParam);
+
+        createOrder(queryParam);
     });
 }
 
@@ -155,6 +166,34 @@ function switchSchoolInfo(obj){
         $('.school-info').hide();
     }
 }
+
+function createOrder(queryParam){
+    var request = new RequestCreateOrder(queryParam);
+    var net = Net.getInstance();
+    var success = function(result){
+        if( !result.success ){
+            alert("create order fail");
+            baseShowModalAlert(
+                "danger"
+                ,result.errorMsg
+            );
+            return;
+        }else{
+            var data = result.data;
+            var queryParam = {};
+            queryParam.totalFee = 0.01;
+            queryParam.wxOpenid = getCookie("wxOpenId");
+            queryParam.goodsId = data.goodsId;
+            queryParam.tradeNo = data.orderSn;
+            var orderIdList = [];
+            orderIdList.push(data.orderId);
+            queryParam.orderList = orderIdList;
+            doRequest(queryParam);
+        }
+    };
+    net.request(request,success);
+}
+
 function doRequest(queryParam){
     var request = new RequestToWechatPay(queryParam);
     var net = Net.getInstance();

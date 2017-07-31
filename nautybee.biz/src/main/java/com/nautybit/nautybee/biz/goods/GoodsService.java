@@ -20,5 +20,7 @@ public interface GoodsService {
     List<GoodsView> queryGoodsByOrderIdList(List<Long> orderId);
     List<GoodsView> queryGoodsBySpuId(Long spuId);
     void fillGoodsAttribute(List<GoodsView> goodsViewList);
+    GoodsView queryGoodsById(Long id);
+
 
 }

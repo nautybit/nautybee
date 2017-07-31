@@ -17,6 +17,7 @@ import com.nautybit.nautybee.entity.order.PayOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,6 +37,8 @@ public class WechatPayService extends BasePayService {
 
     @Autowired
     private PayOrderService payOrderService;
+    @Value("${nautybee.wechat.mchkey}")
+    private String mchkey;
 
     Gson gson = new Gson();
 
@@ -49,7 +52,7 @@ public class WechatPayService extends BasePayService {
          ***************************************************************************/
         SortedMap<String, String> paramMap = PayUtils.payParamToMap(wechatPayParam);
         //生成签名参数
-        String resultString = SignUtils.createLinkStringWithEscape(paramMap)+"&key=44ris19u8nblx42vugypcijvca1mgjvl";
+        String resultString = SignUtils.createLinkStringWithEscape(paramMap)+"&key="+mchkey;
         System.out.println(resultString);
         String sign = Md5Utils.getMD5Str(resultString).toUpperCase();
         paramMap.put("sign", sign);
@@ -78,7 +81,7 @@ public class WechatPayService extends BasePayService {
          * 2.创建支付订单关联的订单信息
          *******************************************************************************************/
         //payOrderRelService.createOrderList(wechatPayParam.getOut_trade_no(),payParam.getOrderList());
-//        payOrderRelService.createOrderList(wechatPayParam.getOut_trade_no(), payParam.getOrderList());
+        payOrderRelService.createOrderList(wechatPayParam.getOut_trade_no(), payParam.getOrderList());
         /*******************************************************************************************
          * 3.发送统一下单消息到消息服务器，异步记录本次支付请求的参数
          *******************************************************************************************/

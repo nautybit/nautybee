@@ -11,5 +11,6 @@ import java.util.List;
 public interface OrderDao extends BaseDao<Order> {
 
     List<Order> queryByIds(@Param("list") List<Long> orderIdList);
+    void updatePayStatus(@Param("orderSn")String orderSn,@Param("status")String status);
 
 }

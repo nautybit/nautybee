@@ -271,4 +271,12 @@
         </foreach>
         )
     </select>
+
+    <!-- 更新订单支付状态 -->
+    <update id = "updatePayStatus">
+        update nautybee_order
+        set pay_status = #{status}
+        where order_sn = #{orderSn}
+    </update>
+
 </mapper>

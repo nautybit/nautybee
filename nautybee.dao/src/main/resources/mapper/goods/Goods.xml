@@ -205,4 +205,17 @@
         left join nautybee_goods_property e on d.prop_id = e.id and e.is_deleted = 'N'
         where a.spu_id = #{spuId} and a.is_deleted = 'N' order by b.show_order,d.show_order;
     </select>
+
+    <!-- 根据id查询商品 -->
+    <select id="queryGoodsById" resultMap="GoodsViewMap">
+        select a.*,g.goods_name,c.prop_name as prop_name1,b.detail_name as detail_name1,e.prop_name as prop_name2,d.detail_name as detail_name2,goods_num
+        from nautybee_goods a
+        join nautybee_goods_property_detail b on a.prop_detail_id1 = b.id and b.is_deleted = 'N'
+        join nautybee_goods_property c on b.prop_id = c.id and c.is_deleted = 'N'
+        join nautybee_stock f on a.id = f.goods_id and f.is_deleted = 'N'
+        join nautybee_spu g on a.spu_id = g.id and g.is_deleted = 'N'
+        left join nautybee_goods_property_detail d on a.prop_detail_id2 = d.id and d.is_deleted = 'N'
+        left join nautybee_goods_property e on d.prop_id = e.id and e.is_deleted = 'N'
+        where a.id = #{id} and a.is_deleted = 'N';
+    </select>
 </mapper>

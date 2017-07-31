@@ -139,6 +139,7 @@
     <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
         insert into nautybee_order_ext (
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        id,
         order_sn,
         student_name,
         contact_mobile,
@@ -151,6 +152,7 @@
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{id},
         #{orderSn},
         #{studentName},
         #{contactMobile},

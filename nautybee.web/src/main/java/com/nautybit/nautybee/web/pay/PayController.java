@@ -2,20 +2,25 @@ package com.nautybit.nautybee.web.pay;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.nautybit.nautybee.biz.order.OrderService;
+import com.nautybit.nautybee.biz.order.PayNotifyService;
+import com.nautybit.nautybee.biz.order.PayOrderService;
 import com.nautybit.nautybee.biz.pay.WechatPayService;
+import com.nautybit.nautybee.common.constant.order.OrderStatusEnum;
+import com.nautybit.nautybee.common.constant.pay.PayConstants;
 import com.nautybit.nautybee.common.constant.pay.WechatPayConstants;
-import com.nautybit.nautybee.common.param.pay.PayParam;
-import com.nautybit.nautybee.common.param.pay.WechatPayNotifyResult;
-import com.nautybit.nautybee.common.param.pay.WechatPayParam;
-import com.nautybit.nautybee.common.param.pay.WechatPrePayResult;
+import com.nautybit.nautybee.common.param.pay.*;
 import com.nautybit.nautybee.common.result.ErrorCode;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.result.order.WechatPayRequestVO;
 import com.nautybit.nautybee.common.utils.Base64Utils;
 import com.nautybit.nautybee.common.utils.Md5Utils;
+import com.nautybit.nautybee.common.utils.PrintUtils;
 import com.nautybit.nautybee.common.utils.pay.PayUtils;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
+import com.nautybit.nautybee.entity.order.PayNotify;
+import com.nautybit.nautybee.entity.order.PayOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +49,12 @@ public class PayController extends BasePayController {
     private String mchkey;
     @Autowired
     private WechatPayService wechatPayService;
+    @Autowired
+    private PayNotifyService payNotifyService;
+    @Autowired
+    private PayOrderService payOrderService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -124,8 +135,9 @@ public class PayController extends BasePayController {
             notifyMap = WechatPayUtils.doXMLParse(resultStr);
             if (notifyMap != null && notifyMap.size() > 0) {
                 //交易状态 0000表示成功
-                String respCode = notifyMap.get("result_code");
+                String respCode = notifyMap.get("return_code");
                 if (WechatPayConstants.SUCCESE.equals(respCode)) {
+                    payNotify(notifyMap);
 //                    wechatPayService.payNotify(notifyMap);
                     //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
                     log.info("wechatPayNotify:responseMap="+resultStr);
@@ -149,6 +161,57 @@ public class PayController extends BasePayController {
         return null;
     }
 
+    public String payNotify(Map<String,String> notifyParam){
+        //商户订单号
+        String tradeNo = notifyParam.get("out_trade_no");
+        //交易状态 0000表示成功
+        String tradeStatus = notifyParam.get("result_code");
+        //transactionId
+        String notifyId = notifyParam.get("transaction_id");
+
+        /**********************************************************************************
+         * 1.判断该条消息是否已经处理过,如果处理过，直接返回
+         **********************************************************************************/
+        PayNotify payNotify = payNotifyService.queryByNotifyIdAndStatus(notifyId, tradeStatus);
+        if (payNotify != null) {
+            log.info("payNotify:the notifyId[" + notifyId + "] has been handle!");
+            return null;
+        }
+        log.info("payNotify:tradeNo[" + tradeNo + "],notifyId[" + notifyId + "] the tradeStatus is " + tradeStatus);
+        /**********************************************************************************
+         * 2.保存notify信息
+         **********************************************************************************/
+        PayNotifyParam payNotifyParam = new PayNotifyParam();
+        payNotifyParam.setNotifyId(notifyId);
+        payNotifyParam.setStatus(tradeStatus);
+        payNotifyParam.setTradeNo(tradeNo);
+
+        PayNotify newPayNotify = new PayNotify();
+        newPayNotify.setDefaultBizValue();
+        newPayNotify.setTradeNo(tradeNo);
+        newPayNotify.setNotifyId(notifyId);
+        newPayNotify.setStatus(tradeStatus);
+        newPayNotify.setRequestParam(PrintUtils.printMap(notifyParam));
+        payNotifyService.save(newPayNotify);
+        log.info("savePayNotifyInfo:save notify info success. notifyId["+notifyId+"],tradeStatus["+tradeStatus+"]");
+        /**********************************************************************************
+         * 3.如果是付款成功，修改PayOrder状态； AlipayConstants.TRADE_FINISHED.equals(tradeStatus) || AlipayConstants.TRADE_SUCCESS.equals(tradeStatus)
+         **********************************************************************************/
+        if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
+            PayOrder payOrder = new PayOrder();
+            payOrder.setTradeNo(tradeNo);
+            payOrder.setStatus(tradeStatus);
+            payOrderService.updateStatusByTradeNo(payOrder.getTradeNo(), payOrder.getStatus());
+        }
+        /**********************************************************************************
+         * 4.交易成功，根据TradeNo找到支付的订单列表;更新订单的状态，保存到数据库
+         **********************************************************************************/
+        //支付成功
+        if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
+            orderService.updatePayStatus(tradeNo, OrderStatusEnum.YFK.name());
+        }
+        return null;
+    }
 
 //    public boolean verifyWeixinNotify(Map<Object, Object> map) {
 //        SortedMap<String, String> parameterMap = new TreeMap<String, String>();

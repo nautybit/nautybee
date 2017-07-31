@@ -2,7 +2,9 @@ package com.nautybit.nautybee.biz.order.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import com.nautybit.nautybee.common.param.order.OrderParam;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import com.nautybit.nautybee.biz.base.BaseServiceImpl;
@@ -37,4 +39,14 @@ public class OrderExtServiceImpl extends BaseServiceImpl  implements OrderExtSer
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(orderExtDao, ids);
   }
+
+    public void createOrderExt(OrderParam orderParam){
+        OrderExt orderExt = new OrderExt();
+        BeanUtils.copyProperties(orderParam,orderExt);
+        orderExt.setDefaultBizValue();
+        orderExt.setId(orderParam.getOrderId());
+        orderExtDao.insert(orderExt);
+
+    }
+
 }

@@ -33,7 +33,7 @@ public interface OrderConstants {
     /**
      * TradeNo前缀
      */
-    String TRADE_NO_PREFIX = "YP";
+    String TRADE_NO_PREFIX = "NB";
 
     /**
      * 活动商品限购

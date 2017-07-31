@@ -3,6 +3,7 @@ package com.nautybit.nautybee.biz.order;
 import java.util.List;
 import java.util.Map;
 
+import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.entity.order.Order;
 
 public interface OrderService {
@@ -18,5 +19,6 @@ public interface OrderService {
 
     String generateTradeNo();
     List<Order> queryByIds(List<Long> orderIdList);
-
+    Order createOrder(OrderParam orderParam);
+    void updatePayStatus(String orderSn,String status);
 }

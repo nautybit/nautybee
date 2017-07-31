@@ -79,4 +79,9 @@ public class GoodsServiceImpl extends BaseServiceImpl  implements GoodsService{
 
     }
 
+    @Override
+    public GoodsView queryGoodsById(Long id){
+        return goodsDao.queryGoodsById(id);
+    }
+
 }

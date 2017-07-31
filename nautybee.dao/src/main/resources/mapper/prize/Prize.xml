@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.prize.PrizeDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.prize.Prize"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "prize_origin" property = "prizeOrigin" />
+        <result column = "origin_id" property = "originId" />
+        <result column = "user_id" property = "userId" />
+        <result column = "prize_type" property = "prizeType" />
+        <result column = "prize_value" property = "prizeValue" />
+        <result column = "prize_status" property = "prizeStatus" />
+        <result column = "prize_remark" property = "prizeRemark" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "prizeOrigin != null">
+                    and prize_origin = #{prizeOrigin}
+                </if>
+                <if test = "originId != null">
+                    and origin_id = #{originId}
+                </if>
+                <if test = "userId != null">
+                    and user_id = #{userId}
+                </if>
+                <if test = "prizeType != null">
+                    and prize_type = #{prizeType}
+                </if>
+                <if test = "prizeValue != null">
+                    and prize_value = #{prizeValue}
+                </if>
+                <if test = "prizeStatus != null">
+                    and prize_status = #{prizeStatus}
+                </if>
+                <if test = "prizeRemark != null">
+                    and prize_remark = #{prizeRemark}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "prizeOrigin != null">
+                prize_origin = #{prizeOrigin},
+            </if>
+            <if test = "originId != null">
+                origin_id = #{originId},
+            </if>
+            <if test = "userId != null">
+                user_id = #{userId},
+            </if>
+            <if test = "prizeType != null">
+                prize_type = #{prizeType},
+            </if>
+            <if test = "prizeValue != null">
+                prize_value = #{prizeValue},
+            </if>
+            <if test = "prizeStatus != null">
+                prize_status = #{prizeStatus},
+            </if>
+            <if test = "prizeRemark != null">
+                prize_remark = #{prizeRemark}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_prize
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_prize
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_prize
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_prize
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_prize
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_prize
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_prize (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        prize_origin,
+        origin_id,
+        user_id,
+        prize_type,
+        prize_value,
+        prize_status,
+        prize_remark
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{prizeOrigin},
+        #{originId},
+        #{userId},
+        #{prizeType},
+        #{prizeValue},
+        #{prizeStatus},
+        #{prizeRemark}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_prize
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+</mapper>

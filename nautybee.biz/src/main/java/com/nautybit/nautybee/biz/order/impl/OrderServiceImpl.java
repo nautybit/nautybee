@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.nautybit.nautybee.biz.redis.RedisStringService;
 import com.nautybit.nautybee.common.constant.OrderConstants;
+import com.nautybit.nautybee.common.constant.order.OrderStatusEnum;
+import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.GenerationUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -72,5 +74,24 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
     public List<Order> queryByIds(List<Long> orderIdList) {
         List<Order> list = orderDao.queryByIds(orderIdList);
         return list;
+    }
+
+    @Override
+    public Order createOrder(OrderParam orderParam){
+        Order order = new Order();
+        order.setDefaultBizValue();
+        order.setOrderSn(generateTradeNo());
+        order.setWxOpenId(orderParam.getWxOpenid());
+        order.setUserId(-1l);
+        order.setStoreId(orderParam.getStoreId());
+        order.setPayStatus(OrderStatusEnum.WFK.name());
+        order.setOrderAmount(orderParam.getTotalFee());
+        save(order);
+        return order;
+    }
+
+    @Override
+    public void updatePayStatus(String orderSn,String status){
+        orderDao.updatePayStatus(orderSn,status);
     }
 }

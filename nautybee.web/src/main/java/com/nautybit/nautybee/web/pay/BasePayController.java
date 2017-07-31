@@ -58,7 +58,8 @@ public class BasePayController extends BaseController {
     protected WechatPayParam makeWechatPayParam(PayParam payParam) {
 
         //商品描述信息
-//        Map<String, String> goodsMap = queryGoodsInfo(payParam.getOrderList());
+        Long goodsId = payParam.getGoodsId();
+        GoodsView goodsView = goodsService.queryGoodsById(goodsId);
         BigDecimal totalFee = payParam.getTotalFee();
         if (totalFee.compareTo(BigDecimal.ZERO) < 1) {
             throw new RuntimeException("totalFee weird");
@@ -77,11 +78,17 @@ public class BasePayController extends BaseController {
         wechatPayParam.setNonce_str(GenerationUtils.generateRandomCode(16));
 //        wechatPayParam.setBody(goodsMap.get(goodsTitleKey));
 //        wechatPayParam.setDetail(goodsMap.get(goodsDetailKey));
-        wechatPayParam.setBody("test_body");
-        wechatPayParam.setDetail("test_detail");
-        wechatPayParam.setAttach("test_attach");
+        wechatPayParam.setBody(goodsView.getGoodsName());
+        wechatPayParam.setDetail("");
+        if(StringUtils.isNotEmpty(goodsView.getPropName1())){
+            wechatPayParam.setDetail(goodsView.getPropName1()+":"+goodsView.getDetailName1());
+            if(StringUtils.isNotEmpty(goodsView.getPropName2())){
+                wechatPayParam.setDetail(wechatPayParam.getDetail()+","+goodsView.getPropName2()+":"+goodsView.getDetailName2());
+            }
+        }
+        wechatPayParam.setAttach("");
 
-        wechatPayParam.setOut_trade_no(orderService.generateTradeNo());
+        wechatPayParam.setOut_trade_no(payParam.getTradeNo());
 
 
         wechatPayParam.setFee_type(WechatPayConstants.FEE_TYPE);
@@ -92,10 +99,10 @@ public class BasePayController extends BaseController {
 
         wechatPayParam.setTime_start(DateUtils.dateFormat(currentDate, DateUtils.YMDHMS));
         wechatPayParam.setTime_expire(DateUtils.dateFormat(new Date(endTime), DateUtils.YMDHMS));
-        wechatPayParam.setGoods_tag("test_goods_tag");
+        wechatPayParam.setGoods_tag("");
         wechatPayParam.setNotify_url(nautybeeSystemCfg.getServerUrl() + WECHAT_PAY_NOTIFY_SERVICE);
         wechatPayParam.setTrade_type("JSAPI");
-        wechatPayParam.setProduct_id("test_product_id");
+        wechatPayParam.setProduct_id(payParam.getGoodsId().toString());
         wechatPayParam.setLimit_pay("no_credit");
         wechatPayParam.setOpenid(payParam.getWxOpenid());
         return wechatPayParam;
