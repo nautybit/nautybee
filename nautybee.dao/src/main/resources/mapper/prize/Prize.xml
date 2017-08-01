@@ -5,9 +5,11 @@
 
     <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.prize.Prize"
                extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "mch_billno" property = "mchBillno" />
         <result column = "prize_origin" property = "prizeOrigin" />
         <result column = "origin_id" property = "originId" />
         <result column = "user_id" property = "userId" />
+        <result column = "wx_open_id" property = "wxOpenId" />
         <result column = "prize_type" property = "prizeType" />
         <result column = "prize_value" property = "prizeValue" />
         <result column = "prize_status" property = "prizeStatus" />
@@ -18,6 +20,9 @@
         <where>
             <trim prefixOverrides = "and">
                 <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "mchBillno != null">
+                    and mch_billno = #{mchBillno}
+                </if>
                 <if test = "prizeOrigin != null">
                     and prize_origin = #{prizeOrigin}
                 </if>
@@ -26,6 +31,9 @@
                 </if>
                 <if test = "userId != null">
                     and user_id = #{userId}
+                </if>
+                <if test = "wxOpenId != null">
+                    and wx_open_id = #{wxOpenId}
                 </if>
                 <if test = "prizeType != null">
                     and prize_type = #{prizeType}
@@ -46,6 +54,9 @@
     <sql id = "BaseUpdateSet">
         <set>
             <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "mchBillno != null">
+                mch_billno = #{mchBillno},
+            </if>
             <if test = "prizeOrigin != null">
                 prize_origin = #{prizeOrigin},
             </if>
@@ -54,6 +65,9 @@
             </if>
             <if test = "userId != null">
                 user_id = #{userId},
+            </if>
+            <if test = "wxOpenId != null">
+                wx_open_id = #{wxOpenId},
             </if>
             <if test = "prizeType != null">
                 prize_type = #{prizeType},
@@ -125,9 +139,11 @@
     <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
         insert into nautybee_prize (
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        mch_billno
         prize_origin,
         origin_id,
         user_id,
+        wx_open_id,
         prize_type,
         prize_value,
         prize_status,
@@ -135,9 +151,11 @@
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{mchBillno},
         #{prizeOrigin},
         #{originId},
         #{userId},
+        #{wxOpenId},
         #{prizeType},
         #{prizeValue},
         #{prizeStatus},

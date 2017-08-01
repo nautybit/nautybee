@@ -19,6 +19,10 @@ public interface OrderConstants {
      */
     String REDIS_ORDER_GEN_TRADE_NO_SEQUENCE = "Order_GenTradeNoSequence_";
     /**
+     * 生成mch_billno需要的序列
+     */
+    String REDIS_GEN_MCH_BILL_NO = "GenMchBillNo_";
+    /**
      * 生成CmbTradeNo需要的序列
      */
     String REDIS_ORDER_GEN_CMB_TRADE_NO_SEQUENCE = "Order_GenCmbTradeNoSequence_";

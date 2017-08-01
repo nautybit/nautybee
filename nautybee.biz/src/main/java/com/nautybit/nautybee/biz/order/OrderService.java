@@ -21,4 +21,6 @@ public interface OrderService {
     List<Order> queryByIds(List<Long> orderIdList);
     Order createOrder(OrderParam orderParam);
     void updatePayStatus(String orderSn,String status);
+    Order queryByOrderSn(String orderSn);
+
 }

@@ -6,7 +6,12 @@ import com.nautybit.nautybee.biz.order.OrderService;
 import com.nautybit.nautybee.biz.order.PayNotifyService;
 import com.nautybit.nautybee.biz.order.PayOrderService;
 import com.nautybit.nautybee.biz.pay.WechatPayService;
+import com.nautybit.nautybee.biz.prize.PrizeService;
+import com.nautybit.nautybee.biz.sys.CommonResourcesService;
 import com.nautybit.nautybee.common.constant.order.OrderStatusEnum;
+import com.nautybit.nautybee.common.constant.order.PrizeOriginEnum;
+import com.nautybit.nautybee.common.constant.order.PrizeStatusEnum;
+import com.nautybit.nautybee.common.constant.order.PrizeTypeEnum;
 import com.nautybit.nautybee.common.constant.pay.PayConstants;
 import com.nautybit.nautybee.common.constant.pay.WechatPayConstants;
 import com.nautybit.nautybee.common.param.pay.*;
@@ -19,8 +24,11 @@ import com.nautybit.nautybee.common.utils.PrintUtils;
 import com.nautybit.nautybee.common.utils.pay.PayUtils;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
+import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.entity.order.PayNotify;
 import com.nautybit.nautybee.entity.order.PayOrder;
+import com.nautybit.nautybee.entity.prize.Prize;
+import com.nautybit.nautybee.entity.sys.CommonResources;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +63,10 @@ public class PayController extends BasePayController {
     private PayOrderService payOrderService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CommonResourcesService commonResourcesService;
+    @Autowired
+    private PrizeService prizeService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -210,9 +222,77 @@ public class PayController extends BasePayController {
         if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
             orderService.updatePayStatus(tradeNo, OrderStatusEnum.YFK.name());
         }
+        /**********************************************************************************
+         * 5.交易成功，根据openid，发放红包
+         **********************************************************************************/
+        //支付成功
+        if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
+            String openid = notifyParam.get("openid");
+            CommonResources commonResources = commonResourcesService.selectByKey("orderRedBag");
+
+            SendRedBagParam sendRedBagParam = new SendRedBagParam();
+            sendRedBagParam.setSend_name(commonResources.getValue());
+            sendRedBagParam.setRe_openid(openid);
+            sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1())*100);
+            sendRedBagParam.setWishing(commonResources.getValue2());
+            sendRedBagParam.setAct_name(commonResources.getValue3());
+            sendRedBagParam.setRemark(commonResources.getValue4());
+            try {
+                RedBagPayResult redBagPayResult = wechatPayService.sendRedBag(sendRedBagParam);
+                if(WechatPayConstants.SUCCESE.equals(redBagPayResult.getResult_code()) && WechatPayConstants.SUCCESE.equals(redBagPayResult.getResult_code())){
+                    //记录红包发放信息
+                    String orderSn = tradeNo;
+                    Order order = orderService.queryByOrderSn(orderSn);
+                    Prize prize = new Prize();
+                    prize.setDefaultBizValue();
+                    prize.setMchBillno(redBagPayResult.getMch_billno());
+                    prize.setPrizeOrigin(PrizeOriginEnum.ORDER.name());
+                    prize.setOriginId(order.getId());
+                    prize.setWxOpenId(openid);
+                    prize.setPrizeType(PrizeTypeEnum.amount.name());
+                    prize.setPrizeValue(String.valueOf(Integer.parseInt(commonResources.getValue1())*100));
+                    prize.setPrizeStatus(PrizeStatusEnum.WLQ.name());
+                    prizeService.save(prize);
+                }
+            }catch (Exception e){
+                log.error("下单发放红包异常:tradeNo[" + tradeNo + "]",e);
+            }
+        }
         return null;
     }
 
+    /**
+     * 红包发放测试接口
+     *
+     * @return
+     */
+    @RequestMapping("sendRedBag")
+    @ResponseBody
+    public RedBagPayResult sendRedBag() {
+        RedBagPayResult redBagPayResult = new RedBagPayResult();
+        try {
+            redBagPayResult = wechatPayService.sendRedBag(new SendRedBagParam());
+            return redBagPayResult;
+        }catch (Exception e){
+            log.error("发放红包异常",e);
+            redBagPayResult.setReturn_code(WechatPayConstants.FAIL);
+            redBagPayResult.setReturn_msg("发放红包异常");
+            return redBagPayResult;
+        }
+    }
+
+    /**
+     * commonResource测试接口
+     *
+     * @return
+     */
+    @RequestMapping("commonResourceTest")
+    @ResponseBody
+    public Result<?> commonResourceTest() {
+        String key = "test";
+        CommonResources commonResources = commonResourcesService.selectByKey(key);
+        return Result.wrapSuccessfulResult(commonResources);
+    }
 //    public boolean verifyWeixinNotify(Map<Object, Object> map) {
 //        SortedMap<String, String> parameterMap = new TreeMap<String, String>();
 //        String sign = (String) map.get("sign");

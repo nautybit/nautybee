@@ -94,4 +94,9 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
     public void updatePayStatus(String orderSn,String status){
         orderDao.updatePayStatus(orderSn,status);
     }
+
+    @Override
+    public Order queryByOrderSn(String orderSn){
+        return orderDao.queryByOrderSn(orderSn);
+    }
 }

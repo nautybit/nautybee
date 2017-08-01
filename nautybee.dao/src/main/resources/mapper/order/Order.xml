@@ -279,4 +279,12 @@
         where order_sn = #{orderSn}
     </update>
 
+    <!-- 根据orderSn查询订单 -->
+    <select id="queryByOrderSn" resultMap="BaseResultMap">
+        select *
+        from nautybee_order
+        where is_deleted = 'N'
+        and order_sn = #{orderSn}
+    </select>
+
 </mapper>
