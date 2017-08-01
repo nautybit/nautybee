@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.sys.CommonResourcesDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.sys.CommonResources"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "app_name" property = "appName" />
+        <result column = "type" property = "type" />
+        <result column = "key" property = "key" />
+        <result column = "value" property = "value" />
+        <result column = "value_1" property = "value1" />
+        <result column = "value_2" property = "value2" />
+        <result column = "value_3" property = "value3" />
+        <result column = "value_4" property = "value4" />
+        <result column = "value_5" property = "value5" />
+        <result column = "value_6" property = "value6" />
+        <result column = "value_7" property = "value7" />
+        <result column = "order_idx" property = "orderIdx" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "appName != null">
+                    and app_name = #{appName}
+                </if>
+                <if test = "type != null">
+                    and `type` = #{type}
+                </if>
+                <if test = "type != null">
+                    and `key` = #{key}
+                </if>
+                <if test = "value != null">
+                    and `value` = #{value}
+                </if>
+                <if test = "value1 != null">
+                    and value_1 = #{value1}
+                </if>
+                <if test = "value2 != null">
+                    and value_2 = #{value2}
+                </if>
+                <if test = "value3 != null">
+                    and value_3 = #{value3}
+                </if>
+                <if test = "value4 != null">
+                    and value_4 = #{value4}
+                </if>
+                <if test = "value5 != null">
+                    and value_5 = #{value5}
+                </if>
+                <if test = "value6 != null">
+                    and value_6 = #{value6}
+                </if>
+                <if test = "value7 != null">
+                    and value_7 = #{value7}
+                </if>
+                <if test = "orderIdx != null">
+                    and order_idx = #{orderIdx}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "appName != null">
+                app_name = #{appName},
+            </if>
+            <if test = "type != null">
+                `type` = #{type},
+            </if>
+            <if test = "type != null">
+                `key` = #{key},
+            </if>
+            <if test = "value != null">
+                `value` = #{value},
+            </if>
+            <if test = "value1 != null">
+                value_1 = #{value1},
+            </if>
+            <if test = "value2 != null">
+                value_2 = #{value2},
+            </if>
+            <if test = "value3 != null">
+                value_3 = #{value3},
+            </if>
+            <if test = "value4 != null">
+                value_4 = #{value4},
+            </if>
+            <if test = "value5 != null">
+                value_5 = #{value5},
+            </if>
+            <if test = "value6 != null">
+                value_6 = #{value6},
+            </if>
+            <if test = "value7 != null">
+                value_7 = #{value7},
+            </if>
+            <if test = "orderIdx != null">
+                order_idx = #{orderIdx}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_common_resources
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_common_resources
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_common_resources
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_common_resources
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_common_resources
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_common_resources
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_common_resources (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        app_name,
+        `type`,
+        `key`,
+        `value`,
+        value_1,
+        value_2,
+        value_3,
+        value_4,
+        value_5,
+        value_6,
+        value_7,
+        order_idx
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{appName},
+        #{type},
+        #{key},
+        #{value},
+        #{value1},
+        #{value2},
+        #{value3},
+        #{value4},
+        #{value5},
+        #{value6},
+        #{value7},
+        #{orderIdx}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_common_resources
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+    <!-- 根据key查询 -->
+    <select id = "selectByKey" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_common_resources
+        where `key` = #{key}
+    </select>
+
+</mapper>
