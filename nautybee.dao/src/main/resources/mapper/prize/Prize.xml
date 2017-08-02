@@ -139,7 +139,7 @@
     <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
         insert into nautybee_prize (
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
-        mch_billno
+        mch_billno,
         prize_origin,
         origin_id,
         user_id,

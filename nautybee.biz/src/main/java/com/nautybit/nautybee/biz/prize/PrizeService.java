@@ -16,5 +16,6 @@ public interface PrizeService {
 
   int deleteByIds(Long[] ids);
 
-
+    void sendOrderRedBag(String openid,String orderSn);
+    void sendRecommendRedBag(String openid,String recommendedUserName,Long recommendId,String orderSn);
 }

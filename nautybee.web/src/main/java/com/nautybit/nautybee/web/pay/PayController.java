@@ -7,7 +7,9 @@ import com.nautybit.nautybee.biz.order.PayNotifyService;
 import com.nautybit.nautybee.biz.order.PayOrderService;
 import com.nautybit.nautybee.biz.pay.WechatPayService;
 import com.nautybit.nautybee.biz.prize.PrizeService;
+import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.biz.sys.CommonResourcesService;
+import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.constant.order.OrderStatusEnum;
 import com.nautybit.nautybee.common.constant.order.PrizeOriginEnum;
 import com.nautybit.nautybee.common.constant.order.PrizeStatusEnum;
@@ -18,6 +20,7 @@ import com.nautybit.nautybee.common.param.pay.*;
 import com.nautybit.nautybee.common.result.ErrorCode;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.result.order.WechatPayRequestVO;
+import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.Base64Utils;
 import com.nautybit.nautybee.common.utils.Md5Utils;
 import com.nautybit.nautybee.common.utils.PrintUtils;
@@ -28,6 +31,7 @@ import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.entity.order.PayNotify;
 import com.nautybit.nautybee.entity.order.PayOrder;
 import com.nautybit.nautybee.entity.prize.Prize;
+import com.nautybit.nautybee.entity.recommend.Recommend;
 import com.nautybit.nautybee.entity.sys.CommonResources;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +71,10 @@ public class PayController extends BasePayController {
     private CommonResourcesService commonResourcesService;
     @Autowired
     private PrizeService prizeService;
+    @Autowired
+    private RecommendService recommendService;
+    @Autowired
+    private WxService wxService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -228,34 +236,16 @@ public class PayController extends BasePayController {
         //支付成功
         if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
             String openid = notifyParam.get("openid");
-            CommonResources commonResources = commonResourcesService.selectByKey("orderRedBag");
-
-            SendRedBagParam sendRedBagParam = new SendRedBagParam();
-            sendRedBagParam.setSend_name(commonResources.getValue());
-            sendRedBagParam.setRe_openid(openid);
-            sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1())*100);
-            sendRedBagParam.setWishing(commonResources.getValue2());
-            sendRedBagParam.setAct_name(commonResources.getValue3());
-            sendRedBagParam.setRemark(commonResources.getValue4());
-            try {
-                RedBagPayResult redBagPayResult = wechatPayService.sendRedBag(sendRedBagParam);
-                if(WechatPayConstants.SUCCESE.equals(redBagPayResult.getResult_code()) && WechatPayConstants.SUCCESE.equals(redBagPayResult.getResult_code())){
-                    //记录红包发放信息
-                    String orderSn = tradeNo;
-                    Order order = orderService.queryByOrderSn(orderSn);
-                    Prize prize = new Prize();
-                    prize.setDefaultBizValue();
-                    prize.setMchBillno(redBagPayResult.getMch_billno());
-                    prize.setPrizeOrigin(PrizeOriginEnum.ORDER.name());
-                    prize.setOriginId(order.getId());
-                    prize.setWxOpenId(openid);
-                    prize.setPrizeType(PrizeTypeEnum.amount.name());
-                    prize.setPrizeValue(String.valueOf(Integer.parseInt(commonResources.getValue1())*100));
-                    prize.setPrizeStatus(PrizeStatusEnum.WLQ.name());
-                    prizeService.save(prize);
+            prizeService.sendOrderRedBag(openid,tradeNo);
+            //推荐红包
+            Recommend recommend = recommendService.selectByToUser(openid);
+            if(recommend!=null){
+                String fromUser = recommend.getFromUser();
+                //确保不是自己推荐自己
+                if(!openid.equals(fromUser)){
+                    UserInfo userInfo = wxService.getUserInfo(openid);
+                    prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo);
                 }
-            }catch (Exception e){
-                log.error("下单发放红包异常:tradeNo[" + tradeNo + "]",e);
             }
         }
         return null;
