@@ -6,6 +6,7 @@ import com.nautybit.nautybee.entity.order.OrderExt;
 
 @MyBatisRepository
 public interface OrderExtDao extends BaseDao<OrderExt> {
+    OrderExt selectByOrderSn(String orderSn);
 
 
 }

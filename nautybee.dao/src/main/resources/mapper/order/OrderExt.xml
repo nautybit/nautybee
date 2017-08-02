@@ -14,6 +14,7 @@
         <result column = "school_class" property = "schoolClass" />
         <result column = "teacher_name" property = "teacherName" />
         <result column = "teacher_mobile" property = "teacherMobile" />
+        <result column = "recommend_id" property = "recommendId" />
     </resultMap>
 
     <sql id = "BaseWhereClause">
@@ -47,6 +48,9 @@
                 <if test = "teacherMobile != null">
                     and teacher_mobile = #{teacherMobile}
                 </if>
+                <if test = "recommendId != null">
+                    and recommend_id = #{recommendId}
+                </if>
             </trim>
         </where>
     </sql>
@@ -79,7 +83,10 @@
                 teacher_name = #{teacherName},
             </if>
             <if test = "teacherMobile != null">
-                teacher_mobile = #{teacherMobile}
+                teacher_mobile = #{teacherMobile},
+            </if>
+            <if test = "recommendId != null">
+                recommend_id = #{recommendId}
             </if>
         </set>
     </sql>
@@ -148,7 +155,8 @@
         school_grade,
         school_class,
         teacher_name,
-        teacher_mobile
+        teacher_mobile,
+        recommend_id
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
@@ -161,7 +169,8 @@
         #{schoolGrade},
         #{schoolClass},
         #{teacherName},
-        #{teacherMobile}
+        #{teacherMobile},
+        #{recommendId}
         )
     </insert>
 
@@ -172,4 +181,12 @@
         where id = #{id}
     </update>
 
+    <!-- 根据orderSn查询 -->
+    <select id = "selectByOrderSn" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_ext
+        where order_sn = #{orderSn}
+        and is_deleted='N'
+    </select>
 </mapper>

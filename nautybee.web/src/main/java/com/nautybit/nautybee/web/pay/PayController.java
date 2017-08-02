@@ -2,6 +2,7 @@ package com.nautybit.nautybee.web.pay;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.nautybit.nautybee.biz.order.OrderExtService;
 import com.nautybit.nautybee.biz.order.OrderService;
 import com.nautybit.nautybee.biz.order.PayNotifyService;
 import com.nautybit.nautybee.biz.order.PayOrderService;
@@ -28,6 +29,7 @@ import com.nautybit.nautybee.common.utils.pay.PayUtils;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
 import com.nautybit.nautybee.entity.order.Order;
+import com.nautybit.nautybee.entity.order.OrderExt;
 import com.nautybit.nautybee.entity.order.PayNotify;
 import com.nautybit.nautybee.entity.order.PayOrder;
 import com.nautybit.nautybee.entity.prize.Prize;
@@ -75,6 +77,8 @@ public class PayController extends BasePayController {
     private RecommendService recommendService;
     @Autowired
     private WxService wxService;
+    @Autowired
+    private OrderExtService orderExtService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -243,6 +247,12 @@ public class PayController extends BasePayController {
                 String fromUser = recommend.getFromUser();
                 //确保不是自己推荐自己
                 if(!openid.equals(fromUser)){
+                    //记录订单推荐人
+                    OrderExt orderExt = orderExtService.selectByOrderSn(tradeNo);
+                    orderExt.setDefaultBizValue();
+                    orderExt.setRecommendId(recommend.getId());
+                    orderExtService.save(orderExt);
+                    //发红包
                     UserInfo userInfo = wxService.getUserInfo(openid);
                     prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo);
                 }

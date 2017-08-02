@@ -20,5 +20,6 @@ public class OrderExt extends BaseEntity {
   private String schoolClass;
   private String teacherName;
   private String teacherMobile;
+    private Long recommendId;
 
 }

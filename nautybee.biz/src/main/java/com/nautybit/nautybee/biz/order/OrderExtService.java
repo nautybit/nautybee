@@ -18,4 +18,6 @@ public interface OrderExtService {
   int deleteByIds(Long[] ids);
 
     void createOrderExt(OrderParam orderParam);
+
+    OrderExt selectByOrderSn(String orderSn);
 }

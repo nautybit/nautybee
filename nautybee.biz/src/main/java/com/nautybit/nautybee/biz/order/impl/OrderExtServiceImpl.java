@@ -49,4 +49,10 @@ public class OrderExtServiceImpl extends BaseServiceImpl  implements OrderExtSer
 
     }
 
+    @Override
+    public OrderExt selectByOrderSn(String orderSn){
+        return orderExtDao.selectByOrderSn(orderSn);
+    }
+
+
 }
