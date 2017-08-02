@@ -1,11 +1,13 @@
 package com.nautybit.nautybee.biz.wx;
 
 import com.google.gson.Gson;
+import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.common.param.wx.ArticleItem;
 import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
 import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.MessageUtil;
+import com.nautybit.nautybee.entity.recommend.Recommend;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class MessageService {
 
     @Autowired
     private WxService wxService;
+    @Autowired
+    private RecommendService recommendService;
     /**
      * 处理微信发来的请求
      * @param request
@@ -81,28 +85,8 @@ public class MessageService {
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
                     String EventKey = (String)requestMap.get("EventKey");
                     if(StringUtils.isNotEmpty(EventKey) && EventKey.indexOf("recommend_")>-1){
-
                         String openId = EventKey.substring(EventKey.indexOf("recommend_")+"recommend_".length(),EventKey.length());
-                        UserInfo userInfo = wxService.getUserInfo(openId);
-                        String recommendSource = userInfo.getNickname();
-
-                        ArticleMessage articleMessage = new ArticleMessage();
-                        articleMessage.setToUserName(fromUserName);
-                        articleMessage.setFromUserName(toUserName);
-                        articleMessage.setCreateTime(new Date().getTime());
-                        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
-                        articleMessage.setArticleCount(1);
-
-                        List<ArticleItem> articleItemList = new ArrayList<>();
-                        ArticleItem articleItem = new ArticleItem();
-                        articleItem.setTitle(recommendSource+" 推荐了您");
-                        log.debug("recommendSource:"+recommendSource);
-                        articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
-                        articleItem.setPicUrl("");
-                        articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
-                        articleItemList.add(articleItem);
-                        articleMessage.setArticles(articleItemList);
-
+                        ArticleMessage articleMessage = handleRecommendEvent(fromUserName,openId,toUserName);
                         respStr = MessageUtil.messageToXml(articleMessage);
                     }else {
                         // 回复文本消息
@@ -125,22 +109,8 @@ public class MessageService {
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
                     String EventKey = (String)requestMap.get("EventKey");
                     if(EventKey.indexOf("recommend_")>-1){
-                        ArticleMessage articleMessage = new ArticleMessage();
-                        articleMessage.setToUserName(fromUserName);
-                        articleMessage.setFromUserName(toUserName);
-                        articleMessage.setCreateTime(new Date().getTime());
-                        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
-                        articleMessage.setArticleCount(1);
-
-                        List<ArticleItem> articleItemList = new ArrayList<>();
-                        ArticleItem articleItem = new ArticleItem();
-                        articleItem.setTitle("title test");
-                        articleItem.setDescription("description test");
-                        articleItem.setPicUrl("");
-                        articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
-                        articleItemList.add(articleItem);
-                        articleMessage.setArticles(articleItemList);
-
+                        String openId = EventKey.substring(EventKey.indexOf("recommend_")+"recommend_".length(),EventKey.length());
+                        ArticleMessage articleMessage = handleRecommendEvent(fromUserName,openId,toUserName);
                         respStr = MessageUtil.messageToXml(articleMessage);
                     }
                 }
@@ -176,6 +146,51 @@ public class MessageService {
             e.printStackTrace();
         }
         return respStr;
+    }
+
+    private ArticleMessage handleRecommendEvent(String beRecommendUser,String recommendUser,String appOpenId){
+        ArticleMessage articleMessage = new ArticleMessage();
+        articleMessage.setToUserName(beRecommendUser);
+        articleMessage.setFromUserName(appOpenId);
+        articleMessage.setCreateTime(new Date().getTime());
+        articleMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+        articleMessage.setArticleCount(1);
+
+        List<ArticleItem> articleItemList = new ArrayList<>();
+        ArticleItem articleItem = new ArticleItem();
+
+        //自己不能推荐自己
+        if(beRecommendUser.equals(recommendUser)){
+            UserInfo userInfo = wxService.getUserInfo(beRecommendUser);
+            articleItem.setTitle(userInfo.getNickname()+"，您已经是武义小作家会员");
+            articleItem.setDescription("会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
+        }else {
+            Recommend recommend = recommendService.selectByToUser(beRecommendUser);
+            if(recommend!=null){
+                recommend.setDefaultBizValue();
+                recommend.setIsDeleted("Y");
+                recommend.setRemark("被新的推荐人：【"+recommendUser+"】取代");
+                recommendService.save(recommend);
+            }
+            Recommend newOne = new Recommend();
+            newOne.setDefaultBizValue();
+            newOne.setFromUser(recommendUser);
+            newOne.setToUser(beRecommendUser);
+            recommendService.save(newOne);
+
+            UserInfo userInfo = wxService.getUserInfo(recommendUser);
+            String recommendSource = userInfo.getNickname();
+            articleItem.setTitle(recommendSource+" 推荐了您");
+            log.debug("recommendSource:"+recommendSource);
+            articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
+        }
+        articleItem.setPicUrl("");
+        articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+        articleItemList.add(articleItem);
+        articleMessage.setArticles(articleItemList);
+
+        return articleMessage;
+
     }
 
 

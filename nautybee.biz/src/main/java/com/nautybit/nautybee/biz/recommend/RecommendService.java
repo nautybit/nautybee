@@ -16,5 +16,6 @@ public interface RecommendService {
 
   int deleteByIds(Long[] ids);
 
+    Recommend selectByToUser(String toUser);
 
 }

@@ -125,4 +125,14 @@
         where id = #{id}
     </update>
 
+    <!-- 根据to_user和from_user查询 -->
+    <select id = "selectByToUser" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_recommend
+        where to_user = #{toUser}
+        and is_deleted='N'
+        limit 1
+    </select>
+
 </mapper>

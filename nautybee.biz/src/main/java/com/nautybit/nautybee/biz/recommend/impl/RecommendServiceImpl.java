@@ -37,4 +37,8 @@ public class RecommendServiceImpl extends BaseServiceImpl  implements RecommendS
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(recommendDao, ids);
   }
+
+    public Recommend selectByToUser(String toUser){
+        return recommendDao.selectByToUser(toUser);
+    }
 }
