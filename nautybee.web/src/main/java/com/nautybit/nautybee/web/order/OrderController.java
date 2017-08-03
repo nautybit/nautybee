@@ -15,6 +15,7 @@ import com.nautybit.nautybee.entity.goods.GoodsPropertyDetail;
 import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.view.goods.GoodsView;
+import com.nautybit.nautybee.view.order.OrderView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,17 @@ public class OrderController extends BaseController {
         return Result.wrapSuccessfulResult(orderParam);
     }
 
+    @RequestMapping("orderList")
+    public String orderList(ModelMap modelMap,String openid) {
+        List<Order> orderList = orderService.queryByOpenId(openid);
+        List<OrderView> orderViewList = new ArrayList<>();
+        for(Order order:orderList){
+            OrderView orderView = orderService.makeOrderView(order);
+            orderViewList.add(orderView);
+        }
+        modelMap.addAttribute("orderViewList",orderViewList);
+        return "order/orderList";
+    }
 
 }
 

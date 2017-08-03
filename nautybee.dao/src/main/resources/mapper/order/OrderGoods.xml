@@ -296,4 +296,13 @@
         where id = #{id}
     </update>
 
+    <!-- 根据orderId查询 -->
+    <select id = "selectByOrderId" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_goods
+        where order_id = #{orderId}
+        and is_deleted = 'N'
+    </select>
+
 </mapper>

@@ -1,22 +1,26 @@
-package com.nautybit.nautybee.entity.order;
+package com.nautybit.nautybee.view.order;
 
-import java.math.BigDecimal;
-
-
+import com.nautybit.nautybee.entity.base.BaseEntity;
+import com.nautybit.nautybee.entity.goods.GoodsAttribute;
+import com.nautybit.nautybee.entity.goods.GoodsPropertyDetail;
+import com.nautybit.nautybee.entity.order.OrderExt;
+import com.nautybit.nautybee.view.goods.GoodsAttributeView;
+import com.nautybit.nautybee.view.goods.GoodsPropertyDetailView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import com.nautybit.nautybee.entity.base.BaseEntity;
+import java.math.BigDecimal;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class Order extends BaseEntity {
+public class OrderView extends BaseEntity {
 
   private String orderSn;
   private Long userId;
     private String wxOpenId;
     private String wxNickName;
-  private Long storeId;
+    private Long storeId;
   private String orderStatus;
   private Integer buyerEvaluate;
   private String payStatus;
@@ -33,4 +37,8 @@ public class Order extends BaseEntity {
   private String cancelReasonType;
   private String cancelReason;
 
+    private String goodsName;
+    private List<GoodsPropertyDetailView> goodsPropertyDetailList;
+    private List<GoodsAttributeView> goodsAttributeList;
+    private OrderExt orderExt;
 }

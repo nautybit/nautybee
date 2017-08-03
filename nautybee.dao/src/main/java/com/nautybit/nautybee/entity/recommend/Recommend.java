@@ -12,7 +12,9 @@ import com.nautybit.nautybee.entity.base.BaseEntity;
 public class Recommend extends BaseEntity {
 
   private String toUser;
-  private String fromUser;
+    private String toUserName;
+    private String fromUser;
+    private String fromUserName;
   private String isValid;
   private String remark;
 

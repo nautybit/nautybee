@@ -10,6 +10,7 @@
         <result column = "origin_id" property = "originId" />
         <result column = "user_id" property = "userId" />
         <result column = "wx_open_id" property = "wxOpenId" />
+        <result column = "wx_nick_name" property = "wxNickName" />
         <result column = "prize_type" property = "prizeType" />
         <result column = "prize_value" property = "prizeValue" />
         <result column = "prize_status" property = "prizeStatus" />
@@ -34,6 +35,9 @@
                 </if>
                 <if test = "wxOpenId != null">
                     and wx_open_id = #{wxOpenId}
+                </if>
+                <if test = "wxNickName != null">
+                    and wx_nick_name = #{wxNickName}
                 </if>
                 <if test = "prizeType != null">
                     and prize_type = #{prizeType}
@@ -68,6 +72,9 @@
             </if>
             <if test = "wxOpenId != null">
                 wx_open_id = #{wxOpenId},
+            </if>
+            <if test = "wxNickName != null">
+                wx_nick_name = #{wxNickName},
             </if>
             <if test = "prizeType != null">
                 prize_type = #{prizeType},
@@ -144,6 +151,7 @@
         origin_id,
         user_id,
         wx_open_id,
+        wx_nick_name,
         prize_type,
         prize_value,
         prize_status,
@@ -156,6 +164,7 @@
         #{originId},
         #{userId},
         #{wxOpenId},
+        #{wxNickName},
         #{prizeType},
         #{prizeValue},
         #{prizeStatus},

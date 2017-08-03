@@ -83,6 +83,10 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
                 prize.setPrizeOrigin(PrizeOriginEnum.ORDER.name());
                 prize.setOriginId(order.getId());
                 prize.setWxOpenId(openid);
+
+                UserInfo userInfo = wxService.getUserInfo(openid);
+                prize.setWxNickName(userInfo.getNickname());
+
                 prize.setPrizeType(PrizeTypeEnum.amount.name());
                 prize.setPrizeValue(String.valueOf(Integer.parseInt(commonResources.getValue1())));
                 prize.setPrizeStatus(PrizeStatusEnum.WLQ.name());
@@ -113,6 +117,10 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
                 prize.setPrizeOrigin(PrizeOriginEnum.RECOMMEND.name());
                 prize.setOriginId(recommendId);
                 prize.setWxOpenId(openid);
+
+                UserInfo userInfo = wxService.getUserInfo(openid);
+                prize.setWxNickName(userInfo.getNickname());
+
                 prize.setPrizeType(PrizeTypeEnum.amount.name());
                 prize.setPrizeValue(String.valueOf(Integer.parseInt(commonResources.getValue1())));
                 prize.setPrizeStatus(PrizeStatusEnum.WLQ.name());

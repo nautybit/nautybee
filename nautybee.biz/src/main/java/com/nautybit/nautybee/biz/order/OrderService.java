@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.entity.order.Order;
+import com.nautybit.nautybee.view.order.OrderView;
 
 public interface OrderService {
   List<Order> getAll();
@@ -22,5 +23,7 @@ public interface OrderService {
     Order createOrder(OrderParam orderParam);
     void updatePayStatus(String orderSn,String status);
     Order queryByOrderSn(String orderSn);
+    List<Order> queryByOpenId(String wxOpenId);
 
+    OrderView makeOrderView(Order order);
 }

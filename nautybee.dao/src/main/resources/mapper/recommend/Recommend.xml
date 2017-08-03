@@ -18,8 +18,14 @@
                 <if test = "toUser != null">
                     and to_user = #{toUser}
                 </if>
+                <if test = "toUserName != null">
+                    and to_user_name = #{toUserName}
+                </if>
                 <if test = "fromUser != null">
                     and from_user = #{fromUser}
+                </if>
+                <if test = "fromUserName != null">
+                    and from_user_name = #{fromUserName}
                 </if>
                 <if test = "isValid != null">
                     and is_valid = #{isValid}
@@ -37,8 +43,14 @@
             <if test = "toUser != null">
                 to_user = #{toUser},
             </if>
+            <if test = "toUserName != null">
+                to_user_name = #{toUserName},
+            </if>
             <if test = "fromUser != null">
                 from_user = #{fromUser},
+            </if>
+            <if test = "fromUserName != null">
+                from_user_name = #{fromUserName},
             </if>
             <if test = "isValid != null">
                 is_valid = #{isValid},
@@ -105,14 +117,18 @@
         insert into nautybee_recommend (
         <include refid = "COMMON.BASE_INSERT_COLUMN" />
         to_user,
+        to_user_name,
         from_user,
+        from_user_name,
         is_valid,
         remark
         )
         values (
         <include refid = "COMMON.BASE_INSERT_VALUE" />
         #{toUser},
+        #{toUserName},
         #{fromUser},
+        #{fromUserName},
         #{isValid},
         #{remark}
         )

@@ -8,6 +8,7 @@
         <result column = "order_sn" property = "orderSn" />
         <result column = "user_id" property = "userId" />
         <result column = "wx_open_id" property = "wxOpenId" />
+        <result column = "wx_nick_name" property = "wxNickName" />
         <result column = "store_id" property = "storeId" />
         <result column = "order_status" property = "orderStatus" />
         <result column = "buyer_evaluate" property = "buyerEvaluate" />
@@ -38,6 +39,9 @@
                 </if>
                 <if test = "wxOpenId != null">
                     and wx_open_id = #{wxOpenId}
+                </if>
+                <if test = "wxNickName != null">
+                    and wx_nick_name = #{wxNickName}
                 </if>
                 <if test = "storeId != null">
                     and store_id = #{storeId}
@@ -102,6 +106,9 @@
             </if>
             <if test = "wxOpenId != null">
                 wx_open_id = #{wxOpenId},
+            </if>
+            <if test = "wxNickName != null">
+                wx_nick_name = #{wxNickName},
             </if>
             <if test = "storeId != null">
                 store_id = #{storeId},
@@ -212,6 +219,7 @@
         order_sn,
         user_id,
         wx_open_id,
+        wx_nick_name,
         store_id,
         order_status,
         buyer_evaluate,
@@ -234,6 +242,7 @@
         #{orderSn},
         #{userId},
         #{wxOpenId},
+        #{wxNickName},
         #{storeId},
         #{orderStatus},
         #{buyerEvaluate},
@@ -285,6 +294,15 @@
         from nautybee_order
         where is_deleted = 'N'
         and order_sn = #{orderSn}
+    </select>
+
+    <!-- 根据wx_open_id查询订单 -->
+    <select id="queryByOpenId" resultMap="BaseResultMap">
+        select *
+        from nautybee_order
+        where is_deleted = 'N'
+        and wx_open_id = #{wxOpenId}
+        and pay_status = 'YFK';
     </select>
 
 </mapper>

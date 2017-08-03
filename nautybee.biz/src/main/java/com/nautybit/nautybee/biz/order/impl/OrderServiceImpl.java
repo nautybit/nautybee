@@ -1,15 +1,30 @@
 package com.nautybit.nautybee.biz.order.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.nautybit.nautybee.biz.goods.GoodsAttributeService;
+import com.nautybit.nautybee.biz.goods.GoodsService;
+import com.nautybit.nautybee.biz.order.OrderExtService;
+import com.nautybit.nautybee.biz.order.OrderGoodsService;
 import com.nautybit.nautybee.biz.redis.RedisStringService;
+import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.constant.OrderConstants;
 import com.nautybit.nautybee.common.constant.order.OrderStatusEnum;
 import com.nautybit.nautybee.common.param.order.OrderParam;
+import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.GenerationUtils;
+import com.nautybit.nautybee.entity.order.OrderExt;
+import com.nautybit.nautybee.entity.order.OrderGoods;
+import com.nautybit.nautybee.view.goods.GoodsAttributeView;
+import com.nautybit.nautybee.view.goods.GoodsPropertyDetailView;
+import com.nautybit.nautybee.view.goods.GoodsView;
+import com.nautybit.nautybee.view.order.OrderView;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
@@ -27,6 +42,16 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
   private OrderDao orderDao;
     @Autowired
     private RedisStringService redisStringService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private GoodsAttributeService goodsAttributeService;
+    @Autowired
+    private OrderExtService orderExtService;
+    @Autowired
+    private WxService wxService;
 
   public List<Order> getAll() {
     return super.getAll(orderDao);
@@ -82,6 +107,10 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
         order.setDefaultBizValue();
         order.setOrderSn(generateTradeNo());
         order.setWxOpenId(orderParam.getWxOpenid());
+
+        UserInfo userInfo = wxService.getUserInfo(orderParam.getWxOpenid());
+        order.setWxNickName(userInfo.getNickname());
+
         order.setUserId(-1l);
         order.setStoreId(orderParam.getStoreId());
         order.setPayStatus(OrderStatusEnum.WFK.name());
@@ -98,5 +127,45 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
     @Override
     public Order queryByOrderSn(String orderSn){
         return orderDao.queryByOrderSn(orderSn);
+    }
+
+    @Override
+    public List<Order> queryByOpenId(String wxOpenId){
+        return orderDao.queryByOpenId(wxOpenId);
+    }
+
+    @Override
+    public OrderView makeOrderView(Order order){
+        OrderView orderView = new OrderView();
+        BeanUtils.copyProperties(order,orderView);
+        OrderGoods orderGoods = orderGoodsService.selectByOrderId(order.getId());
+        GoodsView goodsView = goodsService.queryGoodsById(orderGoods.getGoodsId());
+        //规格
+        List<GoodsPropertyDetailView> goodsPropertyDetailViewList = new ArrayList<>();
+        if(StringUtils.isNotEmpty(goodsView.getPropName1())){
+            GoodsPropertyDetailView goodsPropertyDetailView = new GoodsPropertyDetailView();
+            goodsPropertyDetailView.setPropName(goodsView.getPropName1());
+            goodsPropertyDetailView.setDetailName(goodsView.getDetailName1());
+            goodsPropertyDetailViewList.add(goodsPropertyDetailView);
+        }
+        if(StringUtils.isNotEmpty(goodsView.getPropName2())){
+            GoodsPropertyDetailView goodsPropertyDetailView = new GoodsPropertyDetailView();
+            goodsPropertyDetailView.setPropName(goodsView.getPropName2());
+            goodsPropertyDetailView.setDetailName(goodsView.getDetailName2());
+            goodsPropertyDetailViewList.add(goodsPropertyDetailView);
+        }
+        //属性
+        List<Long> goodsIdList = new ArrayList<>();
+        goodsIdList.add(goodsView.getId());
+        List<GoodsAttributeView> goodsAttributeViewList = goodsAttributeService.queryByGoodsIdList(goodsIdList);
+        //学员信息
+        OrderExt orderExt = orderExtService.selectByOrderSn(order.getOrderSn());
+
+        orderView.setGoodsName(orderGoods.getGoodsName());
+        orderView.setGoodsPropertyDetailList(goodsPropertyDetailViewList);
+        orderView.setGoodsAttributeList(goodsAttributeViewList);
+        orderView.setOrderExt(orderExt);
+
+        return orderView;
     }
 }

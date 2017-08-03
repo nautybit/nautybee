@@ -160,9 +160,11 @@ public class MessageService {
         ArticleItem articleItem = new ArticleItem();
 
         //自己不能推荐自己
+        UserInfo beRecommendUserInfo = wxService.getUserInfo(beRecommendUser);
+        UserInfo recommendUserInfo = wxService.getUserInfo(recommendUser);
+
         if(beRecommendUser.equals(recommendUser)){
-            UserInfo userInfo = wxService.getUserInfo(beRecommendUser);
-            articleItem.setTitle(userInfo.getNickname()+"，您已经是武义小作家会员");
+            articleItem.setTitle(beRecommendUserInfo.getNickname()+"，您已经是武义小作家会员");
             articleItem.setDescription("会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");
         }else {
             Recommend recommend = recommendService.selectByToUser(beRecommendUser);
@@ -175,11 +177,12 @@ public class MessageService {
             Recommend newOne = new Recommend();
             newOne.setDefaultBizValue();
             newOne.setFromUser(recommendUser);
+            newOne.setFromUserName(recommendUserInfo.getNickname());
             newOne.setToUser(beRecommendUser);
+            newOne.setToUserName(beRecommendUserInfo.getNickname());
             recommendService.save(newOne);
 
-            UserInfo userInfo = wxService.getUserInfo(recommendUser);
-            String recommendSource = userInfo.getNickname();
+            String recommendSource = recommendUserInfo.getNickname();
             articleItem.setTitle(recommendSource+" 推荐了您");
             log.debug("recommendSource:"+recommendSource);
             articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您和对方都将得到系统自动返还的50元现金红包。");

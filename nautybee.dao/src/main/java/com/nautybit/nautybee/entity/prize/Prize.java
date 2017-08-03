@@ -15,7 +15,8 @@ public class Prize extends BaseEntity {
   private Long originId;
   private Long userId;
     private String wxOpenId;
-  private String prizeType;
+    private String wxNickName;
+    private String prizeType;
   private String prizeValue;
   private String prizeStatus;
   private String prizeRemark;

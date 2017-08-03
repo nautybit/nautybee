@@ -7,5 +7,6 @@ import com.nautybit.nautybee.entity.order.OrderGoods;
 @MyBatisRepository
 public interface OrderGoodsDao extends BaseDao<OrderGoods> {
 
+    OrderGoods selectByOrderId(Long orderId);
 
 }
