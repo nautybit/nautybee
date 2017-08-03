@@ -18,4 +18,5 @@ public interface PrizeService {
 
     void sendOrderRedBag(String openid,String orderSn);
     void sendRecommendRedBag(String openid,String recommendedUserName,Long recommendId,String orderSn);
+    boolean isInBlackList(String openId);
 }

@@ -22,6 +22,7 @@ public class Spu extends BaseEntity {
   private BigDecimal unionpayDiscount;
   private String unit;
   private String spuImg;
+    private String spuIcon;
   private String goodsType;
   private String goodsNickName;
   private Integer saleVolume;

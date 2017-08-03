@@ -1,5 +1,7 @@
 package com.nautybit.nautybee.view.goods;
 
+import com.nautybit.nautybee.common.config.NautybeeSystemCfg;
+import com.nautybit.nautybee.common.utils.StaticConfigUtils;
 import com.nautybit.nautybee.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +23,7 @@ public class SpuView extends BaseEntity {
   private BigDecimal unionpayDiscount;
   private String unit;
   private String spuImg;
+    private String spuIcon;
   private String goodsType;
   private String goodsNickName;
   private Integer saleVolume;
@@ -35,5 +38,11 @@ public class SpuView extends BaseEntity {
     private String remark;
 
     private String catName;
-    private List<String> picList;
+    private List<GoodsPicView> picList;
+
+    public void setSpuIcon(String spuIcon) {
+        if (spuIcon != null) {
+            this.spuIcon = StaticConfigUtils.getServerUrl() + spuIcon;
+        }
+    }
 }

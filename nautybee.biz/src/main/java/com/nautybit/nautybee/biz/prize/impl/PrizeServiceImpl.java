@@ -17,6 +17,7 @@ import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.entity.recommend.Recommend;
 import com.nautybit.nautybee.entity.sys.CommonResources;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
@@ -129,5 +130,20 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
         }catch (Exception e){
             log.error("推荐发放红包异常:tradeNo[" + orderSn + "]",e);
         }
+    }
+
+    @Override
+    public boolean isInBlackList(String openId){
+        CommonResources commonResources = commonResourcesService.selectByKey("redBagBlackList");
+        String blackListStr = commonResources.getValue7();
+        String[] blackList = StringUtils.split(blackListStr, ',');
+        for(String str:blackList){
+            if(str!=null && !"".equals(str)){
+                if(str.equals(openId)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

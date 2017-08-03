@@ -240,6 +240,12 @@ public class PayController extends BasePayController {
         //支付成功
         if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
             String openid = notifyParam.get("openid");
+            //红包黑名单过滤
+            boolean isInBlackList = prizeService.isInBlackList(openid);
+            if(isInBlackList){
+                log.info("红包黑名单已过滤,openid:"+openid+",场景:报名，tradeNo："+tradeNo);
+                return null;
+            }
             prizeService.sendOrderRedBag(openid,tradeNo);
             //推荐红包
             Recommend recommend = recommendService.selectByToUser(openid);
@@ -247,6 +253,12 @@ public class PayController extends BasePayController {
                 String fromUser = recommend.getFromUser();
                 //确保不是自己推荐自己
                 if(!openid.equals(fromUser)){
+                    //红包黑名单过滤
+                    boolean isInBlackList2 = prizeService.isInBlackList(fromUser);
+                    if(isInBlackList2){
+                        log.info("红包黑名单已过滤,openid:"+fromUser+",场景:推荐，tradeNo："+tradeNo);
+                        return null;
+                    }
                     //记录订单推荐人
                     OrderExt orderExt = orderExtService.selectByOrderSn(tradeNo);
                     orderExt.setDefaultBizValue();

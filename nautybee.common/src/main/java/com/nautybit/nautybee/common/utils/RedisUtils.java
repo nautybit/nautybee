@@ -51,7 +51,7 @@ public class RedisUtils {
         if (jedisPool == null) {
             try {
                 JedisPoolConfig config = new JedisPoolConfig();
-                jedisPool = new JedisPool(config, redisUtils.redisIp, redisUtils.redisPort,redisUtils.timeout, null,1);
+                jedisPool = new JedisPool(config, redisUtils.redisIp, redisUtils.redisPort,redisUtils.timeout, redisUtils.password,1);
             } catch (Exception e) {
                 logger.error("First create JedisPool error : "+e);
             }

@@ -23,7 +23,7 @@
             <div id="picWrapper" style="line-height: 0;position: relative;">
                 <ul>
                     <th:block th:each= "entity : ${spuView.picList}">
-                        <li class="goodsPic touchable" th:styleappend="'background-image:url('+${entity}+');'"></li>
+                        <li class="goodsPic touchable" th:styleappend="'background-image:url('+${entity.imgUrl}+');'"></li>
                     </th:block>
                 </ul>
             </div>

@@ -15,6 +15,7 @@
         <result column = "unionpay_discount" property = "unionpayDiscount" />
         <result column = "unit" property = "unit" />
         <result column = "spu_img" property = "spuImg" />
+        <result column = "spu_icon" property = "spuIcon" />
         <result column = "goods_type" property = "goodsType" />
         <result column = "goods_nick_name" property = "goodsNickName" />
         <result column = "sale_volume" property = "saleVolume" />
@@ -41,6 +42,7 @@
         <result column = "unionpay_discount" property = "unionpayDiscount" />
         <result column = "unit" property = "unit" />
         <result column = "spu_img" property = "spuImg" />
+        <result column = "spu_icon" property = "spuIcon" />
         <result column = "goods_type" property = "goodsType" />
         <result column = "goods_nick_name" property = "goodsNickName" />
         <result column = "sale_volume" property = "saleVolume" />
@@ -90,6 +92,9 @@
                 </if>
                 <if test = "spuImg != null">
                     and spu_img = #{spuImg}
+                </if>
+                <if test = "spuIcon != null">
+                    and spu_icon = #{spuIcon}
                 </if>
                 <if test = "goodsType != null">
                     and goods_type = #{goodsType}
@@ -163,6 +168,9 @@
             </if>
             <if test = "spuImg != null">
                 spu_img = #{spuImg},
+            </if>
+            <if test = "spuIcon != null">
+                spu_icon = #{spuIcon},
             </if>
             <if test = "goodsType != null">
                 goods_type = #{goodsType},
@@ -268,6 +276,7 @@
         unionpay_discount,
         unit,
         spu_img,
+        spu_icon,
         goods_type,
         goods_nick_name,
         sale_volume,
@@ -293,6 +302,7 @@
         #{unionpayDiscount},
         #{unit},
         #{spuImg},
+        #{spuIcon},
         #{goodsType},
         #{goodsNickName},
         #{saleVolume},

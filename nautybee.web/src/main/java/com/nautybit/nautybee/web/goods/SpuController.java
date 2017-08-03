@@ -2,15 +2,18 @@ package com.nautybit.nautybee.web.goods;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nautybit.nautybee.biz.goods.GoodsPicService;
 import com.nautybit.nautybee.biz.goods.SpuService;
 import com.nautybit.nautybee.biz.user.UserService;
 import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.result.wx.WxAuthToken;
 import com.nautybit.nautybee.common.utils.HttpUtils;
+import com.nautybit.nautybee.entity.goods.GoodsPic;
 import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.user.User;
 import com.nautybit.nautybee.http.result.goods.SpuListVO;
+import com.nautybit.nautybee.view.goods.GoodsPicView;
 import com.nautybit.nautybee.view.goods.SpuView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,8 @@ public class SpuController extends BaseController {
     private SpuService spuService;
     @Autowired
     private WxService wxService;
+    @Autowired
+    private GoodsPicService goodsPicService;
 
     @Value("${nautybee.wechat.appid}")
     private String wechatappid;
@@ -110,9 +115,7 @@ public class SpuController extends BaseController {
         Spu spu = spuService.getById(spuId);
         SpuView spuView = new SpuView();
         BeanUtils.copyProperties(spu,spuView);
-        List<String> picList = new ArrayList<>();
-        picList.add("https://fauna-test.b0.upaiyun.com/goods/637/081/909/051/150909180736_036_7.jpg!S");
-        picList.add("https://fauna-test.b0.upaiyun.com/goodsImg/201604/18/1460961803938_58088389.jpg!M");
+        List<GoodsPicView> picList = goodsPicService.selectBySpuId(spuId);
         spuView.setPicList(picList);
         model.addAttribute("spuView",spuView);
         return "goods/goodsDetail";

@@ -12,6 +12,15 @@
         <result column = "is_main" property = "isMain" />
     </resultMap>
 
+    <resultMap id = "GoodsPicViewMap" type = "com.nautybit.nautybee.view.goods.GoodsPicView"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "spu_id" property = "spuId" />
+        <result column = "img_url" property = "imgUrl" />
+        <result column = "img_desc" property = "imgDesc" />
+        <result column = "img_order" property = "imgOrder" />
+        <result column = "is_main" property = "isMain" />
+    </resultMap>
+
     <sql id = "BaseWhereClause">
         <where>
             <trim prefixOverrides = "and">
@@ -134,4 +143,12 @@
         where id = #{id}
     </update>
 
+    <!-- 根据spuId查询 -->
+    <select id = "selectBySpuId" resultMap = "GoodsPicViewMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_goods_pic
+        where spu_id = #{spuId}
+        and is_deleted='N'
+    </select>
 </mapper>
