@@ -123,7 +123,12 @@ public class WxService{
     public UserInfo getUserInfo(String openid){
         getAccessToken();
         String userInfoStr = HttpUtils.sendGet(userInfoUrl,"access_token="+accessToken+"&openid="+openid+"&lang=zh_CN");
-        UserInfo userInfo = gson.fromJson(userInfoStr, new TypeToken<UserInfo>(){}.getType());
+        UserInfo userInfo = new UserInfo();
+        try {
+            userInfo = gson.fromJson(userInfoStr, new TypeToken<UserInfo>(){}.getType());
+        }catch (Exception e){
+            log.error("getUserInfo error openid:"+openid);
+        }
         return userInfo;
     }
 }

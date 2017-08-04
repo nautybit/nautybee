@@ -173,7 +173,7 @@
         select a.gmt_create,a.to_user_name,d.gmt_create as order_gmt_create,d.goods_name
         from nautybee_recommend a
         left join nautybee_order_ext b on a.id = b.recommend_id and b.is_deleted = 'N'
-        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N'
+        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
         left join nautybee_order_goods d on d.order_id = c.id and d.is_deleted = 'N'
         where a.from_user = #{fromUser}
         and a.is_deleted = 'N'
