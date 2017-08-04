@@ -2,6 +2,7 @@ package com.nautybit.nautybee.biz.wx;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nautybit.nautybee.biz.redis.RedisHashService;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.result.wx.*;
 import com.nautybit.nautybee.common.utils.DateUtils;
@@ -10,6 +11,7 @@ import com.nautybit.nautybee.common.utils.SHA1;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

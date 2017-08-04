@@ -17,6 +17,7 @@ import com.nautybit.nautybee.view.goods.GoodsPicView;
 import com.nautybit.nautybee.view.goods.SpuView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.mockito.internal.util.collections.ListUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.thymeleaf.util.ListUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by UFO on 17/01/12.
@@ -52,7 +54,7 @@ public class SpuController extends BaseController {
 
     private Gson gson = new Gson();
 
-    private String authUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
+//    private String authUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
 
 
     @RequestMapping("getSpuList")
@@ -60,6 +62,11 @@ public class SpuController extends BaseController {
 
         String openid = wxService.getOpenId(authUrl,code);
         System.out.println("openid from getSpuList:"+openid);
+        if(StringUtils.isEmpty(openid)){
+            Map cookieMap = this.getCookieMap();
+            /*获取openId*/
+            openid = (String) this.getViewRequestParam(cookieMap, "wxOpenId", "");
+        }
         model.addAttribute("openid", openid);
 
         List<SpuView> spuList = spuService.queryListOfCategory();

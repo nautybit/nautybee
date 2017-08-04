@@ -9,6 +9,7 @@ import com.nautybit.nautybee.biz.order.OrderExtService;
 import com.nautybit.nautybee.biz.order.OrderGoodsService;
 import com.nautybit.nautybee.biz.order.OrderService;
 import com.nautybit.nautybee.biz.recommend.RecommendService;
+import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.utils.DateUtils;
@@ -21,6 +22,7 @@ import com.nautybit.nautybee.view.order.OrderView;
 import com.nautybit.nautybee.view.recommend.RecommendView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -61,6 +63,8 @@ public class OrderController extends BaseController {
     private OrderExtService orderExtService;
     @Autowired
     private RecommendService recommendService;
+    @Autowired
+    private WxService wxService;
 
     @RequestMapping("confirmOrder")
     public String confirm(ModelMap model,Long spuId) {
@@ -105,6 +109,17 @@ public class OrderController extends BaseController {
     @ResponseBody
     @Transactional
     public Result<?> createOrder(@RequestBody OrderParam orderParam) {
+
+        String wxOpenid = orderParam.getWxOpenid();
+        if(StringUtils.isEmpty(wxOpenid)){
+            log.error("报名时openid为空");
+            try {
+                response.sendRedirect(wxShareUrl);
+            }catch (Exception e){
+
+            }
+        }
+
         Order order = orderService.createOrder(orderParam);
         orderParam.setOrderId(order.getId());
         orderParam.setOrderSn(order.getOrderSn());
@@ -114,7 +129,17 @@ public class OrderController extends BaseController {
     }
 
     @RequestMapping("orderList")
-    public String orderList(ModelMap modelMap,String openid) {
+    public String orderList(ModelMap modelMap,String code,String state) {
+
+        String openid = wxService.getOpenId(authUrl,code);
+        System.out.println("openid from orderList:"+openid);
+        if(StringUtils.isEmpty(openid)){
+            Map cookieMap = this.getCookieMap();
+            /*获取openId*/
+            openid = (String) this.getViewRequestParam(cookieMap, "wxOpenId", "");
+        }
+        modelMap.addAttribute("openid", openid);
+
         List<Order> orderList = orderService.queryByOpenId(openid);
         List<OrderView> orderViewList = new ArrayList<>();
         for(Order order:orderList){
@@ -126,7 +151,16 @@ public class OrderController extends BaseController {
     }
 
     @RequestMapping("recommendList")
-    public String recommendList(ModelMap modelMap,String openid) {
+    public String recommendList(ModelMap modelMap,String code,String state) {
+
+        String openid = wxService.getOpenId(authUrl,code);
+        System.out.println("openid from recommendList:"+openid);
+        if(StringUtils.isEmpty(openid)){
+            Map cookieMap = this.getCookieMap();
+            /*获取openId*/
+            openid = (String) this.getViewRequestParam(cookieMap, "wxOpenId", "");
+        }
+        modelMap.addAttribute("openid", openid);
 
         List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
         for(RecommendView recommendView:recommendViewList){

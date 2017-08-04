@@ -41,7 +41,7 @@ function init(){
     initWx();
 }
 function initEnvOpenId(){
-    setCookie('wxOpenId', $('#main').attr("openid"), null, '/');
+    setCookie('wxOpenId', gOpenId, null, '/');
 }
 function getScreenWidth(){
     return document.body.clientWidth;
@@ -95,14 +95,14 @@ function initButtonStatus(){
 
 }
 function initEventHandlers(){
-    $('#purchaseBtn').on('clickstatus.up',function(){
-        var queryParam = {};
-        queryParam.totalFee = 0.01;
-        var openid = $('#main').attr("openid");
-        alert("openid:"+openid);
-        queryParam.wxOpenid = openid;
-        doRequest(queryParam);
-    });
+//    $('#purchaseBtn').on('clickstatus.up',function(){
+//        var queryParam = {};
+//        queryParam.totalFee = 0.01;
+//        var openid = $('#main').attr("openid");
+//        alert("openid:"+openid);
+//        queryParam.wxOpenid = openid;
+//        doRequest(queryParam);
+//    });
     $('.goods').on('clickstatus.up',function(){
         var spuId = $(this).attr("spuId");
         window.location.href = window.location.origin + '/nautybee/wx/goods/getSpuDetail?spuId='+spuId;
@@ -202,7 +202,7 @@ function initWxConfig(wxConfig){
 function handleShareEvent(){
     var title = "武义小作家辅导中心";
     var descrption = "欢迎您加入";
-    var imgUrl = "";
+    var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
     var url = window.location.origin + '/nautybee/wx/toFollowPage';
 
     var success = function(){

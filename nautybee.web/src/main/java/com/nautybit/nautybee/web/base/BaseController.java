@@ -27,6 +27,8 @@ public class BaseController {
 
     protected static String wxShareUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI1NjU3Mjk0Nw==#wechat_redirect";
 
+    protected static String authUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
+
     public String getIp() {
         for (String headName : headsNames) {
             String header = request.getHeader(headName);

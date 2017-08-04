@@ -15,7 +15,7 @@
     <link rel="stylesheet" th:href="@{/resources/view/css/goods/goodsList.css}"/>
 </head>
 <body style="visibility: hidden">
-<div style="width: 100%" id="main" th:attr="openid=${openid}">
+<div style="width: 100%" id="main">
     <div id="wrapper">
         <div id="scroller">
             <!--<a href="javascript:;" id="purchaseBtn" class="weui-btn weui-btn_primary touchable">购买</a>-->
@@ -65,6 +65,7 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var gOpenId = [[${openid}]];
 
     /*]]>*/
 </script>

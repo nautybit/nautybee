@@ -11,7 +11,7 @@ gViewModel.$main = $('#main');
 gViewModel.$wrapper = $('#wrapper');
 RequestJSApiConfig = extend ( RequestBase, function(){
     this.__super__.constructor(this);
-    this.url ="wx/jssdkConfig?url="+window.location.href;
+    this.url ="wx/jssdkConfig?url="+encodeURIComponent(window.location.href);
     this.method = "get";
     this.contentType = "application/json";
 });
@@ -19,6 +19,7 @@ $(function(){
     init();
 });
 function init(){
+    initEnvOpenId();
     windowResized();
     $('body').css("visibility","visible");
     initEventHandlers();
@@ -26,6 +27,9 @@ function init(){
     loadScroll();
     //微信初始化
     initWx();
+}
+function initEnvOpenId(){
+    setCookie('wxOpenId', gOpenId, null, '/');
 }
 function getScreenWidth(){
     return document.body.clientWidth;
@@ -109,8 +113,8 @@ function initWxConfig(wxConfig){
 function handleShareEvent(){
     var title = "武义小作家辅导中心";
     var descrption = "欢迎您加入";
-    var imgUrl = "";
-    var url = window.location.href;
+    var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
+    var url = window.location.origin + '/nautybee/wx/toFollowPage';
 
     var success = function(){
         // 用户确认分享后执行的回调函数

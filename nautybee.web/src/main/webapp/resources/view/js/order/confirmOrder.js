@@ -94,7 +94,7 @@ function initEventHandlers(){
         queryParam.teacherName = $('#teacherName').val();
         queryParam.teacherMobile = $('#teacherMobile').val();
 
-        queryParam.totalFee = 0.01;
+        queryParam.totalFee = gGoodsPrice;
         queryParam.wxOpenid = getCookie("wxOpenId");
 
         createOrder(queryParam);
@@ -168,6 +168,7 @@ function switchSchoolInfo(obj){
 }
 
 function createOrder(queryParam){
+    $('#loadingToast').show();
     var request = new RequestCreateOrder(queryParam);
     var net = Net.getInstance();
     var success = function(result){
@@ -207,7 +208,6 @@ function doRequest(queryParam){
             return;
         }else{
 
-            $('#loadingToast').show();
 
             var data = result.data;
 //            alert("appId:"+data.appId);
@@ -291,8 +291,8 @@ function initWxConfig(wxConfig){
 function handleShareEvent(){
     var title = "武义小作家辅导中心";
     var descrption = "欢迎您加入";
-    var imgUrl = "";
-    var url = window.location.href;
+    var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
+    var url = window.location.origin + '/nautybee/wx/toFollowPage';
 
     var success = function(){
         // 用户确认分享后执行的回调函数

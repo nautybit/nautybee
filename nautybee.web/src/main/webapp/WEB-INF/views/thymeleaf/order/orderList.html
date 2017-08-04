@@ -19,8 +19,8 @@
     <div id="wrapper">
         <div id="scroller">
             <div class="page__hd">
-                <h1 class="page__title">Preview</h1>
-                <p class="page__desc">表单预览</p>
+                <h1 class="page__title">我的课程</h1>
+                <!--<p class="page__desc">表单预览</p>-->
             </div>
             <div class="page__bd">
                 <th:block th:each="entity,iterStat : ${orderViewList}">
@@ -53,16 +53,16 @@
                             </div>
                             <div class="weui-form-preview__item">
                                 <label class="weui-form-preview__label">学费</label>
-                                <span class="weui-form-preview__value" th:text="${entity.orderAmount}">980</span>
+                                <span class="weui-form-preview__value" th:text="${#numbers.formatDecimal(entity.orderAmount,1,2)}">980</span>
                             </div>
                             <div class="weui-form-preview__item">
                                 <label class="weui-form-preview__label">报名时间</label>
                                 <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
                             </div>
                         </div>
-                        <div class="weui-form-preview__ft">
-                            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">推荐给好友</a>
-                        </div>
+                        <!--<div class="weui-form-preview__ft">-->
+                            <!--<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">推荐给好友</a>-->
+                        <!--</div>-->
                     </div>
                 </th:block>
             </div>
@@ -71,8 +71,7 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-//    var gStoreId = [[${storeId}]];
-
+    var gOpenId = [[${openid}]];
     /*]]>*/
 </script>
 <!-- Javascript -->
@@ -84,6 +83,6 @@
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/order/orderList.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/orderList.js?time=17}"/>
 </body>
 </html>

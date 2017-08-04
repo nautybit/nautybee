@@ -302,7 +302,8 @@
         from nautybee_order
         where is_deleted = 'N'
         and wx_open_id = #{wxOpenId}
-        and pay_status = 'YFK';
+        and pay_status = 'YFK'
+        order by id desc
     </select>
 
 </mapper>
