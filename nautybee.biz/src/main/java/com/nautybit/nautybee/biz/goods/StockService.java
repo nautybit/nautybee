@@ -16,5 +16,7 @@ public interface StockService {
 
   int deleteByIds(Long[] ids);
 
+  boolean updateGoodsNum(Long goodsNum,Long goodsId);
 
+    Stock selectByGoodsId(Long goodsId);
 }

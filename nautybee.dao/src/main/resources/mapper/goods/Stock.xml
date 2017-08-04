@@ -116,4 +116,19 @@
         where id = #{id}
     </update>
 
+    <!-- 更新库存 -->
+    <update id = "updateGoodsNum">
+        update nautybee_stock
+        set goods_num = #{goodsNum}
+        where goods_id = #{goodsId}
+    </update>
+
+    <!-- 根据goodsId查询 -->
+    <select id = "selectByGoodsId" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_stock
+        where goods_id = #{goodsId}
+        and is_deleted='N'
+    </select>
 </mapper>

@@ -20,4 +20,6 @@ public interface OrderGoodsService {
     void createOrderGoods(OrderParam orderParam);
 
     OrderGoods selectByOrderId(Long orderId);
+
+    OrderGoods selectByOrderSn(String orderSn);
 }

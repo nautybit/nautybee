@@ -2,6 +2,7 @@ package com.nautybit.nautybee.web.wx;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nautybit.nautybee.biz.redis.RedisHashService;
 import com.nautybit.nautybee.biz.wx.MessageService;
 import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.result.Result;
@@ -35,6 +36,8 @@ public class WxController extends BaseController {
     private WxService wxService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private RedisHashService redisHashService;
     @Value("${nautybee.server.url}")
     private String nautybeeServerUrl;
     private String createMenuUrl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=";
@@ -173,7 +176,16 @@ public class WxController extends BaseController {
         System.out.println("openid from getShareCode:"+openid);
         model.addAttribute("openid", openid);
 
-        String QRCode = wxService.getQRCode("recommend_"+openid);
+        String QRCode;
+        String existQRCode = redisHashService.hget("recommend_QRCode",openid);
+        if(StringUtils.isNotEmpty(existQRCode)){
+            QRCode = existQRCode;
+        }else {
+            QRCode = wxService.getQRCode("recommend_"+openid);
+            redisHashService.hset("recommend_QRCode", openid, QRCode);
+            log.info("create a new recommend QRCode by:"+openid);
+        }
+
         model.addAttribute("QRCode",QRCode);
 
         UserInfo userInfo = wxService.getUserInfo(openid);
@@ -183,6 +195,16 @@ public class WxController extends BaseController {
 
 
         return "wx/recommendCode";
+    }
+
+    @RequestMapping("toFollowPage")
+    @ResponseBody
+    public void toFollowPage() {
+        try {
+            response.sendRedirect(wxShareUrl);
+        }catch (Exception e){
+
+        }
     }
 }
 

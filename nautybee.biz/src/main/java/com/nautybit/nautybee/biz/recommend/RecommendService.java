@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nautybit.nautybee.entity.recommend.Recommend;
+import com.nautybit.nautybee.view.recommend.RecommendView;
 
 public interface RecommendService {
   List<Recommend> getAll();
@@ -18,4 +19,5 @@ public interface RecommendService {
 
     Recommend selectByToUser(String toUser);
 
+    List<RecommendView> selectByFromUser(String fromUser);
 }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8"/>
+    <title>我的课程</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/resources/view/css/wx/example.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/libs/css/weui/weui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/view/css/order/orderList.css}"/>
+</head>
+<body style="visibility: hidden">
+<div style="width: 100%" id="main">
+    <div id="wrapper">
+        <div id="scroller">
+            <div class="page__hd">
+                <h1 class="page__title">Preview</h1>
+                <p class="page__desc">表单预览</p>
+            </div>
+            <div class="page__bd">
+                <th:block th:each="entity,iterStat : ${orderViewList}">
+                    <br th:if="${index!=0}"></br>
+                    <div class="weui-form-preview">
+                        <div class="weui-form-preview__hd">
+                            <label class="weui-form-preview__label">课程名称</label>
+                            <em class="weui-form-preview__value" th:text="${entity.goodsName}">周末写作班</em>
+                        </div>
+                        <div class="weui-form-preview__bd">
+                            <th:block th:each="prop : ${entity.goodsPropertyDetailList}">
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label" th:text="${prop.propName}">年级</label>
+                                    <span class="weui-form-preview__value" th:text="${prop.detailName}">二年级</span>
+                                </div>
+                            </th:block>
+                            <th:block th:each="attr : ${entity.goodsAttributeList}">
+                                <div class="weui-form-preview__item">
+                                    <label class="weui-form-preview__label" th:text="${attr.attrName}">年级</label>
+                                    <span class="weui-form-preview__value" th:text="${attr.attrValue}">二年级</span>
+                                </div>
+                            </th:block>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">姓名</label>
+                                <span class="weui-form-preview__value" th:text="${entity.orderExt.studentName}">李秋峦</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">手机号</label>
+                                <span class="weui-form-preview__value" th:text="${entity.orderExt.contactMobile}">15158116447</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">学费</label>
+                                <span class="weui-form-preview__value" th:text="${entity.orderAmount}">980</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">报名时间</label>
+                                <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
+                            </div>
+                        </div>
+                        <div class="weui-form-preview__ft">
+                            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">推荐给好友</a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+//    var gStoreId = [[${storeId}]];
+
+    /*]]>*/
+</script>
+<!-- Javascript -->
+<script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery-2.1.4.min.js}"/>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript" th:src="@{/resources/common/utils.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/net.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/request.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/orderList.js}"/>
+</body>
+</html>

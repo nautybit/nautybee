@@ -305,4 +305,15 @@
         and is_deleted = 'N'
     </select>
 
+    <!-- 根据orderSn查询 -->
+    <select id = "selectByOrderSn" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_order_goods a,nautybee_order b
+        where a.order_id = b.id
+        and b.order_sn = #{orderSn}
+        and a.is_deleted = 'N'
+        and b.is_deleted = 'N'
+    </select>
+
 </mapper>

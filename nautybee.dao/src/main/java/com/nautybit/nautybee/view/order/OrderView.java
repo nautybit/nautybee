@@ -41,4 +41,6 @@ public class OrderView extends BaseEntity {
     private List<GoodsPropertyDetailView> goodsPropertyDetailList;
     private List<GoodsAttributeView> goodsAttributeList;
     private OrderExt orderExt;
+
+    private String gmtCreateStr;
 }

@@ -138,6 +138,7 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
     public OrderView makeOrderView(Order order){
         OrderView orderView = new OrderView();
         BeanUtils.copyProperties(order,orderView);
+        orderView.setGmtCreateStr(DateUtils.dateFormat(orderView.getGmtCreate(),DateUtils.Y_M_D));
         OrderGoods orderGoods = orderGoodsService.selectByOrderId(order.getId());
         GoodsView goodsView = goodsService.queryGoodsById(orderGoods.getGoodsId());
         //规格

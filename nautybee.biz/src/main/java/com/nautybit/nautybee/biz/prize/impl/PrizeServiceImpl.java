@@ -66,6 +66,12 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
     @Override
     public void sendOrderRedBag(String openid,String orderSn){
         CommonResources commonResources = commonResourcesService.selectByKey("orderRedBag");
+        //红包金额为空或为0则不发放
+        String amount = commonResources.getValue1();
+        if(StringUtils.isEmpty(amount) || "0".equals(amount)){
+            System.out.println("did filtered");
+            return;
+        }
         SendRedBagParam sendRedBagParam = new SendRedBagParam();
         sendRedBagParam.setSend_name(commonResources.getValue());
         sendRedBagParam.setRe_openid(openid);
@@ -101,6 +107,11 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
     @Override
     public void sendRecommendRedBag(String openid,String recommendedUserName,Long recommendId,String orderSn){
         CommonResources commonResources = commonResourcesService.selectByKey("recommendRedBag");
+        //红包金额为空或为0则不发放
+        String amount = commonResources.getValue1();
+        if(StringUtils.isEmpty(amount) || "0".equals(amount)){
+            return;
+        }
         SendRedBagParam sendRedBagParam = new SendRedBagParam();
         sendRedBagParam.setSend_name(commonResources.getValue());
         sendRedBagParam.setRe_openid(openid);

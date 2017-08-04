@@ -37,4 +37,15 @@ public class StockServiceImpl extends BaseServiceImpl  implements StockService{
   public int deleteByIds(Long[] ids) {
     return super.deleteByIds(stockDao, ids);
   }
+
+    @Override
+    public boolean updateGoodsNum(Long goodsNum,Long goodsId){
+        return stockDao.updateGoodsNum(goodsNum,goodsId);
+    }
+
+    @Override
+    public Stock selectByGoodsId(Long goodsId){
+        return stockDao.selectByGoodsId(goodsId);
+    }
+
 }

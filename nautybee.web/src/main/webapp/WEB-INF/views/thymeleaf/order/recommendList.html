@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8"/>
+    <title>我的推荐记录</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/resources/view/css/wx/example.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/libs/css/weui/weui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/view/css/order/recommendList.css}"/>
+</head>
+<body style="visibility: hidden">
+<div style="width: 100%" id="main">
+    <div class="weui-navbar">
+        <div class="weui-navbar__item weui-bar__item_on good-one-btn">
+            已报名的推荐
+        </div>
+        <div class="weui-navbar__item bad-one-btn">
+            未报名的推荐
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="scroller">
+            <div style="width: 100%;margin-top: 68px">
+                <th:block th:each="entity : ${recommendViewList}">
+                    <div th:if="${entity.goodsName}!=null" class="weui-form-preview good-one">
+                        <div class="weui-form-preview__hd">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">推荐好友</label>
+                                <em class="weui-form-preview__value" th:text="${entity.toUserName}">闵崇建</em>
+                            </div>
+                        </div>
+                        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">推荐时间</label>
+                                <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">报名时间</label>
+                                <span class="weui-form-preview__value" th:text="${entity.orderGmtCreateStr}">2017-07-31</span>
+                            </div>
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">报名课程</label>
+                                <span class="weui-form-preview__value" th:text="${entity.goodsName}">电动打蛋机</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${entity.goodsName}==null" class="weui-form-preview bad-one">
+                        <div class="weui-form-preview__hd">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">推荐好友</label>
+                                <em class="weui-form-preview__value" th:text="${entity.toUserName}">闵崇建</em>
+                            </div>
+                        </div>
+                        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
+                            <div class="weui-form-preview__item">
+                                <label class="weui-form-preview__label">推荐时间</label>
+                                <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+//    var gStoreId = [[${storeId}]];
+
+    /*]]>*/
+</script>
+<!-- Javascript -->
+<script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery-2.1.4.min.js}"/>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript" th:src="@{/resources/common/utils.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/net.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/request.js}"/>
+<script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/recommendList.js}"/>
+</body>
+</html>

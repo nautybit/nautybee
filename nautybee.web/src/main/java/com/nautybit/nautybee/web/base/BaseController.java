@@ -25,6 +25,8 @@ public class BaseController {
     @Autowired
     protected HttpServletResponse response;
 
+    protected static String wxShareUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI1NjU3Mjk0Nw==#wechat_redirect";
+
     public String getIp() {
         for (String headName : headsNames) {
             String header = request.getHeader(headName);

@@ -11,50 +11,41 @@ gViewModel.$main = $('#main');
 gViewModel.$wrapper = $('#wrapper');
 RequestJSApiConfig = extend ( RequestBase, function(){
     this.__super__.constructor(this);
-    this.url ="wx/jssdkConfig?url="+encodeURIComponent(window.location.href);
+    this.url ="wx/jssdkConfig?url="+window.location.href;
     this.method = "get";
     this.contentType = "application/json";
-});
-RequestToWechatPay = extend( RequestBase, function(queryParam)
-{
-    this.__super__.constructor(this);
-    this.url = "pay/auth";
-    this.method = "post";
-    this.contentType = "application/json";
-    this.dataType = "json";
-    this.async = true;
-    var params = JSON.stringify(queryParam);
-    this.params = params;
 });
 $(function(){
     init();
 });
 function init(){
-    initEnvOpenId();
     windowResized();
+    $('.bad-one').hide();
     $('body').css("visibility","visible");
-    initButtonStatus();
     initEventHandlers();
     //初始化iscroll
     loadScroll();
     //微信初始化
     initWx();
 }
-function initEnvOpenId(){
-    setCookie('wxOpenId', $('#main').attr("openid"), null, '/');
-}
 function getScreenWidth(){
     return document.body.clientWidth;
 }
 function windowResized(){
-    $('.storeBanner').css({
-        'width':getScreenWidth()+'px',
-        'height':0.4*getScreenWidth()+'px',
-        'margin-top':20/640*getScreenWidth()+'px',
-        'line-height':0.4*getScreenWidth()+'px',
-        'text-align':'center',
-        'font-size':'large',
-        'background-color':'lightgray'
+
+}
+function initEventHandlers(){
+    $('.good-one-btn').on('click',function(){
+        $('.good-one-btn').addClass('weui-bar__item_on');
+        $('.bad-one-btn').removeClass('weui-bar__item_on');
+        $('.good-one').show();
+        $('.bad-one').hide();
+    });
+    $('.bad-one-btn').on('click',function(){
+        $('.good-one-btn').removeClass('weui-bar__item_on');
+        $('.bad-one-btn').addClass('weui-bar__item_on');
+        $('.good-one').hide();
+        $('.bad-one').show();
     })
 }
 function loadScroll () {
@@ -86,78 +77,6 @@ function refreshScroll(){
     setTimeout(function(){
         gViewModel.gPageScroll.refresh();
     },200);
-}
-function initButtonStatus(){
-    //注册可点击按钮
-    $('.touchable').clickStatus({
-        touchEventEnable:gIsTouchDevice
-    });
-
-}
-function initEventHandlers(){
-    $('#purchaseBtn').on('clickstatus.up',function(){
-        var queryParam = {};
-        queryParam.totalFee = 0.01;
-        var openid = $('#main').attr("openid");
-        alert("openid:"+openid);
-        queryParam.wxOpenid = openid;
-        doRequest(queryParam);
-    });
-    $('.goods').on('clickstatus.up',function(){
-        var spuId = $(this).attr("spuId");
-        window.location.href = window.location.origin + '/nautybee/wx/goods/getSpuDetail?spuId='+spuId;
-    })
-}
-function doRequest(queryParam){
-    var request = new RequestToWechatPay(queryParam);
-    var net = Net.getInstance();
-    var success = function(result){
-        if( !result.success ){
-            alert("pay fail");
-            baseShowModalAlert(
-                "danger"
-                ,result.errorMsg
-            );
-            return;
-        }else{
-            var data = result.data;
-//            alert("appId:"+data.appId);
-            if (typeof WeixinJSBridge == "undefined"){
-                console.log("WeixinJSBridge not defined")
-                return;
-            }
-            var invokeParam = {
-                appId:data.appId,
-                timeStamp:""+data.timeStamp,
-                nonceStr:data.nonceStr,
-                signType:"MD5",
-                paySign:data.sign
-            };
-            invokeParam.package = "prepay_id="+data.prepayid;
-            WeixinJSBridge.invoke(
-                "getBrandWCPayRequest",
-                invokeParam,
-                function(res){
-                    console.log("wx pay callback.");
-                    console.log("callback res = " + JSON.stringify(res));
-
-                    if(res.err_msg == "get_brand_wcpay_request:cancel" ) {
-
-                        return;
-                    }
-                    if(res.err_msg == "get_brand_wcpay_request:fail" ) {
-
-                        return;
-                    }
-                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-
-                        return;
-                    }
-                }
-            );
-        }
-    };
-    net.request(request,success);
 }
 // ************微信相关初始化操作START************
 function initWx(){
@@ -203,7 +122,7 @@ function handleShareEvent(){
     var title = "武义小作家辅导中心";
     var descrption = "欢迎您加入";
     var imgUrl = "";
-    var url = window.location.origin + '/nautybee/wx/toFollowPage';
+    var url = window.location.href;
 
     var success = function(){
         // 用户确认分享后执行的回调函数

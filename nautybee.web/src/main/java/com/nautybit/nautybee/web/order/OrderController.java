@@ -8,14 +8,17 @@ import com.nautybit.nautybee.biz.goods.SpuService;
 import com.nautybit.nautybee.biz.order.OrderExtService;
 import com.nautybit.nautybee.biz.order.OrderGoodsService;
 import com.nautybit.nautybee.biz.order.OrderService;
+import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.common.result.Result;
+import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.entity.goods.GoodsProperty;
 import com.nautybit.nautybee.entity.goods.GoodsPropertyDetail;
 import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.view.goods.GoodsView;
 import com.nautybit.nautybee.view.order.OrderView;
+import com.nautybit.nautybee.view.recommend.RecommendView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -59,6 +59,8 @@ public class OrderController extends BaseController {
     private OrderGoodsService orderGoodsService;
     @Autowired
     private OrderExtService orderExtService;
+    @Autowired
+    private RecommendService recommendService;
 
     @RequestMapping("confirmOrder")
     public String confirm(ModelMap model,Long spuId) {
@@ -66,6 +68,7 @@ public class OrderController extends BaseController {
 
         Spu spu = spuService.getById(spuId);
         model.addAttribute("storeId",spu.getStoreId());
+        model.addAttribute("goodsPrice",spu.getGoodsPrice());
         List<GoodsProperty> goodsPropertyList = goodsPropertyService.getBySpuId(spuId);
         List<GoodsView> goodsViewList = goodsService.queryGoodsBySpuId(spuId);
         goodsService.fillGoodsAttribute(goodsViewList);
@@ -120,6 +123,20 @@ public class OrderController extends BaseController {
         }
         modelMap.addAttribute("orderViewList",orderViewList);
         return "order/orderList";
+    }
+
+    @RequestMapping("recommendList")
+    public String recommendList(ModelMap modelMap,String openid) {
+
+        List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
+        for(RecommendView recommendView:recommendViewList){
+            Date gmtCreate = recommendView.getGmtCreate();
+            recommendView.setGmtCreateStr(DateUtils.dateFormat(gmtCreate,DateUtils.Y_M_D));
+            Date orderGmtCreate = recommendView.getOrderGmtCreate();
+            recommendView.setOrderGmtCreateStr(DateUtils.dateFormat(orderGmtCreate,DateUtils.Y_M_D));
+        }
+        modelMap.addAttribute("recommendViewList",recommendViewList);
+        return "order/recommendList";
     }
 
 }

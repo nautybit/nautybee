@@ -181,7 +181,7 @@ function createOrder(queryParam){
         }else{
             var data = result.data;
             var queryParam = {};
-            queryParam.totalFee = 0.01;
+            queryParam.totalFee = gGoodsPrice;
             queryParam.wxOpenid = getCookie("wxOpenId");
             queryParam.goodsId = data.goodsId;
             queryParam.tradeNo = data.orderSn;
@@ -206,6 +206,9 @@ function doRequest(queryParam){
             );
             return;
         }else{
+
+            $('#loadingToast').show();
+
             var data = result.data;
 //            alert("appId:"+data.appId);
             if (typeof WeixinJSBridge == "undefined"){
@@ -230,9 +233,13 @@ function doRequest(queryParam){
                         return;
                     }
                     if(res.err_msg == "get_brand_wcpay_request:fail" ) {
+                        alert("支付失败");
+                        $('#loadingToast').hide();
                         return;
                     }
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                        $('#loadingToast').hide();
+                        window.location.href = window.location.origin + '/nautybee/wx/order/orderList?openid=' + getCookie("wxOpenId");
                         return;
                     }
                 }

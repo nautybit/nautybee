@@ -20,7 +20,7 @@
     <div id="wrapper">
         <div class="page__hd" style="padding: 40px">
             <h1 class="page__title">周末写作班</h1>
-            <p class="page__desc" style="color: #e64340">￥980</p>
+            <p class="page__desc" style="color: #e64340" th:text="'¥'+${#numbers.formatDecimal(goodsPrice,1,2)}"></p>
         </div>
         <div class="page__bd">
 
@@ -146,12 +146,22 @@
             <div class="weui-btn-area">
                 <a class="weui-btn weui-btn_primary" href="javascript:" id="purchaseBtn">确定</a>
             </div>
+
+
+            <div id="loadingToast" style="opacity: 1;display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-loading weui-icon_toast"></i>
+                    <p class="weui-toast__content">等待支付结果</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var gStoreId = [[${storeId}]];
+    var gGoodsPrice = [[${goodsPrice}]];
     var gPropLength = [[${propLength}]];
     var gPropName = [[${propName}]];
     var gGoodsViewList = [[${goodsViewList}]];
@@ -169,6 +179,6 @@
 <script type="text/javascript" th:src="@{/resources/common/net.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/order/confirmOrder.js?time=7}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/confirmOrder.js?time=14}"/>
 </body>
 </html>

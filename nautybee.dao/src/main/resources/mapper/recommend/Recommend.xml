@@ -6,9 +6,26 @@
     <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.recommend.Recommend"
                extends = "COMMON.BASE_RESULT_MAP">
         <result column = "to_user" property = "toUser" />
+        <result column = "to_user_name" property = "toUserName" />
         <result column = "from_user" property = "fromUser" />
+        <result column = "from_user_name" property = "fromUserName" />
         <result column = "is_valid" property = "isValid" />
         <result column = "remark" property = "remark" />
+    </resultMap>
+
+    <resultMap id = "RecommendViewMap" type = "com.nautybit.nautybee.view.recommend.RecommendView"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "to_user" property = "toUser" />
+        <result column = "to_user_name" property = "toUserName" />
+        <result column = "from_user" property = "fromUser" />
+        <result column = "from_user_name" property = "fromUserName" />
+        <result column = "is_valid" property = "isValid" />
+        <result column = "remark" property = "remark" />
+
+        <result column = "order_gmt_create" property = "orderGmtCreate" />
+        <result column = "goods_name" property = "goodsName" />
+        <result column = "student_name" property = "studentName" />
+
     </resultMap>
 
     <sql id = "BaseWhereClause">
@@ -149,6 +166,18 @@
         where to_user = #{toUser}
         and is_deleted='N'
         limit 1
+    </select>
+
+    <!-- 根据to_user和from_user查询 -->
+    <select id = "selectByFromUser" resultMap = "RecommendViewMap">
+        select a.gmt_create,a.to_user_name,d.gmt_create as order_gmt_create,d.goods_name
+        from nautybee_recommend a
+        left join nautybee_order_ext b on a.id = b.recommend_id and b.is_deleted = 'N'
+        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N'
+        left join nautybee_order_goods d on d.order_id = c.id and d.is_deleted = 'N'
+        where a.from_user = #{fromUser}
+        and a.is_deleted = 'N'
+        order by a.id desc
     </select>
 
 </mapper>

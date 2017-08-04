@@ -2,10 +2,8 @@ package com.nautybit.nautybee.web.pay;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.nautybit.nautybee.biz.order.OrderExtService;
-import com.nautybit.nautybee.biz.order.OrderService;
-import com.nautybit.nautybee.biz.order.PayNotifyService;
-import com.nautybit.nautybee.biz.order.PayOrderService;
+import com.nautybit.nautybee.biz.goods.StockService;
+import com.nautybit.nautybee.biz.order.*;
 import com.nautybit.nautybee.biz.pay.WechatPayService;
 import com.nautybit.nautybee.biz.prize.PrizeService;
 import com.nautybit.nautybee.biz.recommend.RecommendService;
@@ -28,10 +26,8 @@ import com.nautybit.nautybee.common.utils.PrintUtils;
 import com.nautybit.nautybee.common.utils.pay.PayUtils;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
-import com.nautybit.nautybee.entity.order.Order;
-import com.nautybit.nautybee.entity.order.OrderExt;
-import com.nautybit.nautybee.entity.order.PayNotify;
-import com.nautybit.nautybee.entity.order.PayOrder;
+import com.nautybit.nautybee.entity.goods.Stock;
+import com.nautybit.nautybee.entity.order.*;
 import com.nautybit.nautybee.entity.prize.Prize;
 import com.nautybit.nautybee.entity.recommend.Recommend;
 import com.nautybit.nautybee.entity.sys.CommonResources;
@@ -79,6 +75,10 @@ public class PayController extends BasePayController {
     private WxService wxService;
     @Autowired
     private OrderExtService orderExtService;
+    @Autowired
+    private StockService stockService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -233,6 +233,9 @@ public class PayController extends BasePayController {
         //支付成功
         if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
             orderService.updatePayStatus(tradeNo, OrderStatusEnum.YFK.name());
+            OrderGoods orderGoods = orderGoodsService.selectByOrderSn(tradeNo);
+            Stock stock = stockService.selectByGoodsId(orderGoods.getGoodsId());
+            stockService.updateGoodsNum(stock.getGoodsNum()-1,orderGoods.getGoodsId());
         }
         /**********************************************************************************
          * 5.交易成功，根据openid，发放红包
@@ -244,29 +247,29 @@ public class PayController extends BasePayController {
             boolean isInBlackList = prizeService.isInBlackList(openid);
             if(isInBlackList){
                 log.info("红包黑名单已过滤,openid:"+openid+",场景:报名，tradeNo："+tradeNo);
-                return null;
+            }else {
+                prizeService.sendOrderRedBag(openid,tradeNo);
             }
-            prizeService.sendOrderRedBag(openid,tradeNo);
             //推荐红包
             Recommend recommend = recommendService.selectByToUser(openid);
             if(recommend!=null){
                 String fromUser = recommend.getFromUser();
                 //确保不是自己推荐自己
                 if(!openid.equals(fromUser)){
-                    //红包黑名单过滤
-                    boolean isInBlackList2 = prizeService.isInBlackList(fromUser);
-                    if(isInBlackList2){
-                        log.info("红包黑名单已过滤,openid:"+fromUser+",场景:推荐，tradeNo："+tradeNo);
-                        return null;
-                    }
                     //记录订单推荐人
                     OrderExt orderExt = orderExtService.selectByOrderSn(tradeNo);
                     orderExt.setDefaultBizValue();
                     orderExt.setRecommendId(recommend.getId());
                     orderExtService.save(orderExt);
                     //发红包
-                    UserInfo userInfo = wxService.getUserInfo(openid);
-                    prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo);
+                    //红包黑名单过滤
+                    boolean isInBlackList2 = prizeService.isInBlackList(fromUser);
+                    if(isInBlackList2){
+                        log.info("红包黑名单已过滤,openid:"+fromUser+",场景:推荐，tradeNo："+tradeNo);
+                    }else {
+                        UserInfo userInfo = wxService.getUserInfo(openid);
+                        prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo);
+                    }
                 }
             }
         }

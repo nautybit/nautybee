@@ -2,7 +2,8 @@ package com.nautybit.nautybee.biz.recommend.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import com.nautybit.nautybee.view.recommend.RecommendView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import com.nautybit.nautybee.biz.base.BaseServiceImpl;
@@ -41,4 +42,10 @@ public class RecommendServiceImpl extends BaseServiceImpl  implements RecommendS
     public Recommend selectByToUser(String toUser){
         return recommendDao.selectByToUser(toUser);
     }
+
+    @Override
+    public List<RecommendView> selectByFromUser(String fromUser){
+        return recommendDao.selectByFromUser(fromUser);
+    }
+
 }

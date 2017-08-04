@@ -68,4 +68,9 @@ public class OrderGoodsServiceImpl extends BaseServiceImpl  implements OrderGood
     public OrderGoods selectByOrderId(Long orderId){
         return orderGoodsDao.selectByOrderId(orderId);
     }
+
+    @Override
+    public OrderGoods selectByOrderSn(String orderSn){
+        return orderGoodsDao.selectByOrderSn(orderSn);
+    }
 }

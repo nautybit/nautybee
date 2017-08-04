@@ -8,5 +8,5 @@ import com.nautybit.nautybee.entity.order.OrderGoods;
 public interface OrderGoodsDao extends BaseDao<OrderGoods> {
 
     OrderGoods selectByOrderId(Long orderId);
-
+    OrderGoods selectByOrderSn(String orderSn);
 }
