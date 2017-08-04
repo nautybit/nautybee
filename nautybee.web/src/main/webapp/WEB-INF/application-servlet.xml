@@ -12,7 +12,7 @@
     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 
-    <context:property-placeholder location="/WEB-INF/application.properties"/>
+    <context:property-placeholder location="/WEB-INF/application.properties,files-md5.properties"/>
 
     <!-- 启用 spring 注解 -->
     <context:annotation-config />
