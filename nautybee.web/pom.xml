@@ -161,6 +161,24 @@
         <finalName>${war.name}</finalName>
         <plugins>
             <plugin>
+                <groupId>com.sqmall.plugin</groupId>
+                <artifactId>files-md5-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <configuration>
+                    <dirs>${project.basedir}/src/main/webapp</dirs>
+                    <fileExtentions>js,css</fileExtentions>
+                    <targetPropFile>${project.basedir}/src/main/webapp/files-md5.properties</targetPropFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>filesMd5</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
