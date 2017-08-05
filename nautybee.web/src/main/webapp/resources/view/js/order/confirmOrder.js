@@ -48,6 +48,18 @@ function init(){
     //隐藏在校信息
     $('.school-info').hide();
     $('body').css("visibility","visible");
+    //输入框初始化
+    $("input").focus(function(){
+        if(/Android [4-6]/.test(navigator.appVersion)) {
+            window.addEventListener("resize", function() {
+                if(document.activeElement.tagName=="INPUT" || document.activeElement.tagName=="TEXTAREA") {
+                    window.setTimeout(function() {
+                        document.activeElement.scrollIntoViewIfNeeded();
+                    },0);
+                }
+            })
+        }
+    });
     initEventHandlers();
     //微信初始化
     initWx();
@@ -60,6 +72,9 @@ function windowResized(){
 }
 function initEventHandlers(){
     $('#purchaseBtn').on('click',function(){
+        //关闭手机键盘
+        document.activeElement.blur();
+        //构造参数
         var queryParam = {};
         var goodsId;
         if(gPropLength == 1){
