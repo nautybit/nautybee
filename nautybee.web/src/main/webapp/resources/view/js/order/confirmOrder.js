@@ -167,6 +167,19 @@ function switchSchoolInfo(obj){
     }
 }
 
+function waitPayCountDown(){
+    $('#loadingToast').show();
+    var countDownVal = 5;
+    var timer = setInterval(function(){
+        $('#loadingToast').find('.weui-toast__content').text(countDownVal--);
+        if($('#loadingToast').find('.weui-toast__content').text()==-1){
+            clearInterval(timer);
+            $('#loadingToast').hide();
+            window.location.href = window.location.origin + '/nautybee/wx/order/orderList?openid=' + getCookie("wxOpenId");
+        }
+    },1000);
+}
+
 function createOrder(queryParam){
     $('#loadingToast').show();
     var request = new RequestCreateOrder(queryParam);
@@ -238,8 +251,7 @@ function doRequest(queryParam){
                         return;
                     }
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                        $('#loadingToast').hide();
-                        window.location.href = window.location.origin + '/nautybee/wx/order/orderList?openid=' + getCookie("wxOpenId");
+                        waitPayCountDown();
                         return;
                     }
                 }
