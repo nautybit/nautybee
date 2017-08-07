@@ -1,6 +1,7 @@
 package com.nautybit.nautybee.common.utils;
 
 import com.nautybit.nautybee.common.config.NautybeeSystemCfg;
+import com.nautybit.nautybee.common.constant.NautybeeEnvConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class RedisUtils {
     private int redisPort;
     private String password;
     private int timeout;
+    private int database;
 
     private static RedisUtils redisUtils;
     
@@ -37,6 +39,7 @@ public class RedisUtils {
         redisUtils.redisPort = this.nautybeeSystemCfg.getRedisPort();
         redisUtils.password = this.nautybeeSystemCfg.getRedisPassword();
         redisUtils.timeout = this.nautybeeSystemCfg.getTimeout();
+        redisUtils.database = this.nautybeeSystemCfg.getNautybeeEnv().equals(NautybeeEnvConstants.ENV_ONLINE)?0:1;
     }
 
 
@@ -51,7 +54,7 @@ public class RedisUtils {
         if (jedisPool == null) {
             try {
                 JedisPoolConfig config = new JedisPoolConfig();
-                jedisPool = new JedisPool(config, redisUtils.redisIp, redisUtils.redisPort,redisUtils.timeout, redisUtils.password,1);
+                jedisPool = new JedisPool(config, redisUtils.redisIp, redisUtils.redisPort,redisUtils.timeout, redisUtils.password,redisUtils.database);
             } catch (Exception e) {
                 logger.error("First create JedisPool error : "+e);
             }

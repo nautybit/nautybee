@@ -61,6 +61,7 @@ public class SpuController extends BaseController {
     public String getSpuList(ModelMap model,String code,String state) {
 
         String openid = wxService.getOpenId(authUrl,code);
+        log.error("test error log------------openid from getSpuList:"+openid);
         System.out.println("openid from getSpuList:"+openid);
         if(StringUtils.isEmpty(openid)){
             Map cookieMap = this.getCookieMap();
