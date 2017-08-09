@@ -11,6 +11,7 @@
         <result column = "wx_nick_name" property = "wxNickName" />
         <result column = "store_id" property = "storeId" />
         <result column = "order_status" property = "orderStatus" />
+        <result column = "chain_head_id" property = "chainHeadId" />
         <result column = "buyer_evaluate" property = "buyerEvaluate" />
         <result column = "pay_status" property = "payStatus" />
         <result column = "pay_id" property = "payId" />
@@ -48,6 +49,9 @@
                 </if>
                 <if test = "orderStatus != null">
                     and order_status = #{orderStatus}
+                </if>
+                <if test = "chainHeadId != null">
+                    and chain_head_id = #{chainHeadId}
                 </if>
                 <if test = "buyerEvaluate != null">
                     and buyer_evaluate = #{buyerEvaluate}
@@ -115,6 +119,9 @@
             </if>
             <if test = "orderStatus != null">
                 order_status = #{orderStatus},
+            </if>
+            <if test = "chainHeadId != null">
+                chain_head_id = #{chainHeadId},
             </if>
             <if test = "buyerEvaluate != null">
                 buyer_evaluate = #{buyerEvaluate},
@@ -222,6 +229,7 @@
         wx_nick_name,
         store_id,
         order_status,
+        chain_head_id,
         buyer_evaluate,
         pay_status,
         pay_id,
@@ -245,6 +253,7 @@
         #{wxNickName},
         #{storeId},
         #{orderStatus},
+        #{chainHeadId},
         #{buyerEvaluate},
         #{payStatus},
         #{payId},

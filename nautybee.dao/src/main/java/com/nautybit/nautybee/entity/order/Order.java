@@ -18,6 +18,7 @@ public class Order extends BaseEntity {
     private String wxNickName;
   private Long storeId;
   private String orderStatus;
+    private Long chainHeadId;
   private Integer buyerEvaluate;
   private String payStatus;
   private String payId;

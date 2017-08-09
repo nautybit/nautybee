@@ -25,6 +25,7 @@ public class SpuView extends BaseEntity {
   private String spuImg;
     private String spuIcon;
   private String goodsType;
+    private Integer nodeNum;
   private String goodsNickName;
   private Integer saleVolume;
   private Integer visitNum;

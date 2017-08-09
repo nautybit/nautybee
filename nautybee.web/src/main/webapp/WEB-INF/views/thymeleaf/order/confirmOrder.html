@@ -19,7 +19,7 @@
     <div class="weui-toptips weui-toptips_warn js_tooltips" style="display: none;">错误提示</div>
     <div id="wrapper">
         <div class="page__hd" style="padding: 40px">
-            <h1 class="page__title">周末写作班</h1>
+            <h1 class="page__title" id="goodsName" th:text="${goodsName}">周末写作班</h1>
             <p class="page__desc" style="color: #e64340" th:text="'¥'+${#numbers.formatDecimal(goodsPrice,1,2)}"></p>
         </div>
         <div class="page__bd">
@@ -161,6 +161,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var gStoreId = [[${storeId}]];
+    var gChainHeadId = [[${chainHeadId}]];
     var gGoodsPrice = [[${goodsPrice}]];
     var gPropLength = [[${propLength}]];
     var gPropName = [[${propName}]];
@@ -179,6 +180,6 @@
 <script type="text/javascript" th:src="@{/resources/common/net.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/order/confirmOrder.js?time=21}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/confirmOrder.js?time=23}"/>
 </body>
 </html>

@@ -25,4 +25,6 @@ public class OrderParam {
 
     private BigDecimal totalFee;
     private String wxOpenid;
+
+    private Long chainHeadId;
 }

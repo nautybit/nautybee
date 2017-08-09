@@ -1,21 +1,15 @@
-CREATE TABLE `nautybee_common_resources` (
+CREATE TABLE `nautybee_spu_chain` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `creator` int(11) NOT NULL DEFAULT '-1000' COMMENT '创建人',
-  `gmt_create` datetime NOT NULL COMMENT '创建时间',
-  `modifier` int(11) NOT NULL DEFAULT '-1000' COMMENT '最后修改人',
-  `gmt_modified` datetime NOT NULL COMMENT '最后修改时间',
-  `is_deleted` char(1) NOT NULL DEFAULT 'N' COMMENT '是否删除',
-  `app_name` varchar(16) NOT NULL COMMENT '所属应用',
-  `type` varchar(64) NOT NULL COMMENT '资源名，一般是大写的英文',
-  `key` varchar(512) NOT NULL COMMENT '资源的Key',
-  `value` varchar(512) NOT NULL COMMENT '资源的Value',
-  `value_1` varchar(2000) DEFAULT NULL COMMENT '通用值字段',
-  `value_2` varchar(2000) DEFAULT NULL COMMENT '通用值字段',
-  `value_3` varchar(3000) DEFAULT NULL COMMENT '通用值字段',
-  `value_4` varchar(3000) DEFAULT NULL COMMENT '通用值字段',
-  `value_5` varchar(4000) DEFAULT NULL COMMENT '通用值字段',
-  `value_6` varchar(1000) DEFAULT NULL COMMENT '通用值字段',
-  `value_7` text COMMENT '通用值字段',
-  `order_idx` varchar(16) DEFAULT NULL COMMENT '显示次序',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COMMENT='通用资源表';
+  `creator` int(11) DEFAULT NULL COMMENT '创建人id',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifier` int(11) DEFAULT NULL COMMENT '修改人id',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
+  `is_deleted` char(1) DEFAULT NULL COMMENT '是否删除',
+  `head_id` int(11) DEFAULT NULL COMMENT '连报课程spu_id',
+  `node_id` int(11) DEFAULT NULL COMMENT '映射课程spu_id',
+  `status` varchar(20) DEFAULT NULL COMMENT '映射课程状态(YXK:已选课,WXK:未选课)',
+  `order_str` varchar(8) DEFAULT NULL COMMENT '排序',
+  `memo` varchar(256) DEFAULT NULL COMMENT '说明',
+  PRIMARY KEY (`id`),
+  KEY `idx_head_id` (`head_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COMMENT='连报课程映射表';

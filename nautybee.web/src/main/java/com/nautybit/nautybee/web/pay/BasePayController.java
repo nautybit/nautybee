@@ -78,7 +78,7 @@ public class BasePayController extends BaseController {
         wechatPayParam.setNonce_str(GenerationUtils.generateRandomCode(16));
 //        wechatPayParam.setBody(goodsMap.get(goodsTitleKey));
 //        wechatPayParam.setDetail(goodsMap.get(goodsDetailKey));
-        wechatPayParam.setBody(goodsView.getGoodsName());
+        wechatPayParam.setBody(payParam.getGoodsName());
         wechatPayParam.setDetail("");
         if(StringUtils.isNotEmpty(goodsView.getPropName1())){
             wechatPayParam.setDetail(goodsView.getPropName1()+":"+goodsView.getDetailName1());

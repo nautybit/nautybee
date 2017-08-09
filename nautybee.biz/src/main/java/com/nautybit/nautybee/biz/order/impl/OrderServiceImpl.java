@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.nautybit.nautybee.biz.goods.GoodsAttributeService;
 import com.nautybit.nautybee.biz.goods.GoodsService;
+import com.nautybit.nautybee.biz.goods.SpuService;
 import com.nautybit.nautybee.biz.order.OrderExtService;
 import com.nautybit.nautybee.biz.order.OrderGoodsService;
 import com.nautybit.nautybee.biz.redis.RedisStringService;
@@ -16,6 +17,7 @@ import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.common.utils.GenerationUtils;
+import com.nautybit.nautybee.entity.goods.Spu;
 import com.nautybit.nautybee.entity.order.OrderExt;
 import com.nautybit.nautybee.entity.order.OrderGoods;
 import com.nautybit.nautybee.view.goods.GoodsAttributeView;
@@ -52,6 +54,8 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
     private OrderExtService orderExtService;
     @Autowired
     private WxService wxService;
+    @Autowired
+    private SpuService spuService;
 
   public List<Order> getAll() {
     return super.getAll(orderDao);
@@ -115,6 +119,7 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
         order.setStoreId(orderParam.getStoreId());
         order.setPayStatus(OrderStatusEnum.WFK.name());
         order.setOrderAmount(orderParam.getTotalFee());
+        order.setChainHeadId(orderParam.getChainHeadId());
         save(order);
         return order;
     }
@@ -161,8 +166,15 @@ public class OrderServiceImpl extends BaseServiceImpl  implements OrderService{
         List<GoodsAttributeView> goodsAttributeViewList = goodsAttributeService.queryByGoodsIdList(goodsIdList);
         //学员信息
         OrderExt orderExt = orderExtService.selectByOrderSn(order.getOrderSn());
-
-        orderView.setGoodsName(orderGoods.getGoodsName());
+        //课程名称
+        String goodsName;
+        if(order.getChainHeadId()!=null){
+            Spu spu = spuService.getById(order.getChainHeadId());
+            goodsName = spu.getGoodsName();
+        }else {
+            goodsName = orderGoods.getGoodsName();
+        }
+        orderView.setGoodsName(goodsName);
         orderView.setGoodsPropertyDetailList(goodsPropertyDetailViewList);
         orderView.setGoodsAttributeList(goodsAttributeViewList);
         orderView.setOrderExt(orderExt);

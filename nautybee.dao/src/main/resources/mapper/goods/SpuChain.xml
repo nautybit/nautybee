@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.nautybit.nautybee.dao.goods.SpuChainDao">
+
+    <resultMap id = "BaseResultMap" type = "com.nautybit.nautybee.entity.goods.SpuChain"
+               extends = "COMMON.BASE_RESULT_MAP">
+        <result column = "head_id" property = "headId" />
+        <result column = "node_id" property = "nodeId" />
+        <result column = "status" property = "status" />
+        <result column = "order_str" property = "orderStr" />
+        <result column = "memo" property = "memo" />
+    </resultMap>
+
+    <sql id = "BaseWhereClause">
+        <where>
+            <trim prefixOverrides = "and">
+                <include refid = "COMMON.BASE_WHERE_CLAUSE" />
+                <if test = "headId != null">
+                    and head_id = #{headId}
+                </if>
+                <if test = "nodeId != null">
+                    and node_id = #{nodeId}
+                </if>
+                <if test = "status != null">
+                    and status = #{status}
+                </if>
+                <if test = "orderStr != null">
+                    and order_str = #{orderStr}
+                </if>
+                <if test = "memo != null">
+                    and memo = #{memo}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id = "BaseUpdateSet">
+        <set>
+            <include refid = "COMMON.BASE_UPDATE_SET" />
+            <if test = "headId != null">
+                head_id = #{headId},
+            </if>
+            <if test = "nodeId != null">
+                node_id = #{nodeId},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+            <if test = "orderStr != null">
+                order_str = #{orderStr},
+            </if>
+            <if test = "memo != null">
+                memo = #{memo}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id = "selectCount" resultType = "java.lang.Integer">
+        select count(id)
+        from nautybee_spu_chain
+        <include refid = "BaseWhereClause" />
+    </select>
+
+    <!-- 查询 -->
+    <select id = "select" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_spu_chain
+        <include refid = "BaseWhereClause" />
+        <include refid = "COMMON.ORDER_BY" />
+        <include refid = "COMMON.PAGE" />
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id = "selectById" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_spu_chain
+        where id = #{id}
+    </select>
+
+    <!-- 根据IDS批量删除 -->
+    <update id = "deleteByIds">
+        update nautybee_spu_chain
+        set is_deleted='Y'
+        where id in
+        (
+        <foreach collection = "array" index = "index" item = "tag" separator = ",">
+            #{tag}
+        </foreach>
+        )
+    </update>
+
+    <!-- 根据ID删除 -->
+    <update id = "deleteById">
+        update nautybee_spu_chain
+        set is_deleted='Y'
+        where id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id = "delete">
+        update nautybee_spu_chain
+        set is_deleted='Y'
+        <include refid = "BaseWhereClause" />
+    </delete>
+
+    <!-- 添加   -->
+    <insert id = "insert" useGeneratedKeys = "true" keyProperty = "id">
+        insert into nautybee_spu_chain (
+        <include refid = "COMMON.BASE_INSERT_COLUMN" />
+        head_id,
+        node_id,
+        status,
+        order_str,
+        memo
+        )
+        values (
+        <include refid = "COMMON.BASE_INSERT_VALUE" />
+        #{headId},
+        #{nodeId},
+        #{status},
+        #{orderStr},
+        #{memo}
+        )
+    </insert>
+
+    <!-- 通过ID更新 -->
+    <update id = "updateById">
+        update nautybee_spu_chain
+        <include refid = "BaseUpdateSet" />
+        where id = #{id}
+    </update>
+
+    <!-- 根据head_id查询当前节点 -->
+    <select id = "selectCurrentNode" resultMap = "BaseResultMap">
+        select
+        <include refid = "COMMON.ALL_COLUMN_LIST" />
+        from nautybee_spu_chain
+        where head_id = #{headId}
+        and status = 'current'
+        and is_deleted = 'N'
+    </select>
+
+</mapper>

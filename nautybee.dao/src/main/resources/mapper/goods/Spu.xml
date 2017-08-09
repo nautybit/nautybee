@@ -17,6 +17,7 @@
         <result column = "spu_img" property = "spuImg" />
         <result column = "spu_icon" property = "spuIcon" />
         <result column = "goods_type" property = "goodsType" />
+        <result column = "node_num" property = "nodeNum" />
         <result column = "goods_nick_name" property = "goodsNickName" />
         <result column = "sale_volume" property = "saleVolume" />
         <result column = "visit_num" property = "visitNum" />
@@ -44,6 +45,7 @@
         <result column = "spu_img" property = "spuImg" />
         <result column = "spu_icon" property = "spuIcon" />
         <result column = "goods_type" property = "goodsType" />
+        <result column = "node_num" property = "nodeNum" />
         <result column = "goods_nick_name" property = "goodsNickName" />
         <result column = "sale_volume" property = "saleVolume" />
         <result column = "visit_num" property = "visitNum" />
@@ -98,6 +100,9 @@
                 </if>
                 <if test = "goodsType != null">
                     and goods_type = #{goodsType}
+                </if>
+                <if test = "nodeNum != null">
+                    and node_num = #{nodeNum}
                 </if>
                 <if test = "goodsNickName != null">
                     and goods_nick_name = #{goodsNickName}
@@ -174,6 +179,9 @@
             </if>
             <if test = "goodsType != null">
                 goods_type = #{goodsType},
+            </if>
+            <if test = "nodeNum != null">
+                node_num = #{nodeNum},
             </if>
             <if test = "goodsNickName != null">
                 goods_nick_name = #{goodsNickName},
@@ -278,6 +286,7 @@
         spu_img,
         spu_icon,
         goods_type,
+        node_num,
         goods_nick_name,
         sale_volume,
         visit_num,
@@ -304,6 +313,7 @@
         #{spuImg},
         #{spuIcon},
         #{goodsType},
+        #{nodeNum},
         #{goodsNickName},
         #{saleVolume},
         #{visitNum},

@@ -96,6 +96,7 @@ function initEventHandlers(){
             return;
         }
 
+        queryParam.chainHeadId = gChainHeadId;
         queryParam.goodsId = goodsId;
         queryParam.storeId = gStoreId;
         queryParam.studentName = studentName;
@@ -213,6 +214,7 @@ function createOrder(queryParam){
             queryParam.totalFee = gGoodsPrice;
             queryParam.wxOpenid = getCookie("wxOpenId");
             queryParam.goodsId = data.goodsId;
+            queryParam.goodsName = $('#goodsName').text();
             queryParam.tradeNo = data.orderSn;
             var orderIdList = [];
             orderIdList.push(data.orderId);

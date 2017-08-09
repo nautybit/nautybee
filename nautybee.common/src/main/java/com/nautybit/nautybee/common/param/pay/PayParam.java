@@ -14,4 +14,5 @@ public class PayParam extends BasePayParam{
     private List<Long> orderList;
 
     private Long goodsId;
+    private String goodsName;
 }

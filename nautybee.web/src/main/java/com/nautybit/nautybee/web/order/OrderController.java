@@ -1,21 +1,20 @@
 package com.nautybit.nautybee.web.order;
 
 import com.google.gson.Gson;
-import com.nautybit.nautybee.biz.goods.GoodsPropertyDetailService;
-import com.nautybit.nautybee.biz.goods.GoodsPropertyService;
-import com.nautybit.nautybee.biz.goods.GoodsService;
-import com.nautybit.nautybee.biz.goods.SpuService;
+import com.nautybit.nautybee.biz.goods.*;
 import com.nautybit.nautybee.biz.order.OrderExtService;
 import com.nautybit.nautybee.biz.order.OrderGoodsService;
 import com.nautybit.nautybee.biz.order.OrderService;
 import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.biz.wx.WxService;
+import com.nautybit.nautybee.common.constant.goods.GoodsTypeEnum;
 import com.nautybit.nautybee.common.param.order.OrderParam;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.entity.goods.GoodsProperty;
 import com.nautybit.nautybee.entity.goods.GoodsPropertyDetail;
 import com.nautybit.nautybee.entity.goods.Spu;
+import com.nautybit.nautybee.entity.goods.SpuChain;
 import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.view.goods.GoodsView;
 import com.nautybit.nautybee.view.order.OrderView;
@@ -65,6 +64,8 @@ public class OrderController extends BaseController {
     private RecommendService recommendService;
     @Autowired
     private WxService wxService;
+    @Autowired
+    private SpuChainService spuChainService;
 
     @RequestMapping("confirmOrder")
     public String confirm(ModelMap model,Long spuId) {
@@ -73,6 +74,13 @@ public class OrderController extends BaseController {
         Spu spu = spuService.getById(spuId);
         model.addAttribute("storeId",spu.getStoreId());
         model.addAttribute("goodsPrice",spu.getGoodsPrice());
+        model.addAttribute("goodsName",spu.getGoodsName());
+        //分期商品下单，查出当前有效的spu，并查处对应的goods及相关信息
+        if(GoodsTypeEnum.Chain.name().equals(spu.getGoodsType())){
+            model.addAttribute("chainHeadId",spu.getId());
+            SpuChain spuChain = spuChainService.selectCurrentNode(spuId);
+            spuId = spuChain.getNodeId();
+        }
         List<GoodsProperty> goodsPropertyList = goodsPropertyService.getBySpuId(spuId);
         List<GoodsView> goodsViewList = goodsService.queryGoodsBySpuId(spuId);
         goodsService.fillGoodsAttribute(goodsViewList);
