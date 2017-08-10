@@ -116,24 +116,24 @@ public class OrderController extends BaseController {
     @RequestMapping("createOrder")
     @ResponseBody
     @Transactional
-    public Result<?> createOrder(@RequestBody OrderParam orderParam) {
+    public Result<?> createOrder(@RequestBody OrderParam orderParam) throws RuntimeException{
 
         String wxOpenid = orderParam.getWxOpenid();
         if(StringUtils.isEmpty(wxOpenid)){
             log.error("报名时openid为空");
-            try {
-                response.sendRedirect(wxShareUrl);
-            }catch (Exception e){
-
-            }
+            return Result.wrapErrorResult("","网络异常");
         }
-
-        Order order = orderService.createOrder(orderParam);
-        orderParam.setOrderId(order.getId());
-        orderParam.setOrderSn(order.getOrderSn());
-        orderGoodsService.createOrderGoods(orderParam);
-        orderExtService.createOrderExt(orderParam);
-        return Result.wrapSuccessfulResult(orderParam);
+        try {
+            Order order = orderService.createOrder(orderParam);
+            orderParam.setOrderId(order.getId());
+            orderParam.setOrderSn(order.getOrderSn());
+            orderGoodsService.createOrderGoods(orderParam);
+            orderExtService.createOrderExt(orderParam);
+            return Result.wrapSuccessfulResult(orderParam);
+        }catch (RuntimeException e){
+            log.error("创建订单失败",e);
+            throw new RuntimeException();
+        }
     }
 
     @RequestMapping("orderList")
