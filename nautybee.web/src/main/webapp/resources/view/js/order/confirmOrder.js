@@ -46,7 +46,7 @@ function init(){
     //填写属性值
     fillAttribute();
     //隐藏在校信息
-    $('.school-info').hide();
+//    $('.school-info').hide();
     $('body').css("visibility","visible");
     //输入框初始化
     $("input").focus(function(){
@@ -101,9 +101,9 @@ function initEventHandlers(){
         queryParam.storeId = gStoreId;
         queryParam.studentName = studentName;
         queryParam.contactMobile = contactMobile;
-        if($('#isAtSchoolSwitch').prop("checked")){
-            queryParam.isAtSchool = 1;
-        }
+//        if($('#isAtSchoolSwitch').prop("checked")){
+            queryParam.isAtSchool = 0;
+//        }
         queryParam.schoolName = $('#schoolName').val();
         queryParam.schoolGrade = $('#schoolGrade').val();
         queryParam.schoolClass = $('#schoolClass').val();
