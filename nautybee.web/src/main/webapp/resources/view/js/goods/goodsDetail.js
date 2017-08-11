@@ -71,91 +71,12 @@ function initSlider() {
     });
 }
 function initEventHandlers(){
+    alert("initEventHandlers");
     $('#purchaseBtn').on('click',function(){
-//        var queryParam = {};
-//        queryParam.totalFee = 0.01;
-//        queryParam.wxOpenid = getCookie("wxOpenId");
-//        doRequest(queryParam);
+        alert("purchaseBtn on click");
         var spuId = SEARCH.spuId;
         window.location.href = window.location.origin + '/nautybee/wx/order/confirmOrder?spuId='+spuId;
     });
-//    $('#showPicker').on('click', function () {
-//        weui.picker([{
-//            label: '飞机票',
-//            value: 0
-//        }, {
-//            label: '火车票',
-//            value: 1
-//        }, {
-//            label: '的士票',
-//            value: 2
-//        },{
-//            label: '公交票 (disabled)',
-//            disabled: true,
-//            value: 3
-//        }, {
-//            label: '其他',
-//            value: 4
-//        }], {
-//            onChange: function (result) {
-//                console.log(result);
-//            },
-//            onConfirm: function (result) {
-//                console.log(result);
-//            }
-//        });
-//    });
-}
-function doRequest(queryParam){
-    var request = new RequestToWechatPay(queryParam);
-    var net = Net.getInstance();
-    var success = function(result){
-        if( !result.success ){
-            alert("pay fail");
-            baseShowModalAlert(
-                "danger"
-                ,result.errorMsg
-            );
-            return;
-        }else{
-            var data = result.data;
-//            alert("appId:"+data.appId);
-            if (typeof WeixinJSBridge == "undefined"){
-                console.log("WeixinJSBridge not defined")
-                return;
-            }
-            var invokeParam = {
-                appId:data.appId,
-                timeStamp:""+data.timeStamp,
-                nonceStr:data.nonceStr,
-                signType:"MD5",
-                paySign:data.sign
-            };
-            invokeParam.package = "prepay_id="+data.prepayid;
-            WeixinJSBridge.invoke(
-                "getBrandWCPayRequest",
-                invokeParam,
-                function(res){
-                    console.log("wx pay callback.");
-                    console.log("callback res = " + JSON.stringify(res));
-
-                    if(res.err_msg == "get_brand_wcpay_request:cancel" ) {
-
-                        return;
-                    }
-                    if(res.err_msg == "get_brand_wcpay_request:fail" ) {
-
-                        return;
-                    }
-                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-
-                        return;
-                    }
-                }
-            );
-        }
-    };
-    net.request(request,success);
 }
 function loadScroll () {
     gViewModel.gPageScroll = new IScroll('#wrapper', {
@@ -186,13 +107,6 @@ function refreshScroll(){
     setTimeout(function(){
         gViewModel.gPageScroll.refresh();
     },200);
-}
-function initButtonStatus(){
-    //注册可点击按钮
-    $('.touchable').clickStatus({
-        touchEventEnable:gIsTouchDevice
-    });
-
 }
 // ************微信相关初始化操作START************
 function initWx(){
