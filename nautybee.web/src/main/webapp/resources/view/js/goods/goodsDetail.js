@@ -41,7 +41,7 @@ function init(){
     //轮播插件初始化
     initSlider();
     //初始化iscroll
-    loadScroll();
+//    loadScroll();
 
 //    var wxOpenId = getCookie("wxOpenId");
 //    alert("wxOpenId:"+wxOpenId);
@@ -67,13 +67,13 @@ function initSlider() {
         arrows:false,
         infinite:true,
         fluid:true,
-        keys:false
+        keys:false,
+        autoplay:true
     });
 }
 function initEventHandlers(){
-    alert("initEventHandlers");
     $('#purchaseBtn').on('click',function(){
-        alert("purchaseBtn on click");
+//        alert("purchaseBtn on click");
         var spuId = SEARCH.spuId;
         window.location.href = window.location.origin + '/nautybee/wx/order/confirmOrder?spuId='+spuId;
     });
