@@ -124,8 +124,7 @@ function initWxConfig(wxConfig){
     var config = $.extend({}, wxConfig , {
         debug:false,
         jsApiList:[
-            'onMenuShareTimeline',
-            'onMenuShareAppMessage'
+            'hideAllNonBaseMenuItem'
         ]
     });
     wx.config(config);
