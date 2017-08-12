@@ -67,6 +67,7 @@ public class SpuController extends BaseController {
             Map cookieMap = this.getCookieMap();
             /*获取openId*/
             openid = (String) this.getViewRequestParam(cookieMap, "wxOpenId", "");
+            log.error("test error log------------openid from cookieMap:"+openid);
         }
         model.addAttribute("openid", openid);
 

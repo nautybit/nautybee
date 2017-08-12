@@ -93,7 +93,8 @@ function refreshScroll(){
 function initWx(){
     wxReady().then(function(data){
 //        alert("wx ready");
-        handleShareEvent();
+//        handleShareEvent();
+        wx.hideAllNonBaseMenuItem();
     }).fail(
         function(){
             alert("wx failed");
