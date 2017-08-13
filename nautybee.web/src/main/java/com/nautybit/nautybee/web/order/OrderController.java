@@ -173,9 +173,9 @@ public class OrderController extends BaseController {
         List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
         for(RecommendView recommendView:recommendViewList){
             Date gmtCreate = recommendView.getGmtCreate();
-            recommendView.setGmtCreateStr(DateUtils.dateFormat(gmtCreate,DateUtils.Y_M_D));
+            recommendView.setGmtCreateStr(DateUtils.dateFormat(gmtCreate,DateUtils.Y_M_D_HMS));
             Date orderGmtCreate = recommendView.getOrderGmtCreate();
-            recommendView.setOrderGmtCreateStr(DateUtils.dateFormat(orderGmtCreate,DateUtils.Y_M_D));
+            recommendView.setOrderGmtCreateStr(DateUtils.dateFormat(orderGmtCreate,DateUtils.Y_M_D_HMS));
         }
         modelMap.addAttribute("recommendViewList",recommendViewList);
         return "order/recommendList";
