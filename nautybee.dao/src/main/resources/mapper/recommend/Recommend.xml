@@ -176,7 +176,7 @@
         left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
         left join nautybee_order_goods d on d.order_id = c.id and d.is_deleted = 'N'
         where a.from_user = #{fromUser}
-        and a.is_deleted = 'N'
+--         and a.is_deleted = 'N'
         order by a.id desc
     </select>
 
