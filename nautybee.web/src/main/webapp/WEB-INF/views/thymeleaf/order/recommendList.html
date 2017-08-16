@@ -17,10 +17,10 @@
 <body style="visibility: hidden">
 <div style="width: 100%" id="main">
     <div class="weui-navbar">
-        <div class="weui-navbar__item weui-bar__item_on good-one-btn">
+        <div class="weui-navbar__item weui-bar__item_on good-one-btn" th:text="'已报名的推荐('+${beDealCount}+')'">
             已报名的推荐
         </div>
-        <div class="weui-navbar__item bad-one-btn">
+        <div class="weui-navbar__item bad-one-btn" th:text="'未报名的推荐('+${noDealCount}+')'">
             未报名的推荐
         </div>
     </div>

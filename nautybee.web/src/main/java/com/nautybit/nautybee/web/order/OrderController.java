@@ -170,6 +170,8 @@ public class OrderController extends BaseController {
             openid = (String) this.getViewRequestParam(cookieMap, "wxOpenId", "");
         }
         modelMap.addAttribute("openid", openid);
+        modelMap.addAttribute("beDealCount", recommendService.selectBeDealCount(openid));
+        modelMap.addAttribute("noDealCount", recommendService.selectNoDealCount(openid));
 
 //        List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
 //        for(RecommendView recommendView:recommendViewList){

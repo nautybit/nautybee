@@ -54,5 +54,14 @@ public class RecommendServiceImpl extends BaseServiceImpl  implements RecommendS
         return recommendDao.queryMoreByFromUser(param);
     }
 
+    @Override
+    public Integer selectBeDealCount(String fromUser){
+        return recommendDao.selectBeDealCount(fromUser);
+    }
+    @Override
+    public Integer selectNoDealCount(String fromUser){
+        return recommendDao.selectNoDealCount(fromUser);
+    }
+
 
 }

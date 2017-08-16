@@ -190,6 +190,7 @@
         left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
         left join nautybee_order_goods d on d.order_id = c.id and d.is_deleted = 'N'
         where a.from_user = #{param.openid}
+        and a.is_deleted = 'N'
         <if test="param.beDeal == 1 and param.currentOrderId != null">
             and d.gmt_create is not NUll
             <![CDATA[
@@ -212,8 +213,28 @@
             and d.gmt_create is NUll
             order by a.id desc
         </if>
-        and a.is_deleted = 'N'
         limit 0,10
     </select>
 
+    <!-- 查询已报名的总数（报N次算N个） -->
+    <select id = "selectBeDealCount" resultType = "java.lang.Integer">
+        select count(b.id)
+        from nautybee_recommend a
+        left join nautybee_order_ext b
+        on a.id = b.recommend_id and b.is_deleted = 'N'
+        where b.id is not NUll
+        and a.from_user = #{fromUser}
+        and a.is_deleted = 'N'
+    </select>
+
+    <!-- 查询未报名的总数 -->
+    <select id = "selectNoDealCount" resultType = "java.lang.Integer">
+        select count(a.id)
+        from nautybee_recommend a
+        left join nautybee_order_ext b
+        on a.id = b.recommend_id and b.is_deleted = 'N'
+        where b.id is NUll
+        and a.from_user = #{fromUser}
+        and a.is_deleted = 'N'
+    </select>
 </mapper>

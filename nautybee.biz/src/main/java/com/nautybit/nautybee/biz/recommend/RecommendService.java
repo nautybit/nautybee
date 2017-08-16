@@ -23,4 +23,7 @@ public interface RecommendService {
     List<RecommendView> selectByFromUser(String fromUser);
 
     List<RecommendView> queryMoreByFromUser(QueryRecommendParam param);
+
+    Integer selectBeDealCount(String fromUser);
+    Integer selectNoDealCount(String fromUser);
 }
