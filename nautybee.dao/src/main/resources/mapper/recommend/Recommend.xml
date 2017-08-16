@@ -166,6 +166,7 @@
         from nautybee_recommend
         where to_user = #{toUser}
         and is_deleted='N'
+        and is_valid = 'Y'
         limit 1
     </select>
 
@@ -211,7 +212,7 @@
             and d.gmt_create is NUll
             order by a.id desc
         </if>
-        --         and a.is_deleted = 'N'
+        and a.is_deleted = 'N'
         limit 0,10
     </select>
 

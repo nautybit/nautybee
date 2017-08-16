@@ -170,7 +170,7 @@ public class MessageService {
             Recommend recommend = recommendService.selectByToUser(beRecommendUser);
             if(recommend!=null){
                 recommend.setDefaultBizValue();
-                recommend.setIsDeleted("Y");
+                recommend.setIsValid("N");
                 recommend.setRemark("被新的推荐人：【"+recommendUser+"】取代");
                 recommendService.save(recommend);
             }
@@ -180,6 +180,7 @@ public class MessageService {
             newOne.setFromUserName(recommendUserInfo.getNickname());
             newOne.setToUser(beRecommendUser);
             newOne.setToUserName(beRecommendUserInfo.getNickname());
+            newOne.setIsValid("Y");
             recommendService.save(newOne);
 
             String recommendSource = recommendUserInfo.getNickname();
