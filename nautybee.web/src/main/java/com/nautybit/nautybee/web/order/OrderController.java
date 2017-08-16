@@ -9,6 +9,7 @@ import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.biz.wx.WxService;
 import com.nautybit.nautybee.common.constant.goods.GoodsTypeEnum;
 import com.nautybit.nautybee.common.param.order.OrderParam;
+import com.nautybit.nautybee.common.param.recommend.QueryRecommendParam;
 import com.nautybit.nautybee.common.result.Result;
 import com.nautybit.nautybee.common.utils.DateUtils;
 import com.nautybit.nautybee.entity.goods.GoodsProperty;
@@ -170,15 +171,33 @@ public class OrderController extends BaseController {
         }
         modelMap.addAttribute("openid", openid);
 
-        List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
+//        List<RecommendView> recommendViewList = recommendService.selectByFromUser(openid);
+//        for(RecommendView recommendView:recommendViewList){
+//            Date gmtCreate = recommendView.getGmtCreate();
+//            recommendView.setGmtCreateStr(DateUtils.dateFormat(gmtCreate,DateUtils.Y_M_D_HMS));
+//            Date orderGmtCreate = recommendView.getOrderGmtCreate();
+//            recommendView.setOrderGmtCreateStr(DateUtils.dateFormat(orderGmtCreate,DateUtils.Y_M_D_HMS));
+//        }
+//        modelMap.addAttribute("recommendViewList",recommendViewList);
+        return "order/recommendList";
+    }
+
+    @RequestMapping("moreRecommendList")
+    @ResponseBody
+    public Result<?> moreRecommendList(@RequestBody QueryRecommendParam param) {
+
+
+//        param.setOpenid("oE1wbwoqKSISaaDyoV_VFBl9oXnw");
+
+
+        List<RecommendView> recommendViewList = recommendService.queryMoreByFromUser(param);
         for(RecommendView recommendView:recommendViewList){
             Date gmtCreate = recommendView.getGmtCreate();
             recommendView.setGmtCreateStr(DateUtils.dateFormat(gmtCreate,DateUtils.Y_M_D_HMS));
             Date orderGmtCreate = recommendView.getOrderGmtCreate();
             recommendView.setOrderGmtCreateStr(DateUtils.dateFormat(orderGmtCreate,DateUtils.Y_M_D_HMS));
         }
-        modelMap.addAttribute("recommendViewList",recommendViewList);
-        return "order/recommendList";
+        return Result.wrapSuccessfulResult(recommendViewList);
     }
 
 }

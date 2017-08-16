@@ -24,6 +24,7 @@
 
         <result column = "order_gmt_create" property = "orderGmtCreate" />
         <result column = "goods_name" property = "goodsName" />
+        <result column = "order_id" property = "orderId" />
         <result column = "student_name" property = "studentName" />
 
     </resultMap>
@@ -178,6 +179,40 @@
         where a.from_user = #{fromUser}
 --         and a.is_deleted = 'N'
         order by a.id desc
+    </select>
+
+    <!-- 根据from_user分页查询 -->
+    <select id = "queryMoreByFromUser" resultMap = "RecommendViewMap">
+        select a.id,a.gmt_create,a.to_user_name,d.gmt_create as order_gmt_create,d.goods_name,d.order_id as order_id
+        from nautybee_recommend a
+        left join nautybee_order_ext b on a.id = b.recommend_id and b.is_deleted = 'N'
+        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
+        left join nautybee_order_goods d on d.order_id = c.id and d.is_deleted = 'N'
+        where a.from_user = #{param.openid}
+        <if test="param.beDeal == 1 and param.currentOrderId != null">
+            and d.gmt_create is not NUll
+            <![CDATA[
+        and d.order_id < #{param.currentOrderId}
+             ]]>
+            order by d.order_id desc
+        </if>
+        <if test="param.beDeal == 1 and param.currentOrderId == null">
+            and d.gmt_create is not NUll
+            order by d.order_id desc
+        </if>
+        <if test="param.beDeal == 0 and param.currentRecommendId != null">
+            and d.gmt_create is NUll
+            <![CDATA[
+        and a.id < #{param.currentRecommendId}
+             ]]>
+            order by a.id desc
+        </if>
+        <if test="param.beDeal == 0 and param.currentRecommendId == null">
+            and d.gmt_create is NUll
+            order by a.id desc
+        </if>
+        --         and a.is_deleted = 'N'
+        limit 0,10
     </select>
 
 </mapper>

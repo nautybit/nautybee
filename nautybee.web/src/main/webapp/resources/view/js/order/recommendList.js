@@ -9,11 +9,24 @@ if (window.location.search.split('?')[1]) {
 var gViewModel = {};
 gViewModel.$main = $('#main');
 gViewModel.$wrapper = $('#wrapper');
+gViewModel.currentOrderId = null;
+gViewModel.currentRecommendId = null;
+
 RequestJSApiConfig = extend ( RequestBase, function(){
     this.__super__.constructor(this);
     this.url ="wx/jssdkConfig?url="+encodeURIComponent(window.location.href);
     this.method = "get";
     this.contentType = "application/json";
+});
+RequestQueryMore = extend ( RequestBase, function(queryParam){
+    this.__super__.constructor(this);
+    this.url ="wx/order/moreRecommendList";
+    this.method = "post";
+    this.contentType = "application/json";
+    this.dataType = "json";
+    this.async = true;
+    var params = JSON.stringify(queryParam);
+    this.params = params;
 });
 $(function(){
     init();
@@ -21,11 +34,12 @@ $(function(){
 function init(){
     initEnvOpenId();
     windowResized();
-    $('.bad-one').hide();
-    $('body').css("visibility","visible");
-    initEventHandlers();
     //初始化iscroll
     loadScroll();
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    initEventHandlers();
+    $('.good-one-btn').trigger('click');
+    $('body').css("visibility","visible");
     //微信初始化
     initWx();
 }
@@ -42,14 +56,24 @@ function initEventHandlers(){
     $('.good-one-btn').on('click',function(){
         $('.good-one-btn').addClass('weui-bar__item_on');
         $('.bad-one-btn').removeClass('weui-bar__item_on');
-        $('.good-one').show();
-        $('.bad-one').hide();
+        if(gViewModel.currentOrderId == null){
+            queryMore(1,"");
+        }else{
+            $('.good-one').show();
+            $('.bad-one').hide();
+            refreshScroll("toTop");
+        }
     });
     $('.bad-one-btn').on('click',function(){
         $('.good-one-btn').removeClass('weui-bar__item_on');
         $('.bad-one-btn').addClass('weui-bar__item_on');
-        $('.good-one').hide();
-        $('.bad-one').show();
+        if(gViewModel.currentRecommendId == null){
+            queryMore(0,"toTop");
+        }else{
+            $('.good-one').hide();
+            $('.bad-one').show();
+            refreshScroll("toTop");
+        }
     })
 }
 function loadScroll () {
@@ -74,13 +98,81 @@ function loadScroll () {
     gViewModel.gPageScroll.on('scrollEnd',function(e){
         $(".active").removeClass("active");
         gViewModel.$wrapper.trigger("scroll");
+        if($('#wrapper').height()-this.y == $('#scroller').height()){
+            console.log("give me more");
+            if($('.good-one-btn').hasClass('weui-bar__item_on')){
+                queryMore(1,"");
+            }else{
+                queryMore(0,"");
+            }
+        }
     });
-    refreshScroll();
+//    refreshScroll();
 }
-function refreshScroll(){
+function refreshScroll(needToTop){
     setTimeout(function(){
         gViewModel.gPageScroll.refresh();
+        if(needToTop == "toTop"){
+            gViewModel.gPageScroll.scrollTo(0,0);
+        }
     },200);
+}
+function queryMore(beDeal,needToTop) {
+    var param = {};
+    param.openid = gOpenId;
+    param.beDeal = beDeal;
+    param.currentOrderId = gViewModel.currentOrderId;
+    param.currentRecommendId = gViewModel.currentRecommendId;
+    var request = new RequestQueryMore(param);
+    var net = Net.getInstance();
+    var success = function(result){
+        if( !result.success ){
+            alert("create order fail");
+            baseShowModalAlert(
+                "danger"
+                ,result.errorMsg
+            );
+            return;
+        }else{
+            var data = result.data;
+            if(beDeal == 1){
+                for(var i=0;i<data.length;i++){
+                    var obj = data[i];
+                    var appendObj = $('.good-one-template').clone();
+                    appendObj.removeClass('good-one-template');
+                    appendObj.addClass('good-one');
+                    appendObj.find('.toUserName').text(obj.toUserName);
+                    appendObj.find('.gmtCreateStr').text(obj.gmtCreateStr);
+                    appendObj.find('.orderGmtCreateStr').text(obj.orderGmtCreateStr);
+                    appendObj.find('.goodsName').text(obj.goodsName);
+                    $('#listWrapper').append(appendObj);
+                }
+                if(data.length > 0){
+                    gViewModel.currentOrderId = data[data.length -1].orderId;
+                }
+                $('.good-one').show();
+                $('.bad-one').hide();
+                refreshScroll(needToTop);
+            }else{
+                for(var i=0;i<data.length;i++){
+                    var obj = data[i];
+                    var appendObj = $('.bad-one-template').clone();
+                    appendObj.removeClass('bad-one-template');
+                    appendObj.addClass('bad-one');
+                    appendObj.find('.toUserName').text(obj.toUserName);
+                    appendObj.find('.gmtCreateStr').text(obj.gmtCreateStr);
+                    $('#listWrapper').append(appendObj);
+                }
+                if(data.length > 0){
+                    gViewModel.currentRecommendId = data[data.length -1].id;
+                }
+                $('.good-one').hide();
+                $('.bad-one').show();
+                refreshScroll(needToTop);
+            }
+        }
+    };
+    net.request(request,success);
 }
 // ************微信相关初始化操作START************
 function initWx(){

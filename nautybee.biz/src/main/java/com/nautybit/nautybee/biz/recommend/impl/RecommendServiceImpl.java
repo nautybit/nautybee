@@ -2,6 +2,7 @@ package com.nautybit.nautybee.biz.recommend.impl;
 
 import java.util.List;
 
+import com.nautybit.nautybee.common.param.recommend.QueryRecommendParam;
 import com.nautybit.nautybee.view.recommend.RecommendView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,11 @@ public class RecommendServiceImpl extends BaseServiceImpl  implements RecommendS
     public List<RecommendView> selectByFromUser(String fromUser){
         return recommendDao.selectByFromUser(fromUser);
     }
+
+    @Override
+    public List<RecommendView> queryMoreByFromUser(QueryRecommendParam param){
+        return recommendDao.queryMoreByFromUser(param);
+    }
+
 
 }

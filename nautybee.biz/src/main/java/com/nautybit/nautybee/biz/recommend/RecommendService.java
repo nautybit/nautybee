@@ -3,6 +3,7 @@ package com.nautybit.nautybee.biz.recommend;
 import java.util.List;
 import java.util.Map;
 
+import com.nautybit.nautybee.common.param.recommend.QueryRecommendParam;
 import com.nautybit.nautybee.entity.recommend.Recommend;
 import com.nautybit.nautybee.view.recommend.RecommendView;
 
@@ -20,4 +21,6 @@ public interface RecommendService {
     Recommend selectByToUser(String toUser);
 
     List<RecommendView> selectByFromUser(String fromUser);
+
+    List<RecommendView> queryMoreByFromUser(QueryRecommendParam param);
 }

@@ -26,48 +26,51 @@
     </div>
     <div id="wrapper">
         <div id="scroller">
-            <div style="width: 100%;margin-top: 68px">
-                <th:block th:each="entity : ${recommendViewList}">
-                    <div th:if="${entity.goodsName}!=null" class="weui-form-preview good-one">
-                        <div class="weui-form-preview__hd">
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">推荐好友</label>
-                                <em class="weui-form-preview__value" th:text="${entity.toUserName}">闵崇建</em>
-                            </div>
-                        </div>
-                        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">推荐时间</label>
-                                <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
-                            </div>
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">报名时间</label>
-                                <span class="weui-form-preview__value" th:text="${entity.orderGmtCreateStr}">2017-07-31</span>
-                            </div>
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">报名课程</label>
-                                <span class="weui-form-preview__value" th:text="${entity.goodsName}">电动打蛋机</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div th:if="${entity.goodsName}==null" class="weui-form-preview bad-one">
-                        <div class="weui-form-preview__hd">
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">推荐好友</label>
-                                <em class="weui-form-preview__value" th:text="${entity.toUserName}">闵崇建</em>
-                            </div>
-                        </div>
-                        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
-                            <div class="weui-form-preview__item">
-                                <label class="weui-form-preview__label">推荐时间</label>
-                                <span class="weui-form-preview__value" th:text="${entity.gmtCreateStr}">2017-07-31</span>
-                            </div>
-                        </div>
-                    </div>
-                </th:block>
+            <div style="width: 100%;margin-top: 68px" id="listWrapper">
+
             </div>
         </div>
     </div>
+
+
+    <div class="weui-form-preview good-one-template" style="display: none">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">推荐好友</label>
+                <em class="weui-form-preview__value toUserName">闵崇建</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">推荐时间</label>
+                <span class="weui-form-preview__value gmtCreateStr">2017-07-31</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">报名时间</label>
+                <span class="weui-form-preview__value orderGmtCreateStr">2017-07-31</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">报名课程</label>
+                <span class="weui-form-preview__value goodsName">电动打蛋机</span>
+            </div>
+        </div>
+    </div>
+    <div class="weui-form-preview bad-one-template" style="display: none">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">推荐好友</label>
+                <em class="weui-form-preview__value toUserName">闵崇建</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd" style="margin-bottom: 20px">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">推荐时间</label>
+                <span class="weui-form-preview__value gmtCreateStr">2017-07-31</span>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -84,6 +87,6 @@
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/order/recommendList.js?time=18}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/order/recommendList.js?time=22}"/>
 </body>
 </html>

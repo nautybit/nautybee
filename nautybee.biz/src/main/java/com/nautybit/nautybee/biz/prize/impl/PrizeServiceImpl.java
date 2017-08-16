@@ -131,7 +131,7 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
                 prize.setWxOpenId(openid);
 
                 UserInfo userInfo = wxService.getUserInfo(openid);
-                prize.setWxNickName(userInfo.getNickname());
+                prize.setWxNickName(userInfo.getNickname()==null?"无法获取昵称":userInfo.getNickname());
 
                 prize.setPrizeType(PrizeTypeEnum.amount.name());
                 prize.setPrizeValue(String.valueOf(Integer.parseInt(commonResources.getValue1())));
