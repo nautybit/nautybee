@@ -46,7 +46,7 @@ function init(){
     //填写属性值
     fillAttribute();
     //隐藏在校信息
-//    $('.school-info').hide();
+    $('.school-info').hide();
     $('body').css("visibility","visible");
     //输入框初始化
     $("input").focus(function(){
