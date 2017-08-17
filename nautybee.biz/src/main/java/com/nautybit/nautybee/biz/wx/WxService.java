@@ -106,6 +106,9 @@ public class WxService{
         String authRes = HttpUtils.sendGet(authUrl, "appid=" + wechatappid + "&secret=" + wechatsecret+ "&code=" +code + "&grant_type=authorization_code");
         WxAuthToken wxAuthToken = gson.fromJson(authRes, new TypeToken<WxAuthToken>() {}.getType());
         String openid = wxAuthToken.getOpenid();
+        if(openid == null){
+            log.error("openid is null,authRes:"+authRes.toString()+"------code:"+code);
+        }
         return openid;
     }
 
