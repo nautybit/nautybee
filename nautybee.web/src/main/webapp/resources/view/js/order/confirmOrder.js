@@ -82,6 +82,10 @@ function initEventHandlers(){
         }else{
             goodsId = $('.weui-select[name="select2"]').val();
         }
+        if(goodsId == "" || goodsId == null){
+            showTip("暂无可选课程");
+            return;
+        }
         var studentName = $('#studentName').val();
         if(studentName == null || studentName == ''){
             showTip("请填写姓名");
@@ -167,7 +171,7 @@ function changeDetail1(){
     for(var i=0;i<goodsViewList.length;i++){
         var goodsView = goodsViewList[i];
         if(goodsView.goodsNum < 1){
-            appendStr += '<option value="'+goodsView.id+'" disabled="true">'+goodsView.detailName2+'</option>'
+            appendStr += '<option value="'+goodsView.id+'" disabled="true">'+goodsView.detailName2+'（名额已满）</option>'
         }else{
             appendStr += '<option value="'+goodsView.id+'">'+goodsView.detailName2+'</option>'
         }
