@@ -207,12 +207,16 @@ public class WxController extends BaseController {
     @RequestMapping("queryHonorList")
     public String queryHonorList(ModelMap model) {
         List<RecommendView> honorList = recommendService.queryHonorList();
+        List<RecommendView> exactList = new ArrayList<>();
         for(RecommendView recommendView:honorList){
-            UserInfo userInfo = wxService.getUserInfo(recommendView.getFromUser());
-            recommendView.setFromUserName(userInfo.getNickname());
-            recommendView.setHeadimgurl(userInfo.getHeadimgurl());
+            if(!recommendView.getFromUser().equals("oE1wbwllXnM4mUI5Y8NprNR6MdVA")){
+                UserInfo userInfo = wxService.getUserInfo(recommendView.getFromUser());
+                recommendView.setFromUserName(userInfo.getNickname());
+                recommendView.setHeadimgurl(userInfo.getHeadimgurl());
+                exactList.add(recommendView);
+            }
         }
-        model.addAttribute("honorList",honorList);
+        model.addAttribute("honorList",exactList);
         return "wx/honorList";
     }
 
