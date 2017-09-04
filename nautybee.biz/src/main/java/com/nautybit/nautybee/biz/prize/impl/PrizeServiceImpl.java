@@ -13,6 +13,7 @@ import com.nautybit.nautybee.common.constant.pay.WechatPayConstants;
 import com.nautybit.nautybee.common.param.pay.RedBagPayResult;
 import com.nautybit.nautybee.common.param.pay.SendRedBagParam;
 import com.nautybit.nautybee.common.result.wx.UserInfo;
+import com.nautybit.nautybee.entity.goods.Goods;
 import com.nautybit.nautybee.entity.order.Order;
 import com.nautybit.nautybee.entity.recommend.Recommend;
 import com.nautybit.nautybee.entity.sys.CommonResources;
@@ -105,7 +106,7 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
     }
 
     @Override
-    public void sendRecommendRedBag(String openid,String recommendedUserName,Long recommendId,String orderSn){
+    public void sendRecommendRedBag(String openid,String recommendedUserName,Long recommendId,String orderSn,Goods goods){
         CommonResources commonResources = commonResourcesService.selectByKey("recommendRedBag");
         //红包金额为空或为0则不发放
         String amount = commonResources.getValue1();
@@ -115,7 +116,11 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
         SendRedBagParam sendRedBagParam = new SendRedBagParam();
         sendRedBagParam.setSend_name(commonResources.getValue());
         sendRedBagParam.setRe_openid(openid);
-        sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1()) * 100);
+        if(goods.getPropDetailId1()==1000){
+            sendRedBagParam.setTotal_amount((Integer.parseInt(commonResources.getValue1())+50) * 100);
+        }else {
+            sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1()) * 100);
+        }
         sendRedBagParam.setWishing("您推荐的" + recommendedUserName + "已报名");
         sendRedBagParam.setAct_name(commonResources.getValue3());
         sendRedBagParam.setRemark(commonResources.getValue4());

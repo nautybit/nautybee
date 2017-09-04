@@ -2,6 +2,7 @@ package com.nautybit.nautybee.web.pay;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.nautybit.nautybee.biz.goods.GoodsService;
 import com.nautybit.nautybee.biz.goods.StockService;
 import com.nautybit.nautybee.biz.order.*;
 import com.nautybit.nautybee.biz.pay.WechatPayService;
@@ -26,6 +27,7 @@ import com.nautybit.nautybee.common.utils.PrintUtils;
 import com.nautybit.nautybee.common.utils.pay.PayUtils;
 import com.nautybit.nautybee.common.utils.pay.SignUtils;
 import com.nautybit.nautybee.common.utils.wechatpay.WechatPayUtils;
+import com.nautybit.nautybee.entity.goods.Goods;
 import com.nautybit.nautybee.entity.goods.Stock;
 import com.nautybit.nautybee.entity.order.*;
 import com.nautybit.nautybee.entity.prize.Prize;
@@ -80,6 +82,8 @@ public class PayController extends BasePayController {
     private StockService stockService;
     @Autowired
     private OrderGoodsService orderGoodsService;
+    @Autowired
+    private GoodsService goodsService;
 
     @RequestMapping("auth")
     @ResponseBody
@@ -233,9 +237,10 @@ public class PayController extends BasePayController {
          * 4.交易成功，根据TradeNo找到支付的订单列表;更新订单的状态，保存到数据库
          **********************************************************************************/
         //支付成功
+        OrderGoods orderGoods = new OrderGoods();
         if (WechatPayConstants.SUCCESE.equals(tradeStatus)) {
             orderService.updatePayStatus(tradeNo, OrderStatusEnum.YFK.name());
-            OrderGoods orderGoods = orderGoodsService.selectByOrderSn(tradeNo);
+            orderGoods = orderGoodsService.selectByOrderSn(tradeNo);
             Stock stock = stockService.selectByGoodsId(orderGoods.getGoodsId());
             stockService.updateGoodsNum(stock.getGoodsNum()-1,orderGoods.getGoodsId());
         }
@@ -270,7 +275,8 @@ public class PayController extends BasePayController {
                         log.info("红包黑名单已过滤,openid:"+fromUser+",场景:推荐，tradeNo："+tradeNo);
                     }else {
                         UserInfo userInfo = wxService.getUserInfo(openid);
-                        prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo);
+                        Goods goods = goodsService.getById(orderGoods.getGoodsId());
+                        prizeService.sendRecommendRedBag(fromUser,userInfo.getNickname(),recommend.getId(),tradeNo,goods);
                     }
                 }
             }
