@@ -139,9 +139,11 @@ public class WxService{
         UserInfo userInfo = new UserInfo();
         try {
             userInfo = gson.fromJson(userInfoStr, new TypeToken<UserInfo>(){}.getType());
-            redisHashService.hsetexp("userInfo", openid, gson.toJson(userInfo),userInfoExpireTime);
         }catch (Exception e){
             log.error("getUserInfo error openid:"+openid);
+        }
+        if(openid.equals(userInfo.getOpenid())){
+            redisHashService.hsetexp("userInfo", openid, gson.toJson(userInfo),userInfoExpireTime);
         }
         return userInfo;
     }
