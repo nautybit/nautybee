@@ -116,7 +116,7 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
         SendRedBagParam sendRedBagParam = new SendRedBagParam();
         sendRedBagParam.setSend_name(commonResources.getValue());
         sendRedBagParam.setRe_openid(openid);
-        if(goods.getPropDetailId1()==1000){
+        if(goods.getPropDetailId1().equals(1000l)){
             sendRedBagParam.setTotal_amount((Integer.parseInt(commonResources.getValue1())+50) * 100);
         }else {
             sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1()) * 100);
