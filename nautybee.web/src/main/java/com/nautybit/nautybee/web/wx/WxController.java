@@ -215,6 +215,12 @@ public class WxController extends BaseController {
         model.addAttribute("honorList",honorList);
         return "wx/honorList";
     }
+
+    @RequestMapping("recommendGuide")
+    public String recommendGuide(ModelMap model) {
+
+        return "wx/recommendGuide";
+    }
 }
 
 
