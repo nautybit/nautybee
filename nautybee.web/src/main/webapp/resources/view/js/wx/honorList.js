@@ -89,10 +89,10 @@ function initWxConfig(wxConfig){
     wx.config(config);
 }
 function handleShareEvent(){
-    var title = "武义小作家辅导中心";
-    var descrption = "欢迎您加入";
+    var title = "武义小作家“红包风云榜”";
+    var descrption = "兼职10天，收入过万，快来加入吧！";
     var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
-    var url = window.location.origin + '/nautybee/wx/toFollowPage';
+    var url = window.location.href;
 
     var success = function(){
         // 用户确认分享后执行的回调函数
