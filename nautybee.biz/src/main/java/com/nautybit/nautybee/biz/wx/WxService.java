@@ -22,6 +22,8 @@ import java.util.UUID;
 @Slf4j
 public class WxService{
 
+    @Autowired
+    private RedisHashService redisHashService;
     @Value("${nautybee.wechat.appid}")
     private String wechatappid;
     @Value("${nautybee.wechat.secret}")
@@ -36,6 +38,7 @@ public class WxService{
     private String jsapiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
     private String jsapiTicket;
     private String userInfoUrl = "https://api.weixin.qq.com/cgi-bin/user/info";
+    private Integer userInfoExpireTime = 24 * 60 * 60;  //1天失效
 
     public Result<?> getAccessToken(){
         boolean reFetch = false;
@@ -126,11 +129,17 @@ public class WxService{
     }
 
     public UserInfo getUserInfo(String openid){
+        String existUserInfoStr = redisHashService.hget("userInfo",openid);
+        if(StringUtils.isNotEmpty(existUserInfoStr)){
+            UserInfo existUserInfo = gson.fromJson(existUserInfoStr, new TypeToken<UserInfo>() {}.getType());
+            return existUserInfo;
+        }
         getAccessToken();
         String userInfoStr = HttpUtils.sendGet(userInfoUrl,"access_token="+accessToken+"&openid="+openid+"&lang=zh_CN");
         UserInfo userInfo = new UserInfo();
         try {
             userInfo = gson.fromJson(userInfoStr, new TypeToken<UserInfo>(){}.getType());
+            redisHashService.hsetexp("userInfo", openid, gson.toJson(userInfo),userInfoExpireTime);
         }catch (Exception e){
             log.error("getUserInfo error openid:"+openid);
         }

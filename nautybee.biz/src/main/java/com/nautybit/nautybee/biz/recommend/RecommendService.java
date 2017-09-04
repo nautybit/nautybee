@@ -26,4 +26,6 @@ public interface RecommendService {
 
     Integer selectBeDealCount(String fromUser);
     Integer selectNoDealCount(String fromUser);
+    List<RecommendView> queryHonorList();
+
 }

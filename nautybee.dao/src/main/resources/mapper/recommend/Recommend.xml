@@ -26,6 +26,7 @@
         <result column = "goods_name" property = "goodsName" />
         <result column = "order_id" property = "orderId" />
         <result column = "student_name" property = "studentName" />
+        <result column = "deal_num" property = "dealNum" />
 
     </resultMap>
 
@@ -220,8 +221,8 @@
     <select id = "selectBeDealCount" resultType = "java.lang.Integer">
         select count(b.id)
         from nautybee_recommend a
-        left join nautybee_order_ext b
-        on a.id = b.recommend_id and b.is_deleted = 'N'
+        left join nautybee_order_ext b on a.id = b.recommend_id and b.is_deleted = 'N'
+        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
         where b.id is not NUll
         and a.from_user = #{fromUser}
         and a.is_deleted = 'N'
@@ -236,5 +237,17 @@
         where b.id is NUll
         and a.from_user = #{fromUser}
         and a.is_deleted = 'N'
+    </select>
+
+    <!-- 查询所有推荐人的记录和 -->
+    <select id = "queryHonorList" resultMap = "RecommendViewMap">
+        select COUNT(b.id) as deal_num,a.from_user
+        from nautybee_recommend a
+        left join nautybee_order_ext b on a.id = b.recommend_id and b.is_deleted = 'N'
+        left join nautybee_order c on b.id = c.id and c.is_deleted = 'N' and c.pay_status = 'YFK'
+        where b.id is not NUll
+        and a.is_deleted = 'N'
+        group by a.from_user
+        order by deal_num desc
     </select>
 </mapper>

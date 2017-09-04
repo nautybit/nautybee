@@ -2,6 +2,7 @@ package com.nautybit.nautybee.web.wx;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nautybit.nautybee.biz.recommend.RecommendService;
 import com.nautybit.nautybee.biz.redis.RedisHashService;
 import com.nautybit.nautybee.biz.sys.CommonResourcesService;
 import com.nautybit.nautybee.biz.wx.MessageService;
@@ -11,6 +12,7 @@ import com.nautybit.nautybee.common.result.wx.UserInfo;
 import com.nautybit.nautybee.common.result.wx.WxApiResult;
 import com.nautybit.nautybee.common.utils.HttpUtils;
 import com.nautybit.nautybee.common.utils.SHA1;
+import com.nautybit.nautybee.view.recommend.RecommendView;
 import com.nautybit.nautybee.web.base.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +43,9 @@ public class WxController extends BaseController {
     private RedisHashService redisHashService;
     @Autowired
     private CommonResourcesService commonResourcesService;
+    @Autowired
+    private RecommendService recommendService;
+
     @Value("${nautybee.server.url}")
     private String nautybeeServerUrl;
     private String createMenuUrl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=";
@@ -197,6 +202,18 @@ public class WxController extends BaseController {
         }catch (Exception e){
 
         }
+    }
+
+    @RequestMapping("queryHonorList")
+    public String queryHonorList(ModelMap model) {
+        List<RecommendView> honorList = recommendService.queryHonorList();
+        for(RecommendView recommendView:honorList){
+            UserInfo userInfo = wxService.getUserInfo(recommendView.getFromUser());
+            recommendView.setFromUserName(userInfo.getNickname());
+            recommendView.setHeadimgurl(userInfo.getHeadimgurl());
+        }
+        model.addAttribute("honorList",honorList);
+        return "wx/honorList";
     }
 }
 

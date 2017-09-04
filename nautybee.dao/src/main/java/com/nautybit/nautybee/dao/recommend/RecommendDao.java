@@ -17,5 +17,5 @@ public interface RecommendDao extends BaseDao<Recommend> {
     List<RecommendView> queryMoreByFromUser(@Param("param")QueryRecommendParam param);
     Integer selectBeDealCount(String fromUser);
     Integer selectNoDealCount(String fromUser);
-
+    List<RecommendView> queryHonorList();
 }

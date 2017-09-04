@@ -25,4 +25,7 @@ public class RecommendView extends BaseEntity {
     private String studentName;
 
     private Long orderId;
+
+    private Integer dealNum;
+    private String headimgurl;
 }

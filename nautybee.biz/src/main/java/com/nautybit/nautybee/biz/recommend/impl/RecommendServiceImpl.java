@@ -62,6 +62,11 @@ public class RecommendServiceImpl extends BaseServiceImpl  implements RecommendS
     public Integer selectNoDealCount(String fromUser){
         return recommendDao.selectNoDealCount(fromUser);
     }
+    @Override
+    public List<RecommendView> queryHonorList(){
+        return recommendDao.queryHonorList();
+    }
+
 
 
 }
