@@ -116,9 +116,11 @@ public class PrizeServiceImpl extends BaseServiceImpl  implements PrizeService{
         SendRedBagParam sendRedBagParam = new SendRedBagParam();
         sendRedBagParam.setSend_name(commonResources.getValue());
         sendRedBagParam.setRe_openid(openid);
-        if(goods.getPropDetailId1().equals(1000l)){
+        if(goods.getPropDetailId1()==1000){
+            log.info("goods.getPropDetailId1()==1000"+goods.getPropDetailId1());
             sendRedBagParam.setTotal_amount((Integer.parseInt(commonResources.getValue1())+50) * 100);
         }else {
+            log.info("goods.getPropDetailId1()!=1000"+goods.getPropDetailId1());
             sendRedBagParam.setTotal_amount(Integer.parseInt(commonResources.getValue1()) * 100);
         }
         sendRedBagParam.setWishing("您推荐的" + recommendedUserName + "已报名");
