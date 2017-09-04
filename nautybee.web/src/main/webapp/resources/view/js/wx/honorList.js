@@ -14,6 +14,7 @@ function init(){
     $('body').css("visibility","visible");
     //初始化iscroll
     loadScroll();
+    $(".headimg").lazyload();
     //微信初始化
     initWx();
 }

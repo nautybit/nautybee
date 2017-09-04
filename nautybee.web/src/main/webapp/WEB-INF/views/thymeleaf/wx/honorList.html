@@ -12,7 +12,7 @@
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/resources/view/css/wx/example.css}"/>
     <link rel="stylesheet" th:href="@{/resources/libs/css/weui/weui.min.css}"/>
-    <link rel="stylesheet" th:href="@{/resources/view/css/wx/honorList.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/view/css/wx/honorList.css?time=20}"/>
 </head>
 <body style="visibility: hidden">
 <div style="width: 100%;font-size: 18px" id="main">
@@ -23,7 +23,7 @@
             </div>
             <th:block th:each="entity : ${honorList}">
                 <div class="weui-cell">
-                    <div class="weui-cell__hd"><img th:src="@{${entity.headimgurl}}" alt="" style="width:80px;margin-right:5px;display:block"/></div>
+                    <div class="weui-cell__hd headimg" th:attr="data-original=${entity.headimgurl}" style="width:80px;height:80px;margin-right:5px"></div>
                     <div class="weui-cell__bd">
                         <p th:text="${entity.fromUserName}"></p>
                     </div>
@@ -63,12 +63,12 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery-2.1.4.min.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/jquery/jquery.clickstatus.js}"/>
-<script type="text/javascript" th:src="@{/resources/external/spin/spin.min.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/utils.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/net.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/request.js}"/>
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/wx/honorList.js?time=19}"/>
+<script type="text/javascript" th:src="@{/resources/libs/js/lazyload/jquery.lazyload.min.js}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/wx/honorList.js?time=20}"/>
 </body>
 </html>
