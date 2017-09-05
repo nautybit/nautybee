@@ -81,10 +81,10 @@ function initEventHandlers(){
         $('#bigCover').hide();
         $('#marketCode').hide();
     });
-    $('#marketCode').on('clickstatus.up',function(){
-        $('#bigCover').hide();
-        $('#marketCode').hide();
-    });
+//    $('#marketCode').on('clickstatus.up',function(){
+//        $('#bigCover').hide();
+//        $('#marketCode').hide();
+//    });
 }
 // ************微信相关初始化操作START************
 function initWx(){
