@@ -53,7 +53,7 @@ function initWxConfig(wxConfig){
     wx.config(config);
 }
 function handleShareEvent(){
-    var title = "武义小作家“赢红包五步教程”";
+    var title = "武义小作家“赢红包教程”，兼职10天，收入过万！";
     var descrption = "兼职10天，收入过万，快来加入吧！";
     var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
     var url = window.location.href;

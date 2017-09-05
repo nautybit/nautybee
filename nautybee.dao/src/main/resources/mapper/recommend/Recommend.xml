@@ -248,6 +248,6 @@
         where b.id is not NUll
         and a.is_deleted = 'N'
         group by a.from_user
-        order by deal_num desc
+        order by deal_num desc,a.from_user
     </select>
 </mapper>

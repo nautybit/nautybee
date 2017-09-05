@@ -16,6 +16,20 @@
 </head>
 <body style="visibility: hidden">
 <div style="width: 100%;font-size: 18px" id="main">
+    <div id="guideBtn" class="touchable" style="z-index:2;font-size:16px;width: 60px;height: 60px;border-radius: 30px;background-color: orangered;color: #ffffff;position: absolute;top: 120px;right: 20px;">
+        <div style="position: absolute;width: 60px;left: 0;top:10px;text-align: center">推荐</div>
+        <div style="position: absolute;width: 60px;left: 0;bottom:10px;text-align: center">教程</div>
+    </div>
+    <div id="codeBtn" class="touchable" style="z-index:2;font-size:14px;width: 60px;height: 60px;border-radius: 30px;background-color: orangered;color: #ffffff;position: absolute;top: 200px;right: 20px;">
+        <div style="position: absolute;width: 60px;left: 0;top:10px;text-align: center">交流群</div>
+        <div style="position: absolute;width: 60px;left: 0;bottom:10px;text-align: center">二维码</div>
+    </div>
+    <div id="bigCover" class="touchable" style="background-color: #000000;z-index: 2;opacity: 0.6;display: none">
+
+    </div>
+    <div id="marketCode" class="touchable" style="width: 80%;position: absolute;top: 120px;left: 10%;z-index: 2;display: none">
+        <img width="100%" src="../resources/images/common/marketCode.png" />
+    </div>
     <div id="wrapper">
         <div id="scroller">
             <div style="width: 100%">
@@ -69,6 +83,6 @@
 <script type="text/javascript" th:src="@{/resources/common/viewbase.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/iscroll/iscroll-probe.js}"/>
 <script type="text/javascript" th:src="@{/resources/libs/js/lazyload/jquery.lazyload.min.js}"/>
-<script type="text/javascript" th:src="@{/resources/view/js/wx/honorList.js?time=21}"/>
+<script type="text/javascript" th:src="@{/resources/view/js/wx/honorList.js?time=22}"/>
 </body>
 </html>

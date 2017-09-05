@@ -11,12 +11,27 @@ $(function(){
     init();
 });
 function init(){
+    windowResized();
     $('body').css("visibility","visible");
+    initButtonStatus();
+    initEventHandlers();
     //初始化iscroll
     loadScroll();
     $(".headimg").lazyload();
     //微信初始化
     initWx();
+}
+function getScreenWidth(){
+    return document.body.clientWidth;
+}
+function windowResized(){
+    $('#bigCover').css({
+        'position':'absolute',
+        'width':getScreenWidth()+'px',
+        'height':$('#wrapper').height()+'px',
+        'top':0,
+        'left':0
+    });
 }
 function loadScroll () {
     gViewModel.gPageScroll = new IScroll('#wrapper', {
@@ -47,6 +62,29 @@ function refreshScroll(){
     setTimeout(function(){
         gViewModel.gPageScroll.refresh();
     },200);
+}
+function initButtonStatus(){
+    //注册可点击按钮
+    $('.touchable').clickStatus({
+        touchEventEnable:gIsTouchDevice
+    });
+}
+function initEventHandlers(){
+    $('#guideBtn').on('clickstatus.up',function(){
+        window.location.href = window.location.origin + '/nautybee/wx/recommendGuide';
+    });
+    $('#codeBtn').on('clickstatus.up',function(){
+        $('#bigCover').show();
+        $('#marketCode').show();
+    });
+    $('#bigCover').on('clickstatus.up',function(){
+        $('#bigCover').hide();
+        $('#marketCode').hide();
+    });
+    $('#marketCode').on('clickstatus.up',function(){
+        $('#bigCover').hide();
+        $('#marketCode').hide();
+    });
 }
 // ************微信相关初始化操作START************
 function initWx(){
@@ -89,7 +127,7 @@ function initWxConfig(wxConfig){
     wx.config(config);
 }
 function handleShareEvent(){
-    var title = "武义小作家“红包风云榜”";
+    var title = "武义小作家“红包风云榜”，兼职10天，收入过万！";
     var descrption = "兼职10天，收入过万，快来加入吧！";
     var imgUrl =window.location.origin + "/nautybee/resources/images/biz/spu/1.jpg";
     var url = window.location.href;
