@@ -98,7 +98,7 @@ public class MessageService {
                         textMessage.setFromUserName(toUserName);
                         textMessage.setCreateTime(new Date().getTime());
                         textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respContent = "恭喜" + commonResourcesService.selectByKey("subscribeTip").getValue7();
+                        respContent = "恭喜，" + commonResourcesService.selectByKey("subscribeTip").getValue7();
                         // 设置文本消息的内容
                         textMessage.setContent(respContent);
                         respStr = MessageUtil.messageToXml(textMessage);
@@ -189,7 +189,7 @@ public class MessageService {
             String recommendSource = recommendUserInfo.getNickname();
             articleItem.setTitle(recommendSource+" 推荐了您");
             log.debug("recommendSource:"+recommendSource);
-            articleItem.setDescription("恭喜" + commonResourcesService.selectByKey("subscribeTip").getValue7());
+            articleItem.setDescription("恭喜，" + commonResourcesService.selectByKey("subscribeTip").getValue7());
         }
         articleItem.setPicUrl("");
         articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
