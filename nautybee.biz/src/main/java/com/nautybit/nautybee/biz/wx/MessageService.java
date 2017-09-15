@@ -2,6 +2,7 @@ package com.nautybit.nautybee.biz.wx;
 
 import com.google.gson.Gson;
 import com.nautybit.nautybee.biz.recommend.RecommendService;
+import com.nautybit.nautybee.biz.sys.CommonResourcesService;
 import com.nautybit.nautybee.common.param.wx.ArticleItem;
 import com.nautybit.nautybee.common.param.wx.ArticleMessage;
 import com.nautybit.nautybee.common.param.wx.TextMessage;
@@ -30,6 +31,8 @@ public class MessageService {
     private WxService wxService;
     @Autowired
     private RecommendService recommendService;
+    @Autowired
+    private CommonResourcesService commonResourcesService;
     /**
      * 处理微信发来的请求
      * @param request
@@ -95,7 +98,7 @@ public class MessageService {
                         textMessage.setFromUserName(toUserName);
                         textMessage.setCreateTime(new Date().getTime());
                         textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-                        respContent = "恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您将得到系统自动返还的100元现金红包（二年级写作课程，返回红包金额高达150元！）,截止时间：2017年9月16日零点。";
+                        respContent = "恭喜" + commonResourcesService.selectByKey("subscribeTip").getValue7();
                         // 设置文本消息的内容
                         textMessage.setContent(respContent);
                         respStr = MessageUtil.messageToXml(textMessage);
@@ -164,8 +167,8 @@ public class MessageService {
         UserInfo recommendUserInfo = wxService.getUserInfo(recommendUser);
 
         if(beRecommendUser.equals(recommendUser)){
-            articleItem.setTitle(beRecommendUserInfo.getNickname()+"，您已经是武义小作家会员");
-            articleItem.setDescription("会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您将得到系统自动返还的100元现金红包（二年级写作课程，返回红包金额高达150元！）,截止时间：2017年9月16日零点。");
+            articleItem.setTitle("恭喜");
+            articleItem.setDescription(commonResourcesService.selectByKey("subscribeTip").getValue7());
         }else {
             Recommend recommend = recommendService.selectByToUser(beRecommendUser);
             if(recommend!=null){
@@ -186,7 +189,7 @@ public class MessageService {
             String recommendSource = recommendUserInfo.getNickname();
             articleItem.setTitle(recommendSource+" 推荐了您");
             log.debug("recommendSource:"+recommendSource);
-            articleItem.setDescription("恭喜，您已成为“武义小作家会员”。会员报名，系统将自动返还50元现金红包；同时，推荐其他人扫描您的二维码成功报名交费后，您将得到系统自动返还的100元现金红包（二年级写作课程，返回红包金额高达150元！）,截止时间：2017年9月16日零点。");
+            articleItem.setDescription("恭喜" + commonResourcesService.selectByKey("subscribeTip").getValue7());
         }
         articleItem.setPicUrl("");
         articleItem.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx47b77ec8ef89f1a7&redirect_uri=http%3A%2F%2Fwww.bitstack.cn%2Fnautybee%2Fwx%2Fgoods%2FgetSpuList&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
